@@ -1,0 +1,3596 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6f1">
+  <title>한걸음 · 韓文一小步</title>
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --surface: #ffffff;
+      --surface-2: #f1f0eb;
+      --ink: #18202b;
+      --muted: #6d7480;
+      --line: #e4e2db;
+      --primary: #6256d8;
+      --primary-strong: #4f44c2;
+      --primary-soft: #eeecff;
+      --mint: #dff3ea;
+      --mint-strong: #23765e;
+      --rose: #ffe8e5;
+      --rose-strong: #b64d47;
+      --sun: #f4c761;
+      --sun-soft: #fff5d8;
+      --shadow: 0 14px 36px rgba(28, 32, 44, .07);
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --radius-sm: 13px;
+      --max: 760px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% -10%, rgba(98, 86, 216, .10), transparent 32rem),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC",
+        "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+      padding-bottom: calc(92px + env(safe-area-inset-bottom));
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(98, 86, 216, .28);
+      outline-offset: 3px;
+    }
+
+    .hangul {
+      font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+        sans-serif;
+      word-break: keep-all;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 12px 18px;
+      background: rgba(247, 246, 241, .88);
+      border-bottom: 1px solid rgba(228, 226, 219, .82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+      border-radius: 14px;
+      font-size: 21px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(98, 86, 216, .23);
+    }
+
+    .brand-copy {
+      line-height: 1.2;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 16px;
+      letter-spacing: -.01em;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .8);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+    }
+
+    .speed-shortcut {
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .8);
+      color: var(--primary-strong);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    main {
+      width: min(100%, var(--max));
+      margin: 0 auto;
+      padding: 24px 18px 30px;
+    }
+
+    .view {
+      display: none;
+      animation: view-in .22s ease both;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes view-in {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 590px;
+      margin-bottom: 10px;
+      font-size: clamp(30px, 8vw, 46px);
+      line-height: 1.15;
+      letter-spacing: -.045em;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(25px, 6vw, 34px);
+      line-height: 1.22;
+      letter-spacing: -.035em;
+    }
+
+    h3 {
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .lead {
+      max-width: 590px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      color: #fff;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #6256d8 0%, #7768e7 62%, #8978ee 100%);
+      box-shadow: 0 18px 38px rgba(79, 68, 194, .20);
+    }
+
+    .hero-card::after {
+      content: "가";
+      position: absolute;
+      right: -6px;
+      bottom: -46px;
+      color: rgba(255, 255, 255, .10);
+      font-size: 180px;
+      font-weight: 900;
+      line-height: 1;
+      transform: rotate(-7deg);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .day-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .hero-card h1 {
+      max-width: 460px;
+      margin-bottom: 10px;
+      font-size: clamp(29px, 7vw, 42px);
+    }
+
+    .hero-card p {
+      max-width: 470px;
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 14px;
+    }
+
+    .hero-action {
+      min-height: 50px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 15px;
+      background: #fff;
+      color: var(--primary-strong);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(26, 24, 73, .16);
+    }
+
+    .hero-action:hover {
+      transform: translateY(-1px);
+    }
+
+    .progress-panel {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 15px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, .88);
+      box-shadow: var(--shadow);
+    }
+
+    .progress-ring {
+      --value: 0%;
+      position: relative;
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) var(--value), var(--primary-soft) 0);
+    }
+
+    .progress-ring::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+
+    .progress-ring strong {
+      position: relative;
+      z-index: 1;
+      font-size: 17px;
+    }
+
+    .progress-copy strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 16px;
+    }
+
+    .progress-copy span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 30px 2px 12px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .focus-card {
+      min-height: 142px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgba(28, 32, 44, .04);
+    }
+
+    .focus-card.wide {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 18px;
+      min-height: 112px;
+    }
+
+    .pair {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .pair span {
+      min-width: 48px;
+      min-height: 53px;
+      display: grid;
+      place-items: center;
+      padding: 5px 9px;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 29px;
+      font-weight: 800;
+    }
+
+    .focus-card:nth-child(2) .pair span {
+      background: var(--sun-soft);
+      color: #8a6013;
+    }
+
+    .focus-card strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .focus-card small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mini-block {
+      min-width: 76px;
+      min-height: 76px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: var(--mint);
+      color: var(--mint-strong);
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .rule-card {
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid #ead99e;
+      border-radius: var(--radius-md);
+      background: var(--sun-soft);
+    }
+
+    .rule-card strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .rule-card p {
+      margin: 0;
+      color: #6e5926;
+      font-size: 13px;
+    }
+
+    .page-head {
+      margin: 3px 2px 22px;
+    }
+
+    .page-head .lead {
+      margin-bottom: 0;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 14px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+
+    .segmented button {
+      min-height: 43px;
+      padding: 7px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .segmented button.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 3px 12px rgba(30, 35, 49, .08);
+    }
+
+    .quiz-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .question-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .score-pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--sun-soft);
+      color: #755115;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .quiz-prompt {
+      min-height: 146px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      border-radius: 20px;
+      background: var(--primary-soft);
+      padding: 18px;
+    }
+
+    .prompt-label {
+      margin-bottom: 8px;
+      color: var(--primary-strong);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .prompt-main {
+      font-size: clamp(26px, 8vw, 42px);
+      font-weight: 850;
+      line-height: 1.22;
+    }
+
+    .prompt-main.giant {
+      font-size: clamp(72px, 24vw, 116px);
+      line-height: 1;
+    }
+
+    .prompt-main.word {
+      font-size: clamp(42px, 13vw, 68px);
+      line-height: 1.15;
+    }
+
+    .listen-btn {
+      width: 86px;
+      height: 86px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 31px;
+      box-shadow: 0 12px 24px rgba(98, 86, 216, .25);
+    }
+
+    .quiz-choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .choice {
+      min-height: 72px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: clamp(22px, 7vw, 31px);
+      font-weight: 750;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .choice.decompose {
+      font-size: clamp(17px, 4.5vw, 22px);
+    }
+
+    .choice:hover {
+      border-color: #bab5ef;
+      background: #faf9ff;
+    }
+
+    .choice:active {
+      transform: scale(.98);
+    }
+
+    .choice.correct {
+      border-color: #68b295;
+      background: var(--mint);
+      color: #185e49;
+    }
+
+    .choice.wrong {
+      border-color: #df9088;
+      background: var(--rose);
+      color: #963f3a;
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 13px;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 13px;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.good {
+      background: var(--mint);
+      color: #185e49;
+    }
+
+    .feedback.try {
+      background: var(--rose);
+      color: #823a36;
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .next-btn {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 13px;
+      border: 0;
+      border-radius: 15px;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .next-btn:hover {
+      background: var(--primary-strong);
+    }
+
+    .next-btn[hidden] {
+      display: none;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 9px;
+      margin-bottom: 13px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1 1 auto;
+    }
+
+    .search-wrap::before {
+      content: "⌕";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      color: var(--muted);
+      font-size: 20px;
+      transform: translateY(-54%);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px 0 41px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .chip-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      margin: 0 -18px 16px;
+      padding: 0 18px 5px;
+      scrollbar-width: none;
+    }
+
+    .chip-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      min-height: 38px;
+      flex: 0 0 auto;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chip.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .word-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .word-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: 0 6px 18px rgba(28, 32, 44, .035);
+    }
+
+    .word-main {
+      display: grid;
+      grid-template-columns: 43px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .sound-btn {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    .word-korean {
+      display: block;
+      font-size: 22px;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+
+    .word-meaning {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .word-tag {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .word-actions {
+      display: flex;
+      gap: 7px;
+      padding: 0 14px 13px 69px;
+    }
+
+    .text-btn {
+      min-height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .word-romanization {
+      display: none;
+      padding: 11px 14px 13px 69px;
+      border-top: 1px solid var(--line);
+      background: #fbfaf7;
+      color: var(--primary-strong);
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .01em;
+    }
+
+    .word-romanization.show {
+      display: block;
+    }
+
+    .empty {
+      padding: 30px 16px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-md);
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .library-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: -4px 2px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .library-meta[hidden] {
+      display: none;
+    }
+
+    .sub-filter {
+      margin-top: -7px;
+    }
+
+    .sub-filter[hidden] {
+      display: none;
+    }
+
+    .topic-area[hidden] {
+      display: none;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .topic-card {
+      min-height: 116px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      align-content: start;
+      gap: 11px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+      cursor: pointer;
+      text-align: left;
+      box-shadow: 0 5px 16px rgba(28, 32, 44, .035);
+    }
+
+    .topic-card:hover {
+      border-color: #bab5ef;
+      background: #faf9ff;
+    }
+
+    .topic-card.all {
+      grid-column: 1 / -1;
+      min-height: 92px;
+      align-items: center;
+      background: var(--primary-soft);
+    }
+
+    .topic-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .topic-card.all .topic-icon {
+      background: var(--surface);
+    }
+
+    .topic-copy strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .topic-count {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .topic-examples {
+      grid-column: 1 / -1;
+      margin-top: 2px;
+      color: var(--primary-strong);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .topic-selected {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .topic-selected strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .topic-selected span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .topic-back {
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--primary-strong);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .number-guide {
+      display: grid;
+      gap: 8px;
+      margin: -4px 0 14px;
+      padding: 13px;
+      border: 1px solid #ead99e;
+      border-radius: 15px;
+      background: var(--sun-soft);
+    }
+
+    .number-guide-row {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: 10px;
+      color: #655323;
+      font-size: 11px;
+    }
+
+    .number-guide-row strong {
+      color: #4f421d;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 14px 2px 8px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .filter-label span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .grammar-filter-panel {
+      margin-bottom: 12px;
+      padding: 6px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: 0 6px 18px rgba(28, 32, 44, .035);
+    }
+
+    .grammar-filter-row {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .grammar-filter-row + .grammar-filter-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .grammar-filter-copy {
+      min-width: 110px;
+    }
+
+    .grammar-filter-copy strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .grammar-filter-copy span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .mini-segment {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 12px;
+      background: var(--surface-2);
+    }
+
+    .mini-segment button {
+      min-height: 36px;
+      padding: 0 11px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .mini-segment button.active {
+      background: var(--surface);
+      color: var(--primary-strong);
+      box-shadow: 0 2px 8px rgba(28, 32, 44, .08);
+    }
+
+    .grammar-select {
+      width: min(100%, 220px);
+      min-height: 42px;
+      padding: 0 34px 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .filter-summary {
+      margin: 0 3px 13px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .filter-summary strong {
+      color: var(--primary-strong);
+    }
+
+    @media (max-width: 460px) {
+      .grammar-filter-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 9px;
+        padding: 12px 0;
+      }
+
+      .mini-segment,
+      .grammar-select {
+        width: 100%;
+      }
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .pagination:empty {
+      display: none;
+    }
+
+    .page-btn {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .page-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .page-btn:disabled {
+      opacity: .38;
+      cursor: default;
+    }
+
+    .page-gap {
+      min-width: 18px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 420px) {
+      .pagination {
+        gap: 4px;
+      }
+
+      .page-btn {
+        min-width: 36px;
+        padding: 0 8px;
+      }
+    }
+
+    .lesson-path {
+      position: relative;
+      display: grid;
+      gap: 11px;
+    }
+
+    .lesson {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+
+    .lesson summary {
+      min-height: 80px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 20px;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .lesson summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .lesson-num {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .lesson summary strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .lesson summary strong.hangul {
+      color: var(--primary-strong);
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: .01em;
+    }
+
+    .lesson summary span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .lesson summary .lesson-label {
+      width: fit-content;
+      margin-top: 6px;
+      padding: 3px 8px;
+      border: 1px solid #b9dfd0;
+      border-radius: 999px;
+      background: var(--mint);
+      color: var(--mint-strong);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .chevron {
+      color: var(--muted);
+      font-size: 17px;
+      transition: transform .2s ease;
+    }
+
+    .lesson[open] .chevron {
+      transform: rotate(90deg);
+    }
+
+    .lesson-body {
+      padding: 0 14px 16px 68px;
+    }
+
+    .lesson-body > p {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pattern {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .pattern + .pattern {
+      margin-top: 8px;
+    }
+
+    .pattern-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pattern .kr {
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .pattern .zh {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tiny-sound {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--primary-strong);
+      cursor: pointer;
+    }
+
+    .pattern-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .reading-toggle {
+      min-height: 36px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--primary-strong);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .sentence-reading {
+      display: none;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .sentence-reading.show {
+      display: flex;
+    }
+
+    .reading-word {
+      display: inline-grid;
+      justify-items: center;
+      gap: 2px;
+      padding: 5px 8px;
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .reading-word b {
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .reading-word small {
+      color: var(--primary-strong);
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .reading-word em {
+      max-width: 110px;
+      color: var(--muted);
+      font-size: 10px;
+      font-style: normal;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    @media (max-width: 420px) {
+      .pattern-top {
+        align-items: flex-start;
+      }
+
+      .pattern-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .compound-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .alphabet-intro {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 14px;
+      border: 1px solid #ead99e;
+      border-radius: var(--radius-md);
+      background: var(--sun-soft);
+      color: #655323;
+      font-size: 13px;
+    }
+
+    .alphabet-intro strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #4f421d;
+    }
+
+    .alpha-group {
+      margin-top: 24px;
+    }
+
+    .alpha-group h3 {
+      margin-bottom: 4px;
+    }
+
+    .alpha-group > p {
+      margin-bottom: 11px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .alpha-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .alpha-card {
+      position: relative;
+      min-height: 104px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .alpha-char {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--primary-strong);
+      font-size: 35px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .alpha-name {
+      display: block;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .alpha-tip {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .alpha-audio {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .reference-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 16px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+
+    .reference-tabs button {
+      min-height: 42px;
+      padding: 6px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .reference-tabs button.active {
+      background: var(--surface);
+      color: var(--primary-strong);
+      box-shadow: 0 3px 12px rgba(30, 35, 49, .08);
+    }
+
+    .reference-panel {
+      display: none;
+    }
+
+    .reference-panel.active {
+      display: block;
+      animation: view-in .18s ease both;
+    }
+
+    .compound-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .reference-section-title {
+      margin: 20px 2px 10px;
+      font-size: 16px;
+    }
+
+    .reference-panel > .reference-section-title:first-child {
+      margin-top: 0;
+    }
+
+    .reference-note {
+      margin: -4px 2px 10px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .compound-card {
+      min-height: 105px;
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) 28px;
+      align-items: center;
+      gap: 10px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .compound-card .char {
+      color: var(--primary-strong);
+      font-size: 34px;
+      font-weight: 850;
+    }
+
+    .compound-card strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .compound-card small {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 680;
+      line-height: 1.45;
+      letter-spacing: .01em;
+    }
+
+    .compound-finals-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .compound-finals-grid .compound-card {
+      min-height: 88px;
+    }
+
+    .compound-finals-grid .compound-card small {
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 780;
+    }
+
+    .compound-card .play,
+    .rule-play {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 11px;
+    }
+
+    .rule-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sound-rule {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 38px;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .sound-rule h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+    }
+
+    .sound-change {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .sound-change .heard {
+      color: var(--primary-strong);
+    }
+
+    .sound-rule p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .rule-play {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 30;
+      left: 50%;
+      bottom: 0;
+      width: min(calc(100% - 20px), 700px);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+      padding: 7px 7px calc(7px + env(safe-area-inset-bottom));
+      border: 1px solid rgba(228, 226, 219, .9);
+      border-bottom: 0;
+      border-radius: 22px 22px 0 0;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 -10px 34px rgba(28, 32, 44, .09);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transform: translateX(-50%);
+    }
+
+    .nav-btn {
+      min-height: 57px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 2px;
+      padding: 4px 2px;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .nav-icon {
+      min-width: 28px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .nav-btn.active {
+      color: var(--primary-strong);
+    }
+
+    .nav-btn.active .nav-icon {
+      background: var(--primary-soft);
+    }
+
+    .modal {
+      position: fixed;
+      z-index: 60;
+      inset: 0;
+      display: grid;
+      place-items: end center;
+      padding: 18px;
+      background: rgba(20, 25, 34, .36);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .modal[hidden] {
+      display: none;
+    }
+
+    .modal-card {
+      width: min(100%, 520px);
+      padding: 19px;
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: 0 24px 70px rgba(20, 25, 34, .22);
+      animation: modal-up .2s ease both;
+    }
+
+    @keyframes modal-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .setting-copy strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .setting-copy span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .setting-row input[type="range"] {
+      width: 130px;
+      accent-color: var(--primary);
+    }
+
+    .reset-btn {
+      width: 100%;
+      min-height: 45px;
+      margin-top: 12px;
+      border: 1px solid #efc4c0;
+      border-radius: 13px;
+      background: #fff8f7;
+      color: var(--rose-strong);
+      cursor: pointer;
+      font-weight: 750;
+    }
+
+    .tts-warning {
+      display: none;
+      margin-top: 12px;
+      padding: 11px;
+      border-radius: 12px;
+      background: var(--sun-soft);
+      color: #655323;
+      font-size: 11px;
+    }
+
+    .tts-warning.show {
+      display: block;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 700px) {
+      main {
+        padding-top: 36px;
+      }
+
+      .hero-card {
+        padding: 34px;
+      }
+
+      .focus-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .focus-card.wide {
+        grid-column: auto;
+        display: block;
+      }
+
+      .mini-block {
+        margin-bottom: 10px;
+      }
+
+      .alpha-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .modal {
+        place-items: center;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .brand-copy span {
+        display: none;
+      }
+
+      .hero-card,
+      .quiz-card {
+        padding: 17px;
+      }
+
+      .focus-card {
+        padding: 13px;
+      }
+
+      .pair span {
+        min-width: 43px;
+        min-height: 49px;
+        font-size: 26px;
+      }
+
+      .word-main {
+        grid-template-columns: 40px minmax(0, 1fr);
+      }
+
+      .word-tag {
+        display: none;
+      }
+
+      .word-actions,
+      .word-romanization {
+        padding-left: 65px;
+      }
+
+      .lesson-body {
+        padding-left: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark hangul" aria-hidden="true">한</div>
+        <div class="brand-copy">
+          <strong>한걸음 · 韓文一小步</strong>
+          <span>不用背完，今天前進一點就好</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="speed-shortcut" id="speed-shortcut" type="button">語速 0.78×</button>
+        <button class="icon-btn" id="open-settings" type="button" aria-label="開啟設定">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="view active" id="home-view" data-view="home">
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="day-pill"><span aria-hidden="true">●</span> 今日約 8 分鐘</span>
+          <h1>今天從一個音節<br>讀到三個單字</h1>
+          <p>先確認每一格的羅馬音，再把兩三格連起來讀，最後用發音確認。</p>
+          <button class="hero-action" id="start-daily" type="button">開始今日 10 題　→</button>
+        </div>
+      </div>
+
+      <div class="progress-panel">
+        <div class="progress-ring" id="home-ring" role="img" aria-label="今日進度">
+          <strong id="home-progress-number">0/10</strong>
+        </div>
+        <div class="progress-copy">
+          <strong id="home-progress-title">今天還沒開始</strong>
+          <span id="home-progress-sub">完成 10 題就好，答錯也算練習。</span>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h3>今天怎麼練</h3>
+        <span>從一格，慢慢連到單字</span>
+      </div>
+
+      <div class="focus-grid">
+        <article class="focus-card">
+          <div class="pair hangul"><span>가</span></div>
+          <strong>① 先讀一格</strong>
+          <small><span class="hangul">가</span> → ga</small>
+        </article>
+        <article class="focus-card">
+          <div class="pair hangul"><span>가</span><span>요</span></div>
+          <strong>② 再連成單字</strong>
+          <small><span class="hangul">가요</span> → gayo → 去</small>
+        </article>
+        <article class="focus-card wide">
+          <div class="mini-block" aria-hidden="true">▶</div>
+          <div>
+            <strong>③ 最後用耳朵確認</strong>
+            <small>看到 <span class="hangul">가요</span> 先自己讀，再按播放比對聲音。</small>
+          </div>
+        </article>
+      </div>
+
+      <aside class="rule-card">
+        <strong>今天的學習規則</strong>
+        <p>羅馬音先當過渡提示；目標是看到韓文能讀出來，再慢慢減少依賴。</p>
+      </aside>
+    </section>
+
+    <section class="view" id="practice-view" data-view="practice">
+      <div class="page-head">
+        <p class="eyebrow">Practice</p>
+        <h2>看到韓文，把整格讀出來</h2>
+        <p class="lead">先從單一音節開始，再讀完整單字；答題後會播放聲音讓你核對。</p>
+      </div>
+
+      <div class="segmented" role="tablist" aria-label="練習類型">
+        <button class="active" type="button" data-mode="syllable" role="tab" aria-selected="true">音節讀音</button>
+        <button type="button" data-mode="word" role="tab" aria-selected="false">單字讀音</button>
+        <button type="button" data-mode="listen" role="tab" aria-selected="false">聽音辨字</button>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-meta">
+          <span class="question-count" id="question-count">今日第 1 / 10 題</span>
+          <span class="score-pill" id="quiz-score">答對 0 題</span>
+        </div>
+        <div class="quiz-prompt" id="quiz-prompt"></div>
+        <div class="quiz-choices" id="quiz-choices"></div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <button class="next-btn" id="next-question" type="button" hidden>下一題　→</button>
+      </div>
+    </section>
+
+    <section class="view" id="words-view" data-view="words">
+      <div class="page-head">
+        <p class="eyebrow">Words</p>
+        <h2>從生活用語一路學到 TOPIK 2級</h2>
+        <p class="lead">先讀核心和生活句，再使用 1,671 個 TOPIK 1–2級詞庫搜尋與複習。</p>
+      </div>
+
+      <div class="toolbar">
+        <label class="search-wrap">
+          <span class="sr-only">搜尋單字</span>
+          <input id="word-search" type="search" placeholder="搜尋韓文或中文" autocomplete="off">
+        </label>
+      </div>
+      <div class="chip-row" id="word-categories" aria-label="單字分類"></div>
+      <div class="topic-area" id="topik-topic-area" aria-label="TOPIK 單字主題" hidden></div>
+      <div class="library-meta" id="word-library-meta">
+        <span id="word-library-count">載入中</span>
+        <span>每頁 24 個</span>
+      </div>
+      <div class="word-list" id="word-list"></div>
+      <div class="pagination" id="word-pagination" aria-label="單字分頁"></div>
+    </section>
+
+    <section class="view" id="lessons-view" data-view="lessons">
+      <div class="page-head">
+        <p class="eyebrow">Sentences</p>
+        <h2>84 個 TOPIK 1–2級核心文法</h2>
+      </div>
+      <div class="toolbar">
+        <label class="search-wrap">
+          <span class="sr-only">搜尋文法</span>
+          <input id="grammar-search" type="search" placeholder="搜尋 이/가、主格、想要⋯" autocomplete="off">
+        </label>
+      </div>
+      <div class="grammar-filter-panel">
+        <div class="grammar-filter-row">
+          <div class="grammar-filter-copy">
+            <strong>課程範圍</strong>
+            <span>先學核心，或查看完整課程</span>
+          </div>
+          <div class="mini-segment" id="grammar-scopes" aria-label="文法學習範圍">
+            <button class="active" type="button" data-grammar-scope="core">核心 24</button>
+            <button type="button" data-grammar-scope="all">全部 84</button>
+          </div>
+        </div>
+        <div class="grammar-filter-row">
+          <label class="grammar-filter-copy" for="grammar-category-select">
+            <strong>文法分類</strong>
+            <span>依用途縮小範圍</span>
+          </label>
+          <select class="grammar-select" id="grammar-category-select">
+            <option value="all">全部功能</option>
+            <option value="particle">助詞與比較 · 01–28</option>
+            <option value="experience">經驗與推測 · 29–45</option>
+            <option value="intention">意志與條件 · 46–61</option>
+            <option value="ending">連接與句尾 · 62–84</option>
+          </select>
+        </div>
+      </div>
+      <p class="filter-summary" id="grammar-filter-summary">目前顯示：<strong>核心必學 · 全部功能</strong></p>
+      <div class="library-meta">
+        <span id="grammar-library-count">載入中</span>
+        <span>每頁 10 個</span>
+      </div>
+      <div class="lesson-path" id="lesson-list"></div>
+      <div class="pagination" id="grammar-pagination" aria-label="文法分頁"></div>
+    </section>
+
+    <section class="view" id="alphabet-view" data-view="alphabet">
+      <div class="page-head">
+        <p class="eyebrow">Reference</p>
+        <h2>字母、複合母音與發音規則</h2>
+      </div>
+
+      <div class="reference-tabs" role="tablist" aria-label="字母與發音分類">
+        <button class="active" type="button" data-reference="basics" role="tab" aria-selected="true">基本字母</button>
+        <button type="button" data-reference="compound" role="tab" aria-selected="false">進階字母</button>
+        <button type="button" data-reference="rules" role="tab" aria-selected="false">發音規則</button>
+      </div>
+
+      <div class="reference-panel active" id="reference-basics">
+        <div class="alphabet-intro">
+          <span aria-hidden="true">💡</span>
+          <div>
+            <strong>這裡是查詢頁，不是考試範圍。</strong>
+            忘記就回來看；不用等全部熟了才去學單字。
+          </div>
+        </div>
+        <div id="alphabet-groups"></div>
+      </div>
+
+      <div class="reference-panel" id="reference-compound">
+        <h3 class="reference-section-title">複合母音</h3>
+        <div class="compound-grid">
+          <button class="compound-card" type="button" data-pronounce="애">
+            <span class="char hangul">ㅐ</span><span><strong>ae</strong><small class="hangul">애 · ㅏ＋ㅣ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="에">
+            <span class="char hangul">ㅔ</span><span><strong>e</strong><small class="hangul">에 · ㅓ＋ㅣ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="와">
+            <span class="char hangul">ㅘ</span><span><strong>wa</strong><small class="hangul">와 · ㅗ＋ㅏ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="왜">
+            <span class="char hangul">ㅙ</span><span><strong>wae</strong><small class="hangul">왜 · ㅗ＋ㅐ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="외">
+            <span class="char hangul">ㅚ</span><span><strong>oe</strong><small class="hangul">외 · 常接近 we</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="워">
+            <span class="char hangul">ㅝ</span><span><strong>wo</strong><small class="hangul">워 · ㅜ＋ㅓ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="웨">
+            <span class="char hangul">ㅞ</span><span><strong>we</strong><small class="hangul">웨 · ㅜ＋ㅔ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="위">
+            <span class="char hangul">ㅟ</span><span><strong>wi</strong><small class="hangul">위 · ㅜ＋ㅣ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="의">
+            <span class="char hangul">ㅢ</span><span><strong>ui</strong><small class="hangul">의 · 依位置會變音</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="얘">
+            <span class="char hangul">ㅒ</span><span><strong>yae</strong><small class="hangul">얘 · ㅑ＋ㅣ</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="예">
+            <span class="char hangul">ㅖ</span><span><strong>ye</strong><small class="hangul">예 · ㅕ＋ㅣ</small></span><span class="play">▶</span>
+          </button>
+        </div>
+        <h3 class="reference-section-title">雙子音</h3>
+        <div class="compound-grid">
+          <button class="compound-card" type="button" data-pronounce="까">
+            <span class="char hangul">ㄲ</span><span><strong>kk</strong><small class="hangul">까 · 緊音</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="따">
+            <span class="char hangul">ㄸ</span><span><strong>tt</strong><small class="hangul">따 · 緊音</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="빠">
+            <span class="char hangul">ㅃ</span><span><strong>pp</strong><small class="hangul">빠 · 緊音</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="싸">
+            <span class="char hangul">ㅆ</span><span><strong>ss</strong><small class="hangul">싸 · 緊音</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="짜">
+            <span class="char hangul">ㅉ</span><span><strong>jj</strong><small class="hangul">짜 · 緊音</small></span><span class="play">▶</span>
+          </button>
+        </div>
+        <h3 class="reference-section-title">複合尾音（겹받침）</h3>
+        <p class="reference-note">兩個子音一起放在尾音位置；單獨收尾時通常只讀其中一個，接母音時可能拆開連讀。</p>
+        <div class="compound-grid compound-finals-grid">
+          <button class="compound-card" type="button" data-pronounce="몫">
+            <span class="char hangul">ㄳ</span><span><strong>收尾 ㄱ</strong><small class="hangul">몫 → [목] · mok</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="앉다">
+            <span class="char hangul">ㄵ</span><span><strong>收尾 ㄴ</strong><small class="hangul">앉다 → [안따] · antta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="많다">
+            <span class="char hangul">ㄶ</span><span><strong>收尾 ㄴ</strong><small class="hangul">많다 → [만타] · manta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="읽다">
+            <span class="char hangul">ㄺ</span><span><strong>收尾 ㄱ</strong><small class="hangul">읽다 → [익따] · iktta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="삶">
+            <span class="char hangul">ㄻ</span><span><strong>收尾 ㅁ</strong><small class="hangul">삶 → [삼] · sam</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="여덟">
+            <span class="char hangul">ㄼ</span><span><strong>通常收尾 ㄹ</strong><small class="hangul">여덟 → [여덜] · yeodeol</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="외곬">
+            <span class="char hangul">ㄽ</span><span><strong>收尾 ㄹ</strong><small class="hangul">외곬 → [외골] · oegol</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="핥다">
+            <span class="char hangul">ㄾ</span><span><strong>收尾 ㄹ</strong><small class="hangul">핥다 → [할따] · haltta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="읊다">
+            <span class="char hangul">ㄿ</span><span><strong>收尾 ㅂ</strong><small class="hangul">읊다 → [읍따] · euptta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="싫다">
+            <span class="char hangul">ㅀ</span><span><strong>收尾 ㄹ</strong><small class="hangul">싫다 → [실타] · silta</small></span><span class="play">▶</span>
+          </button>
+          <button class="compound-card" type="button" data-pronounce="없다">
+            <span class="char hangul">ㅄ</span><span><strong>收尾 ㅂ</strong><small class="hangul">없다 → [업따] · eoptta</small></span><span class="play">▶</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="reference-panel" id="reference-rules">
+        <div class="rule-list">
+          <article class="sound-rule">
+            <div><h3>連音</h3><div class="sound-change hangul"><span>먹어요</span><span>→</span><span class="heard">[머거요] · meogeoyo</span></div><p>尾音遇到下一格的 ㅇ，常移到下一個音節發音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="먹어요" aria-label="播放 먹어요">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>複合尾音簡化</h3><div class="sound-change hangul"><span>읽다</span><span>→</span><span class="heard">[익따] · iktta</span></div><p>複合尾音後面是子音或位於詞尾時，通常只保留一個代表音；後面的 ㄷ 同時緊音化。</p></div>
+            <button class="rule-play" type="button" data-pronounce="읽다" aria-label="播放 읽다">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>複合尾音連音</h3><div class="sound-change hangul"><span>읽어요</span><span>→</span><span class="heard">[일거요] · ilgeoyo</span></div><p>複合尾音遇到以母音開頭的助詞或詞尾，前一個留在原位，後一個移到下一音節。</p></div>
+            <button class="rule-play" type="button" data-pronounce="읽어요" aria-label="播放 읽어요">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>鼻音化</h3><div class="sound-change hangul"><span>합니다</span><span>→</span><span class="heard">[함니다] · hamnida</span></div><p>ㅂ 遇到 ㄴ／ㅁ 時，常變成較容易連讀的 ㅁ 音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="합니다" aria-label="播放 합니다">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>流音化</h3><div class="sound-change hangul"><span>신라</span><span>→</span><span class="heard">[실라] · silla</span></div><p>ㄴ 和 ㄹ 相遇時，經常一起讀成 ㄹㄹ。</p></div>
+            <button class="rule-play" type="button" data-pronounce="신라" aria-label="播放 신라">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>ㄹ 讀成 ㄴ</h3><div class="sound-change hangul"><span>의견란</span><span>→</span><span class="heard">[의견난] · uigyeonnan</span></div><p>部分合成詞或漢字詞中，ㄴ 後面的 ㄹ 會讀成 ㄴ，形成 ㄴㄴ。</p></div>
+            <button class="rule-play" type="button" data-pronounce="의견란" aria-label="播放 의견란">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>送氣化</h3><div class="sound-change hangul"><span>좋다</span><span>→</span><span class="heard">[조타] · jota</span></div><p>ㅎ 和 ㄱ／ㄷ／ㅈ 相遇時，後面的音會變成送氣音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="좋다" aria-label="播放 좋다">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>ㅎ 脫落</h3><div class="sound-change hangul"><span>좋아요</span><span>→</span><span class="heard">[조아요] · joayo</span></div><p>ㅎ 尾音遇到母音時，常弱化或不發音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="좋아요" aria-label="播放 좋아요">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>緊音化</h3><div class="sound-change hangul"><span>학교</span><span>→</span><span class="heard">[학꾜] · hakkyo</span></div><p>某些尾音後面的平音會變成較緊的雙子音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="학교" aria-label="播放 학교">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>口蓋音化</h3><div class="sound-change hangul"><span>같이</span><span>→</span><span class="heard">[가치] · gachi</span></div><p>ㄷ／ㅌ 尾音遇到 이 時，常變成 ㅈ／ㅊ 音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="같이" aria-label="播放 같이">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>尾音代表音</h3><div class="sound-change hangul"><span>옷</span><span>→</span><span class="heard">[옫] · ot</span></div><p>多種尾音在音節末尾會收斂成少數幾種代表音。</p></div>
+            <button class="rule-play" type="button" data-pronounce="옷" aria-label="播放 옷">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>ㄴ 添加</h3><div class="sound-change hangul"><span>꽃잎</span><span>→</span><span class="heard">[꼰닙] · kkonnip</span></div><p>某些合成詞中，尾音後接 이／야／여／요／유 開頭的詞時，會插入 ㄴ，再產生連讀變化。</p></div>
+            <button class="rule-play" type="button" data-pronounce="꽃잎" aria-label="播放 꽃잎">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>實詞前先變代表音</h3><div class="sound-change hangul"><span>맛없다</span><span>→</span><span class="heard">[마덥따] · madeoptta</span></div><p>尾音後接以母音開頭、但本身有詞義的新詞時，先變成代表音再連到下一音節。</p></div>
+            <button class="rule-play" type="button" data-pronounce="맛없다" aria-label="播放 맛없다">▶</button>
+          </article>
+          <article class="sound-rule">
+            <div><h3>ㅢ 的常見變音</h3><div class="sound-change hangul"><span>나의</span><span>→</span><span class="heard">[나에] · nae</span></div><p>助詞 의 在口語中常讀成 에；詞首的 의 通常仍讀作 의。</p></div>
+            <button class="rule-play" type="button" data-pronounce="나의" aria-label="播放 나의">▶</button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="主要導覽">
+    <button class="nav-btn active" type="button" data-target="home" aria-current="page">
+      <span class="nav-icon" aria-hidden="true">⌂</span><span>今天</span>
+    </button>
+    <button class="nav-btn" type="button" data-target="practice">
+      <span class="nav-icon hangul" aria-hidden="true">가</span><span>練習</span>
+    </button>
+    <button class="nav-btn" type="button" data-target="words">
+      <span class="nav-icon" aria-hidden="true">◇</span><span>單字</span>
+    </button>
+    <button class="nav-btn" type="button" data-target="lessons">
+      <span class="nav-icon" aria-hidden="true">≡</span><span>文法</span>
+    </button>
+    <button class="nav-btn" type="button" data-target="alphabet">
+      <span class="nav-icon" aria-hidden="true">田</span><span>發音</span>
+    </button>
+  </nav>
+
+  <div class="modal" id="settings-modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <div class="modal-head">
+        <h3 id="settings-title">學習設定</h3>
+        <button class="icon-btn" id="close-settings" type="button" aria-label="關閉設定">×</button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>韓文語速</strong>
+          <span id="voice-name">正在尋找韓文語音</span>
+          <span id="speech-rate-value">目前 0.78×</span>
+        </div>
+        <input id="speech-rate" type="range" min=".55" max="1.05" value=".78" step=".05" aria-label="韓文語速">
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-copy">
+          <strong>試聽語音</strong>
+          <span class="hangul">안녕하세요</span>
+        </div>
+        <button class="text-btn" id="test-speech" type="button">播放</button>
+      </div>
+
+      <div class="tts-warning" id="tts-warning">
+        找不到韓文系統語音。可在裝置的語音或輔助使用設定中下載韓文聲音。
+      </div>
+      <button class="reset-btn" id="reset-progress" type="button">清除今天的練習紀錄</button>
+    </div>
+  </div>
+
+  <script>
+  window.TOPIK_VOCAB_DATA=[["가게","商店","store, shop",1],["가격","價格","price",2],["가구","家具","furniture",3],["가깝다","近","close (near)",4],["가끔","有時","sometimes",5],["가다","去","go",6],["가르치다","教導","teach",7],["가방","包","bag",8],["가볍다","輕","light (not heavy)",9],["가수","歌手","singer",10],["가슴","胸部，乳房","chest, breast",11],["가요","歌曲","song",12],["가운데","中間","middle",13],["가위","剪刀","scissors",14],["가을","秋天，秋天","autumn, fall",15],["가장","最／最為","most",16],["가져가다","帶走","take away",17],["가져오다","帶","bring",18],["가족","家庭","family",19],["가지","樹枝","branch",20],["가지다","有","have",21],["각","每個","each",22],["간","期間／之間","while",23],["간단하다","簡單、容易","simple, easy",24],["간단히","簡單","simply",25],["간식","零食","snack",26],["간장","醬油","soy sauce",27],["간호사","護士","nurse",28],["갈비","排骨","Galvi, spareribs",29],["갈비탕","排骨湯","Galbitang, spareribs soup",30],["갈색","棕色","brown",31],["갈아타다","轉乘","transfer",32],["감","柿子","persimmon",33],["감기","感冒","cold",34],["감기약","感冒藥","cold medicine",35],["감다","閉上（眼睛）","close the eyes",36],["감동","感動","sensation",37],["감동하다","受到感動","be impressed",38],["감사","謝謝","thank",39],["감사드립니다","謝謝","thank you",40],["감사하다","謝謝，欣賞","thank, appreciate",41],["감사합니다","謝謝","thank you",42],["감자","馬鈴薯","potato",43],["감자탕","馬鈴薯排骨湯","Gamjatang, potato soup",44],["갑자기","突然","suddenly",45],["값","價格","price",46],["강","河流","river",47],["강아지","小狗","puppy",48],["강좌","講座","lecture",49],["갖다","有","have",50],["같다","相同","same",51],["같이","一起","together",52],["개","狗；個（量詞）","dog, ~ piece(s)",53],["개나리","連翹","forsythia",54],["개인","個人","individual",55],["거기","那裡","there",56],["거리","街道","street",57],["거실","客廳","living room",58],["거울","鏡子","mirror",59],["거의","幾乎，幾乎","almost, nearly",60],["거짓말","謊言","lie",61],["걱정","焦慮、擔憂","anxiety, concern",62],["걱정하다","擔心","worry",63],["건강","健康","health",64],["건강하다","健康","be healthy",65],["건너가다","穿過／走到對面","cross (a road)",66],["건너다","越過／穿過","cross over",67],["건너편","對面","other side, opposite side",68],["건물","建築物","building",69],["건배","乾杯，乾杯","cheers, toast",70],["걷다","步行","walk",71],["걸다","掛起；打電話","hang; make a phone call",72],["걸리다","被抓住，花費（時間）","get caught, take (time)",73],["걸어가다","步行（走）","walk (go)",74],["걸어오다","步行（來）","walk (come)",75],["검은색","黑色","black",76],["것","東西；事情","that, thing, it",77],["게임","遊戲","game",78],["겨울","冬天","winter",79],["겨울방학","寒假","winter vacation",80],["결과","結果","result",81],["결정","決定","decision",82],["결정하다","決定","decide",83],["결혼","婚姻","marriage",84],["결혼식","婚禮","wedding ceremony",85],["결혼하다","結婚","get married",86],["경기","競賽、遊戲","competition, game",87],["경기장","體育場、競技場","stadium, arena",88],["경복궁","景福宮","Gyeongbokgung",89],["경주","慶州","Gyeongju",90],["경찰","警察","police",91],["경찰관","警察","police officer",92],["경찰서","警察局","police office",93],["경치","風景、風景","view, landscape",94],["경험","經驗","experience",95],["계단","樓梯","stairs",96],["계란","雞蛋","egg",97],["계산하다","計算","calculate",98],["계속","繼續","continue",99],["계시다","是、存在（敬語形式）","be, exist (honorific form)",100],["계절","季節","season",101],["계획","計劃","plan",102],["고기","肉","meat",103],["고등학교","高中","high school",104],["고등학생","高中生","high school student",105],["고르다","選擇","choose",106],["고마웠습니다","謝謝（過去式）","Thank you (past tense)",107],["고맙다","謝謝","thank",108],["고맙습니다","謝謝","Thank you",109],["고모","姑媽","paternal aunt",110],["고모부","姑丈","paternal uncle",111],["고속버스","快速巴士","express bus",112],["고양이","貓","cat",113],["고장","損壞、故障","broken, malfunction",114],["고추","紅辣椒","red pepper",115],["고추장","韓式辣椒醬","Kochujang, red pepper paste",116],["고치다","修復","fix",117],["고프다","餓","hungry",118],["고향","家鄉","hometown",119],["곧","馬上","soon",120],["골목","胡同","alley",121],["골프","高爾夫","golf",122],["곱다","美麗；很好","beautiful; fine",123],["곳","地點","place",124],["공","球；零","ball",125],["공간","空間","space",126],["공기","空氣","air",127],["공무원","公職人員","public official",128],["공부","學習","study",129],["공부하다","學習","study",130],["공연","公演／表演","show, public performance",131],["공원","公園","park",132],["공중전화","公用電話","payphone, public phone",133],["공짜","免費","free",134],["공책","筆記本","notebook, note",135],["공항","機場","airport",136],["공휴일","公休日","public holiday",137],["과","課；科","division",138],["과거","過去","past",139],["과일","水果","fruit",140],["과자","零食","snack",141],["과학","科學","science",142],["관계","關係","relation",143],["관광하다","旅行、觀光","travel, sightsee",144],["관심","關注、興趣","attention, interest",145],["광고","廣告","advertisement",146],["괜찮다","沒事","be okay",147],["괜찮습니다","沒關係。","It's fine.",148],["교과서","教科書","textbook",149],["교수","教授","professor",150],["교실","教室","classroom",151],["교체","替代，改變","substitute, change",152],["교통","交通","traffic",153],["교통사고","交通事故","traffic accident",154],["교회","教堂","church",155],["구","9","9",156],["구경하다","看看","take a look",157],["구두","鞋","shoes",158],["구름","雲","cloud",159],["구십","90","90",160],["구월","九月","September",161],["구하다","儲存、尋找、取得","save, seek, get",162],["국","湯","soup",163],["국내","國內","domestic",164],["국립","國立","nationalestablished, state",165],["국수","麵條","noodle",166],["국어","韓語","Korean language",167],["국적","國籍","nationality, country of citizenship",168],["국제","國際","international",169],["군인","士兵、軍事人員","soldier, military personnel",170],["굽다","烤；烤","roast; bake",171],["권","本（書籍量詞）","~ book(s)",172],["귀","耳朵","ear",173],["귀엽다","可愛","cute",174],["규칙","規則","rule",175],["귤","橘子","mandarin orange",176],["그","那／那個","it",177],["그거","那個","it",178],["그것","那個東西","it",179],["그곳","那裡","there",180],["그날","那一天","that day",181],["그냥","就這樣","just, as it is",182],["그동안","這段期間／一直以來","meantime, meanwhile, up to now",183],["그들","他們","them, they",184],["그때","那時","then, at that time",185],["그래","對／是啊","Yes, Yeah",186],["그래서","所以，因此","so, thus",187],["그램","克","gram",188],["그러나","但是，但是","but, however",189],["그러니까","所以，因為","so, because",190],["그러면","那麼，如果是的話","then, if so",191],["그런","那麼，這樣","then, such",192],["그런데","順便說一句，不過","by the way, however",193],["그럼","然後","then",194],["그렇게","像這樣，所以","like that, so",195],["그렇구나","嗯，我明白了。","well, I see.",196],["그렇다","那樣／是那樣","Yes, that's it.",197],["그렇습니다","沒錯。","That's right.",198],["그렇지만","儘管如此，但是","nevertheless, but",199],["그릇","碗／器皿","bowl, container, tableware",200],["그리고","和","and",201],["그리다","畫","draw",202],["그림","繪畫、圖片","drawing, picture",203],["그만","停止；夠了","stop, finish",204],["그분","那位","his, the person",205],["그저께","前天","day before yesterday",206],["그중","其中","among them",207],["그쪽","那邊／您","there, the person",208],["그치다","停止、結束、停止","stop, end, cease",209],["극장","劇院、電影院","theater, cinema",210],["근처","附近、鄰裡","nearby, neighborhood",211],["글","文章；文字","post, sentence, character",212],["글쎄요","這個嘛／不知道耶","I do not know., well, I guess ~",213],["금방","馬上／剛才","soon, a little while ago",214],["금연","禁止吸煙","no smoking",215],["금요일","星期五","Friday",216],["금주","禁酒","abstinence, temperance",217],["급","班級、年級","class, grade",218],["급하다","緊急／著急","hurry, urgent",219],["기간","期限、期間","term, period",220],["기다리다","等待","wait",221],["기르다","加註；成長","raise; grow",222],["기름","油、汽油","oil, gasoline",223],["기분","感覺","feeling",224],["기뻐하다","高興，高興","glad, delight",225],["기쁘다","快樂","happy",226],["기사","物品、駕駛員、工程師","article, driver, engineer",227],["기숙사","宿舍","dormitory",228],["기억하다","記住","remember",229],["기온","溫度","temperature",230],["기자","記者","reporter",231],["기차","火車","train",232],["기침","咳嗽","cough",233],["기타","其他","other",234],["긴장되다","緊張","be nervous",235],["길","方式，道路","way, road",236],["길다","長","long",237],["김","海苔；姓金","seaweed",238],["김밥","金巴布","Kimbab",239],["김치","泡菜","Kimchi",240],["김치찌개","泡菜燉菜","Kimchi stew",241],["김포공항","金浦國際機場","Gimpo International Airport",242],["까만색","黑色","black color",243],["까맣다","黑色","black",244],["깎다","切割、剃須","cut, shave",245],["깜짝","驚訝，驚訝","startled, surprised",246],["깨끗하다","乾淨","clean",247],["깨다","打破；醒來","wake up, crack, break",248],["깨지다","碎裂、裂痕、斷裂","chip, crack, break",249],["꺼내다","取出","take out",250],["껌","口香糖","chewing gum",251],["꼭","完全、絕對","exactly, absolutely",252],["꽃","花","flower",253],["꽃집","花店","florist",254],["꾸다","夢想","dream",255],["꿈","夢想","dream",256],["끄다","關閉、熄滅、停止","turn off, extinguish, stop",257],["끓이다","煮沸","boil",258],["끝","結束","end",259],["끝나다","完成，結束","finish, end",260],["끝내다","完成","finish",261],["끼다","磨損；穿;卡住","wear; put on; be stuck",262],["나","我","I",263],["나가다","出去，出去","go out, get out",264],["나누다","分享、分割","share, divide",265],["나다","發生；出來","occur; come out",266],["나라","國家","country",267],["나무","樹","tree",268],["나빠지다","損壞、惡化","spoil, deteriorate",269],["나쁘다","壞","bad",270],["나오다","出來，出現","come out, appear",271],["나이","年齡，老","age, old",272],["나중","後來，之後","later, after",273],["나타나다","出現","appear",274],["나흘","四天","four days",275],["낚시","釣魚","fishing",276],["날","日子","day",277],["날씨","天氣","weather",278],["날짜","日期","date",279],["남","南，男人","south, man",280],["남기다","離開","leave",281],["남녀","男性與女性","men and women",282],["남대문시장","南大門市場","Namdaemun market",283],["남동생","弟弟","younger brother",284],["남미","南美洲","South America",285],["남북","南北","north and south",286],["남자","男人","man",287],["남쪽","南","south",288],["남편","丈夫","husband",289],["남학생","男學生","male student",290],["낮","白天、中午、白天","day, noon, during the day",291],["낮다","低","low",292],["내","我的，我的","of mine, my",293],["내가","我","I",294],["내과","內科","internal medicine",295],["내년","明年","next year",296],["내다","支付，拿出","pay, put out",297],["내려가다","向下","go down",298],["내려오다","下來","come down",299],["내리다","向下","go down",300],["내용","內容","content",301],["내일","明天","tomorrow",302],["냄비","鍋","pot",303],["냄새","氣味","smell",304],["냉면","冷面","cold noodle",305],["냉장고","冰箱","refrigerator",306],["너","你","you",307],["너무","太，非常","too, very",308],["넓다","寬","wide",309],["넘다","超過，超過","exceed, more than",310],["넘어지다","跌倒，跌倒","fall down, fall",311],["넣다","放入","put in",312],["네","是，4","yes, 4",313],["넥타이","領帶","necktie",314],["넷","4","4",315],["넷째","第四","fourth",316],["년","年份","year",317],["노란색","黃色","yellow color",318],["노랗다","黃色","yellow",319],["노래","歌曲","song",320],["노래방","卡拉OK店","Karaoke shop",321],["노래하다","唱歌","sing",322],["노력하다","努力，努力","endeavor, strive",323],["노트","注意","note",324],["녹색","綠色","green",325],["녹차","綠茶","green tea",326],["놀다","播放","play",327],["놀라다","感到驚訝","be surprised",328],["농구","籃球","basketball",329],["높다","高","high",330],["놓다","放下；放手","put down; let go",331],["누가","誰","who",332],["누구","誰","who",333],["누나","妹妹（從弟弟的角度看）","sister (as seen from the younger brother)",334],["누르다","按下、推動","press down, push",335],["눈","眼睛；雪","eye, snow",336],["눈물","撕裂","tear",337],["눈사람","雪人","snowman",338],["눈싸움","凝視比賽、打雪仗","staring contest, snowball fight",339],["눕다","躺下，睡覺","lie down, sleep",340],["뉴스","新聞","news",341],["뉴욕","紐約","New York",342],["느끼다","感覺","feel",343],["느낌","感覺","feeling",344],["느리다","慢速","slow",345],["늘","始終","always",346],["늘다","增益，增加","gain, increase",347],["능력","能力","ability",348],["늦다","遲到、延誤","late, delay",349],["늦잠","睡過頭、睡得很晚","overslept, sleeping in late",350],["님","先生","Sir",351],["다","全部","all, whole",352],["다녀오다","返回，回來","return, come back",353],["다니다","去、通勤","go, commute",354],["다르다","不同","different",355],["다른","其他〜，另一個〜，不同〜","other ~, another ~, different ~",356],["다리","橋、腿、腳","bridge, leg, foot",357],["다섯","5","5",358],["다시","再次","again",359],["다음","下一個、之後","next, after",360],["다음달","下個月","next month",361],["다음주","下週","next week",362],["다음해","明年、後年","next year, following year",363],["다이어트","飲食","diet",364],["다치다","受傷","get hurt",365],["닦다","擦拭、拋光","wipe, polish",366],["단어","字","word",367],["단점","缺點、缺點、缺陷","disadvantage, shortcoming, drawback",368],["닫다","關閉","close",369],["닫히다","關閉，關閉","shut, close",370],["달","月；月亮","month, moon",371],["달걀","雞蛋","egg",372],["달다","甜","sweet",373],["달러","美元","dollar",374],["달력","日曆","calendar",375],["달리다","運行","run",376],["닭","雞、母雞","chicken, hen",377],["닭고기","雞","chicken",378],["닮다","類似","resemble",379],["담그다","浸、醃製","dip, pickle",380],["담배","菸草","tobacco",381],["답장","回复","reply",382],["당근","胡蘿蔔","carrot",383],["당신","你","you",384],["대","台；輛（量詞）","versus, large",385],["대답","答案","answer",386],["대답하다","回答、答复","answer, reply",387],["대부분","大部分，幾乎","mostly, almost",388],["대사관","大使館","embassy",389],["대학","大學、學院","university, college",390],["대학교","大學、學院","university, college",391],["대학생","大學生","college student",392],["대학원","研究生院","graduate school",393],["대학원생","研究生、研究生","postgraduate student, graduate student",394],["대한민국","大韓民國、韓國","Republic of Korea, South Korea",395],["대화","談話、對話","conversation, dialogue",396],["대회","競賽、錦標賽","competition, tournament",397],["댁","房子","house",398],["더","更多","more",399],["더럽다","髒","dirty",400],["더운물","熱水","hot water",401],["덕분","感謝，感謝","thanks for, thanks to",402],["덥다","熱","hot",403],["덮다","蓋子","cover",404],["데리다","帶來，帶著","bring, take along",405],["데이트","日期、約會","date, dating",406],["도로","道路","road",407],["도서관","圖書館","library",408],["도시","城市","city",409],["도와주다","幫助","help",410],["도움","幫助、協助","help, assistance",411],["도착","到達","arrival",412],["도착하다","到達","arrive",413],["도쿄","東京","Tokyo",414],["독서","讀數","reading",415],["독서실","閱覽室","reading room",416],["독서하다","讀取","read",417],["독일","德國","Germany",418],["돈","錢","money",419],["돌아가다","返回，返回","return, go back",420],["돌아오다","回來，回家","come back, come home",421],["돕다","幫助","help",422],["동네","城鎮、社區","town, neighborhood",423],["동대문시장","東大門市場","Dongdaemun market",424],["동물","動物","animal",425],["동생","兄弟、姊妹","brother, sister",426],["동아리","俱樂部、團體","club, group",427],["동안","期間、之間","during, between",428],["동양","東方，東方","eastern, orient",429],["동전","硬幣","coin",430],["동쪽","東","east",431],["돼지","豬","pig",432],["돼지고기","豬肉","pork",433],["되다","成為","become",434],["된장","發酵豆醬","fermented soybean paste",435],["된장국","大醬湯","soybean paste soup",436],["된장찌개","大醬燉菜","soybean paste stew",437],["두","兩個","two",438],["두껍다","厚","thick",439],["두다","放置","put",440],["두부","豆腐","tofu",441],["두부찌개","豆腐湯","tofu soup",442],["둘","2","2",443],["둘째","第二個，第二個~","second, the second of~",444],["뒤","後部、後面","rear, back",445],["뒤쪽","後面、後面、朝後","behind, back, towards the rear",446],["드라마","戲劇","drama",447],["드리다","給予","give",448],["드시다","吃（敬語形式）","eat (honorific form)",449],["듣기","聆聽、聆聽","listening, hearing",450],["듣다","聽","listen",451],["들","字段, ~s,","field, ~s,",452],["들다","輸入；舉起;成本","enter; lift; cost",453],["들어가다","進去，進入","go in, enter",454],["들어오다","進來，進入","come in, enter",455],["등","等，返回","etc, back",456],["등산","健行、登山","hiking, mountain-climbing",457],["등산복","登山服","mountaineering clothing",458],["등산화","登山鞋、登山鞋","hiking boots, climbing shoes",459],["디브이디","DVD","DVD",460],["디자인","設計","design",461],["따뜻하다","溫暖","warm",462],["따라가다","跟隨","follow",463],["따라오다","伴隨，跟隨","come with, follow",464],["따로","單獨","separately",465],["따르다","跟隨","follow",466],["딸","女兒","daughter",467],["딸기","草莓","strawberry",468],["땀","汗水","sweat",469],["때","時間","time",470],["때문","因為，為了～，所以～","because, for ~, so~",471],["떠나다","離開","leave",472],["떠들다","喋喋不休，發出噪音","chatter, make a noise",473],["떡","年糕","rice cake",474],["떡국","年糕湯","rice cake soup",475],["떡볶이","托波吉","Toppogi",476],["떨어지다","掉落","drop",477],["또","另外，再一次","in addition, again",478],["또는","或","or",479],["똑같다","相同","same",480],["똑바로","直立、筆直","upright, straight",481],["뛰다","運行","run",482],["뜨겁다","熱","hot",483],["뜨다","上升，睜開（眼睛）","rise, open (the eyes)",484],["뜻","意義","meaning",485],["라디오","收音機","radio",486],["라면","拉麵","ramen",487],["러시아","俄羅斯","Russia",488],["로션","潤膚乳","skin lotion",489],["마늘","大蒜","garlic",490],["마르다","幹","dry",491],["마리","~ 動物, ~ 頭","~ animal(s), ~ head(s)",492],["마시다","飲料","drink",493],["마음","心靈、感覺","mind, feeling",494],["마지막","最後","last",495],["마치다","完成，結束","finish, end",496],["마흔","40","40",497],["막히다","被阻塞、被阻塞","be blocked, be clogged",498],["만","僅、萬","only, ten thousand",499],["만나다","見面","meet",500],["만두","餃子","dumpling",501],["만들다","製造、創造","make, create",502],["만일","如果，應該","if, should",503],["만지다","觸摸","touch",504],["만화","漫畫書、卡通","comic book, cartoon",505],["많다","許多","many",506],["많이","很多很多","a lot of, many",507],["말","話；馬","word, talk",508],["말씀","文字、備註","words, remarks",509],["말씀하다","談話","talk",510],["말하기","說話","speaking",511],["말하다","說，說話","say, talk",512],["맑다","清澈、乾淨","clear, clean",513],["맛","風味、味道","flavor, taste",514],["맛없다","不好吃","not delicious",515],["맛있다","美味","delicious",516],["맞다","正確；被擊中","be correct; get hit",517],["맞습니다","沒錯。","That's right.",518],["맞아요","沒錯。","That's right.",519],["맞은편","對面、另一側、對面","across, the other side, opposite",520],["매다","領帶","tie",521],["매우","非常，非常","extremely, very",522],["매일","每天","everyday",523],["매주","每週","every week",524],["맥주","啤酒","beer",525],["맵다","辣","spicy",526],["머리","頭，頭髮","head, hair",527],["먹다","吃","eat",528],["먼저","首先，首先，之前","first, first of all, before",529],["멀다","遠、遠、長","far, distant, long",530],["멋있다","酷，漂亮","cool, nice",531],["메뉴","選單","menu",532],["메다","肩背、攜帶","shoulder, carry",533],["메모","備註","memo",534],["메시지","訊息","message",535],["멕시코","墨西哥","Mexico",536],["며칠","幾天，什麼日期","a few days, what date",537],["면도","剃刀，剃須","razor, shaving",538],["명","~ 人","~ person(s)",539],["명절","假期、年度活動","holidays, annual events",540],["몇","一些，一些","a few, a number of",541],["모두","所有，每個人","all, everyone",542],["모레","後天","the day after tomorrow",543],["모르겠습니다","我不知道。","I don't know.",544],["모르다","不知道","do not know",545],["모시다","帶你，為你服務（敬語形式）","take you, serve you (honorific form)",546],["모양","形狀、形式、風格","shape, form, style",547],["모으다","收集、收集","collect, gather",548],["모이다","聚集，聚集在一起","gather, get together",549],["모임","會議、聚會","meeting, gathering",550],["모자","帽子","hat",551],["목","頸部、喉嚨","neck, throat",552],["목걸이","項鍊","necklace",553],["목소리","語音","voice",554],["목요일","星期四","Thursday",555],["목욕","洗澡，沐浴","bath, bathing",556],["목욕하다","洗澡","take a bath",557],["목적","目的","purpose",558],["몸","身體","body",559],["몸살","疾病，由疲勞引起的疾病","sickness, disease that comes from fatigue",560],["못하다","~不能做","~ can not do",561],["몽골","蒙古","Mongolia",562],["무","蘿蔔","radish",563],["무겁다","重","heavy",564],["무궁화","莎倫玫瑰","rose of sharon",565],["무료","免費","free",566],["무릎","膝蓋","knee",567],["무리","群體，不合理","swarm, unreasonable",568],["무섭다","可怕","scary",569],["무슨","什麼","what",570],["무엇","什麼","what",571],["무엇이","什麼","what",572],["무역","貿易","trade",573],["무용","舞蹈","dance",574],["무척","非常","very",575],["문","門，門","door, gate",576],["문구점","文具店","stationery store",577],["문장","句子","sentence",578],["문제","問題","problem",579],["문화","文化","culture",580],["묻다","詢問","ask",581],["물","水","water",582],["물건","東西，東西","stuff, thing",583],["물론","當然，當然","sure, of course",584],["물어보다","詢問","ask",585],["뭐","什麼","what",586],["미국","美國","The United States",587],["미래","未來","future",588],["미리","提前，事先","in advance, beforehand",589],["미술","藝術","art",590],["미술관","美術館、美術館","art gallery, art museum",591],["미안하다","抱歉","sorry",592],["미안합니다","對不起。","I'm sorry.",593],["미용실","美容院","beauty salon",594],["미터","米","meter",595],["민속촌","民俗村","folk village",596],["밀가루","麵粉","flour",597],["밀리다","被剃光、被推","be shaved, be pushed",598],["밑","底部、下方","bottom, below",599],["바꾸다","改變","change",600],["바뀌다","被改變","be changed",601],["바나나","香蕉","banana",602],["바다","海","sea",603],["바닷가","海灘","beach",604],["바라다","希望","hope",605],["바람","風","wind",606],["바로","立即、很快、剛剛","immediately, soon, just",607],["바르다","右，油漆，磨損","right, paint, wear",608],["바쁘다","忙","busy",609],["바이올린","小提琴","violin",610],["바지","褲子","pants",611],["박물관","博物館","museum",612],["박수","鼓掌、掌聲","clap, applause",613],["밖","外面","out, outside",614],["반","一半，組","half, group",615],["반갑다","很高興認識，高興","nice to meet, happy",616],["반갑습니다","很高興認識你。","Nice to meet you.",617],["반년","半年","half a year",618],["반달","半月形","half-moon",619],["반바지","短褲","shorts",620],["반지","環","ring",621],["반찬","配菜","side dish",622],["받다","接收","receive",623],["발","腳、腿","foot, leg",624],["발가락","腳趾","toe(s)",625],["발음","發音","pronunciation",626],["발전","開發","development",627],["발표","公告、演示","announcement, presentation",628],["밝다","明亮","bright",629],["밤","夜晚","night",630],["밥","米飯、膳食","rice, meal",631],["방","房間","room",632],["방법","途徑、方法","way, method",633],["방송","廣播","broadcast",634],["방송국","廣播電台","broadcast stations",635],["방학","假期","vacation",636],["배","肚子；梨；船；倍","ship, stomach, pear",637],["배고프다","餓了","hungry",638],["배구","排球","volleyball",639],["배달","交貨","delivery",640],["배부르다","吃飽了（我吃飽了。）","be full (I am full.)",641],["배우","演員","actor",642],["배우다","學習","learn",643],["배탈","胃痛","stomachache",644],["백","100","100",645],["백화점","百貨公司","department store",646],["버리다","放棄，丟掉","abandon, throw away",647],["버스","巴士","bus",648],["번","~ 時間","~ time(s)",649],["번호","數量","number",650],["벌다","賺錢，賺錢","earn, make money",651],["벌써","已經","already",652],["벗다","脫掉衣服","take off clothes",653],["벚꽃","櫻花","cherry blossom",654],["베이징","北京","Beijing",655],["베트남","越南","Vietnam",656],["벽","牆","wall",657],["변호사","律師","lawyer",658],["별","星","star",659],["별로","不是真的","not really",660],["병","瓶；疾病","illness, ~ bottle(s)",661],["병원","醫院","hospital",662],["보내다","發送、花費","send, spend",663],["보다","參見","see",664],["보도","人行道，報告","sidewalk, report",665],["보이다","展示，看","show, look",666],["보통","通常，通常，一般而言","usually, normally, in general",667],["복숭아","桃子","peach",668],["복잡하다","複雜、擁擠","complicated, crowded",669],["볶다","油炸","fry",670],["볶음밥","炒飯","fried rice",671],["볼펜","原子筆","ballpoint pen",672],["봄","彈簧","spring",673],["봉지","包","bag",674],["봉투","信封","envelope",675],["뵙다","相遇","meet",676],["부동산","房地產","real estate",677],["부드럽다","溫柔、友善","soft, friendly",678],["부르다","呼叫、唱歌","call, sing",679],["부모","父母","parents",680],["부부","夫妻、丈夫與妻子、已婚夫婦","couple, husband and wife, married couple",681],["부산","釜山","Busan",682],["부업","邊線","sideline",683],["부엌","廚房","kitchen",684],["부인","妻子，夫人","wife, Mrs.",685],["부장","導演","director",686],["부지런하다","勤奮","diligent",687],["부치다","發送、炒作、傳送","send, fry, transmit",688],["부탁","請求，請","request, please",689],["부탁하다","乞求，詢問","beg, ask",690],["북쪽","北","North",691],["분","位（敬稱）；分鐘","~ person(s), ~ minute(s)",692],["분위기","大氣","atmosphere",693],["불","火、電燈","fire, electrical light",694],["불고기","韓式烤肉","Bulgogi, grilled meat",695],["불다","吹（風或口哨聲、樂器等）","blow (wind or whistle, musical instruments, etc.)",696],["불편하다","不舒服、不方便","uncomfortable, inconvenient",697],["붓다","傾倒","pour",698],["붙다","堅持，通過測試","stick, pass a test",699],["붙이다","附著、貼上","attach, stick",700],["브라질","巴西","Brazil",701],["블라우스","襯衫","blouse",702],["비","雨；費用","rain",703],["비누","肥皂","soap",704],["비디오","視頻","video",705],["비밀","秘密","secret",706],["비빔밥","石鍋拌飯、什錦飯","Bibimbap, mixed rice",707],["비슷하다","相似，像","similar, like",708],["비싸다","昂貴","expensive",709],["비행기","飛機","airplane",710],["비행장","機場、機場","airfield, airport",711],["빌딩","建築物","building",712],["빌리다","借、借","borrow, lend",713],["빠르다","快速","fast",714],["빨간색","紅色","red color",715],["빨갛다","紅色","red",716],["빨다","吮吸，洗衣服","suck, do laundry",717],["빨래","洗衣、洗滌","laundry, wash",718],["빨리","很快","quickly",719],["빵","麵包","bread",720],["빵집","麵包店","bakery",721],["빼다","移除、拉出、拉出","remove, pull, pull out",722],["뿐","僅","only",723],["사","四","4",724],["사거리","交叉點，四個角","intersection, four corners",725],["사계절","四個季節","four seasons",726],["사고","事故","accident",727],["사과","蘋果","apple",728],["사다","購買","buy",729],["사람","人，男人","person, man",730],["사랑","愛","love",731],["사랑하다","愛","love",732],["사례","案例、範例","case, example",733],["사무실","辦公室","office",734],["사물","物體、事物","object, thing",735],["사십","40","40",736],["사업가","企業家、商人","entrepreneur, businessman",737],["사용하다","使用","use",738],["사원","寺廟，僱員","temple, employee",739],["사월","四月","April",740],["사이","之間，同時","between, while",741],["사이다","蘋果酒","cider",742],["사이즈","尺寸","size",743],["사인하다","標誌","sign",744],["사장","執行長、總裁","CEO, the president",745],["사전","字典","dictionary",746],["사진","圖片、照片","picture, photo",747],["사진기","相機","camera",748],["사촌","表哥","cousin",749],["사탕","糖果","candy",750],["사흘","3 天","3 days",751],["산","山","mountain",752],["산책","步行","walk",753],["살","肉，〜歲","flesh, ~ year(s) old",754],["살다","現場","live",755],["삼","3","3",756],["삼거리","交叉路口，三向交叉路口","intersection, three-way intersection",757],["삼계탕","參雞湯","Samgyetang",758],["삼십","30","30",759],["삼월","三月","March",760],["삼촌","叔叔","paternal uncle",761],["상관","關係","relation",762],["상자","盒子","box",763],["상처","傷口、刮痕","wound, scratch",764],["상품","產品","product",765],["새","鳥；新的","bird, new",766],["새로","新","newly",767],["새벽","黎明、深夜、清晨","dawn, late at night, early morning",768],["새우","蝦","shrimp",769],["색","顏色","color",770],["색깔","顏色","color",771],["샌드위치","三明治","sandwich",772],["생각","思考、思考","thinking, thought",773],["생각되다","可以考慮，看來~","be considered, it seems~",774],["생각하다","思考","think",775],["생기다","形式、出現","form, arise",776],["생선","魚","fish",777],["생신","生日（敬語形式）","birthday (honorific form)",778],["생일","生日","birthday",779],["생활","生命","life",780],["샤워하다","洗澡","take a shower",781],["샴푸","洗髮精","shampoo",782],["서다","支架","stand",783],["서로","彼此，雙方","each other, both",784],["서류","文件","document",785],["서른","30","30",786],["서비스","服務","service",787],["서양","西邊，西邊","western, west",788],["서울","首爾","Seoul",789],["서울역","首爾站","Seoul station",790],["서점","書店","bookstore",791],["서쪽","西、西","west, western",792],["선물","禮物，禮物","gift, present",793],["선배","年長的，年長的","elder, senior",794],["선생님","老師","teacher",795],["선수","玩家","player",796],["선택하다","選擇，選擇","choose, select",797],["선풍기","風扇","fan",798],["설거지","洗碗、洗碗","washing dishes, dish-washing",799],["설날","農曆新年","Lunar New Year",800],["설렁탕","宣陵堂","Seolleongtang",801],["설명","解釋、描述","explanation, description",802],["설명하다","解釋","explain",803],["설악산","雪嶽山","Mt. Seorak",804],["설탕","糖","sugar",805],["섬","島嶼","island",806],["성","城堡，姓氏","castle, last name",807],["성격","個性","personality",808],["성함","姓名","name",809],["세계","世界","world",810],["세수하다","洗滌","wash",811],["세우다","設立、制定","set up, formulate",812],["세일하다","有促銷","have a sale",813],["세탁기","洗衣機","washing machine",814],["세탁소","乾洗店、自助洗衣店","dry cleaners, laundromat",815],["센터","中心","center",816],["센티미터","厘米","centimeter",817],["셋","3","3",818],["셋째","第三","third",819],["소","小，牛","small, cow",820],["소개","簡介","introduction",821],["소개하다","介紹","introduce",822],["소고기","牛肉","beef",823],["소금","鹽","salt",824],["소리","聲音、聲音","sound, voice",825],["소설","小說","novel",826],["소설가","小說家","novelist",827],["소식","新聞","news",828],["소파","沙發","sofa",829],["소포","包裹","parcel",830],["소풍","野餐、旅行","picnic, trip",831],["소화제","消化的，消化的","peptic, digestive",832],["속","內部","inside",833],["손","手","hand",834],["손가락","手指","finger",835],["손님","客戶","customer",836],["손수건","手帕","handkerchief",837],["송이","束、花、簇","bunch, flower, cluster",838],["쇼핑","購物","shopping",839],["수건","毛巾、面巾","towel, washcloth",840],["수도","資本、供水","capital, water supply",841],["수돗물","自來水","tap water",842],["수박","西瓜","watermelon",843],["수술하다","繼續運行","operate on for",844],["수업","班級、課程","class, lesson",845],["수영","游泳","swimming",846],["수영복","泳衣","swimsuit",847],["수영장","游泳池","swimming pool",848],["수요일","星期三","Wednesday",849],["수저","筷子與湯匙","chopsticks and a spoon",850],["수첩","筆記、筆記本","note, notebook",851],["수학","數學","mathematics",852],["숙제","家庭作業","homework",853],["순서","順序、輪流","order, turn",854],["숟가락","勺子","spoon",855],["술","酒精、烈酒","alcohol, liquor",856],["쉬다","休息","rest",857],["쉰","50","50",858],["쉽다","簡單","easy",859],["슈퍼마켓","超市","supermarket",860],["스물","20","20",861],["스웨터","毛衣","sweater",862],["스케이트","溜冰鞋","skate",863],["스키","滑雪，滑雪","ski, skiing",864],["스키장","滑雪場","ski resort",865],["스타","星","star",866],["스타킹","絲襪","stockings",867],["스트레스","壓力","stress",868],["스페인어","西班牙語","Spanish",869],["스포츠","運動","sport",870],["슬퍼하다","悲傷、哀悼","sorrow, mourn",871],["슬프다","悲傷","sad",872],["습관","習慣","habit",873],["시","城市、時間","city, time",874],["시간","時間","time",875],["시간표","時間表、時間表","schedule, timetable",876],["시계","時鐘","clock",877],["시골","鄉村","countryside",878],["시끄럽다","吵雜","noisy",879],["시내","市中心、城市、溪流","downtown, city, stream",880],["시다","酸味","sour",881],["시디","CD","CD",882],["시민","公民","citizen",883],["시설","設施","facility",884],["시외","郊區","suburbs",885],["시원하다","涼爽、清爽","cool, refresh",886],["시월","十月","October",887],["시작","開始","start",888],["시작되다","開始","begin",889],["시작하다","開始，開始","start, begin",890],["시장","市場","market",891],["시청","市政廳","city hall",892],["시키다","讓某人做，命令","make someone do, order",893],["시험","考試、測試","exam, test",894],["식당","餐廳、自助餐廳","restaurant, cafeteria",895],["식사","膳食","meal",896],["식탁","桌子","table",897],["신","上帝，新的","god, new",898],["신다","穿上、穿戴","put on, wear",899],["신문","報紙","newspaper",900],["신발","鞋、鞋類","shoes, footwear",901],["신청서","申請表","application forms",902],["신청하다","投入，申請","put in for, apply for",903],["실례","藉口","excuse",904],["실례하다","原諒","be excused",905],["실수","錯誤、失敗","mistake, failure",906],["싫다","仇恨","hate",907],["싫어하다","不喜歡、討厭","dislike, hate",908],["심하다","嚴重，可怕","severe, terrible",909],["십","10","10",910],["십이월","十二月","December",911],["십일월","十一月","November",912],["싱겁다","不鹹","not salty",913],["싶다","想要","want",914],["싸다","便宜，包裝","cheap, wrap",915],["싸우다","戰鬥","fight",916],["쌀","米","rice",917],["쌀밥","煮熟的米飯","cooked rice",918],["쌓이다","堆疊起來，堆積起來","stack up, pile up",919],["썰다","斬，切","chop, cut",920],["쓰기","書寫、聽寫","writing, dictation",921],["쓰다","寫；使用；戴；苦","write; use; wear; be bitter",922],["쓰레기","垃圾","garbage",923],["쓰이다","被寫入、被使用","be written, be used",924],["씨","種子先生~","seed, Mr. ~",925],["씩","每個，每個，每個","each, every, per",926],["씹다","咀嚼、咬","chew, bite",927],["씻다","洗滌","wash",928],["아가씨","小姐，女兒","Miss, daughter",929],["아기","嬰兒、幼兒","baby, toddler",930],["아까","早些時候，不久前","earlier, while ago",931],["아내","妻子","wife",932],["아뇨","否","no",933],["아니다","否","no",934],["아니오","否","no",935],["아니요","否","no",936],["아들","兒子","son",937],["아랍어","阿拉伯語","Arabic",938],["아래","底部、下方","bottom, under",939],["아름답다","美麗","beautiful",940],["아마","也許，也許","maybe, perhaps",941],["아무","任意","any",942],["아버님","父親","father",943],["아버지","父親","father",944],["아빠","爸爸","dad",945],["아시아","亞洲","Asia",946],["아이","兒童","child",947],["아이스크림","冰淇淋","ice cream",948],["아저씨","叔叔、先生","uncle, mister",949],["아주","非常、完全","very, completely",950],["아주머니","老太太、夫人、阿姨","old lady, madame, aunt",951],["아줌마","老太太、夫人、阿姨","old lady, madame, aunt",952],["아직","然而，仍然","yet, still",953],["아침","早上，早餐","morning, breakfast",954],["아침밥","早餐","breakfast",955],["아침식사","早餐","breakfast",956],["아파트","公寓、豪宅","apartment, mansion",957],["아프다","痛苦、生病","painful, sick",958],["아프리카","非洲","Africa",959],["아홉","9","9",960],["아흔","90","90",961],["악기","樂器","musical instrument",962],["안","以內，不~","within, not ~",963],["안경","眼鏡","glasses",964],["안내하다","引導、邀請","guide, invite",965],["안녕하세요","嗨，你好","hi, hello",966],["안녕하십니까","你好","hello",967],["안다","擁抱、搖籃","embrace, cradle",968],["안전하다","安全","safe",969],["앉다","坐","sit",970],["알다","知道","know",971],["알리다","通知","inform",972],["알맞다","適合、合適","fit, appropriate",973],["알았습니다","我明白了。","I understood.",974],["앞","前部、前一個","front, previous",975],["애","兒童","child",976],["액세서리","配件","accessory",977],["야구","棒球","baseball",978],["야채","蔬菜","vegetable",979],["약","藥；約","about, medicine",980],["약간","稍微，一點","slightly, a little",981],["약국","藥房","pharmacy",982],["약사","藥劑師","pharmacist",983],["약속","約會、承諾","appointment, promise",984],["얇다","薄","thin",985],["양","量；小姐","amount, sheep",986],["양말","襪子","socks",987],["양복","套裝","suit",988],["양식","形式，西式","form, western style",989],["양파","洋蔥","onion",990],["얘기하다","談話","talk",991],["어깨","肩部","shoulder",992],["어느","哪個，如何","which, how",993],["어둡다","深色","dark",994],["어디","哪裡","where",995],["어떤","哪個、什麼","which, what",996],["어떻게","如何","how",997],["어떻다","如何","how",998],["어떻습니까?","怎麼樣？","How is it?",999],["어렵다","困難","difficult",1000],["어른","成人","adult",1001],["어리다","年輕","young",1002],["어린이","兒童","child",1003],["어머","哦，好吧","oh, well",1004],["어머니","母親","mother",1005],["어머님","母親","mother",1006],["어서","快點，快點","hurry, quickly",1007],["어울리다","看起來不錯，很合適","look good on, befit",1008],["어저께","昨天","yesterday",1009],["어제","昨天","yesterday",1010],["어젯밤","昨晚","last night",1011],["언니","妹妹（從妹妹的角度看）","sister (as seen from the younger sister)",1012],["언제","當","when",1013],["언제나","總是、任何時候","always, anytime",1014],["얼굴","臉部","face",1015],["얼마나","多少","how much",1016],["얼음","冰","ice",1017],["엄마","媽媽","mom",1018],["없다","無、不、不","none, no, not",1019],["없이","不含","without",1020],["에어컨","空調","air conditioner",1021],["엔","日圓","yen",1022],["엘리베이터","電梯","elevator",1023],["여권","護照","passport",1024],["여기","這裡","here",1025],["여기저기","這裡和那裡","here and there",1026],["여덟","8","8",1027],["여동생","妹妹","younger sister",1028],["여든","80","80",1029],["여러","各種，許多","various, many",1030],["여러가지","幾個，各種","several, various",1031],["여러분","各位，女士們、先生們","everyone, ladies and gentlemen",1032],["여름","夏季","summer",1033],["여보세요","你好","hello",1034],["여섯","6","6",1035],["여자","女性","woman",1036],["여학생","女學生","female student",1037],["여행","旅行","travel",1038],["여행사","旅行社、旅遊公司","travel agency, travel firm",1039],["역","車站","station",1040],["역사","歷史","history",1041],["연락처","聯絡資訊","contact information",1042],["연세","年齡（敬語形式）","age (honorific form)",1043],["연습","練習","practice",1044],["연습하다","練習","practice",1045],["연예인","名人","celebrity",1046],["연필","鉛筆","pencil",1047],["연휴","連續假期","consecutive holidays",1048],["열","10","10",1049],["열다","打開","open",1050],["열리다","被打開","be opened",1051],["열쇠","鑰匙","key",1052],["열심히","努力、熱情","hard, enthusiastic",1053],["열차","火車","train",1054],["엽서","明信片","postcard",1055],["영","酒精，零","spirit, zero",1056],["영국","英國","The United Kingdom",1057],["영상","視頻","video",1058],["영어","英語","English",1059],["영어회화","英語會話","English conversation",1060],["영하","負，低於零","minus, below zero",1061],["영화","電影","movie",1062],["영화관","電影院","movie theater",1063],["영화배우","電影明星","movie star",1064],["영화표","電影票","movie ticket",1065],["옆","側面","side",1066],["예","是","yes",1067],["예문","例子，標準句","example, model sentence",1068],["예쁘다","漂亮，美麗","pretty, beautiful",1069],["예순","60","60",1070],["예약","預訂","reservation",1071],["옛날","很久以前，很久以前","a long ago, olden days",1072],["오","5","5",1073],["오늘","今天","today",1074],["오다","來","come",1075],["오래","長、多","long, much",1076],["오래간만","很長一段時間之後","after a long time",1077],["오래간만입니다","好久不見。","Long time no see.",1078],["오랜만","很長一段時間之後","after a long time",1079],["오랜만에","很久以後","after a long time",1080],["오랫동안","很長一段時間","for a long time",1081],["오렌지","橘色","orange",1082],["오르다","上升；上升","go up; rise",1083],["오른쪽","右側，右側","right side, right",1084],["오리","鴨子","duck",1085],["오빠","兄弟（從妹妹看來）","brother (as seen from the younger sister)",1086],["오십","50","50",1087],["오월","五月","May",1088],["오이","黃瓜","cucumber",1089],["오전","早上，a.m.","morning, a.m.",1090],["오징어","魷魚","squid",1091],["오후","下午","afternoon",1092],["올라가다","上升","go up",1093],["올라오다","上來","come up",1094],["올려놓다","穿上、放置","put on, place",1095],["올림픽","奧林匹克","olympic",1096],["올해","今年","this year",1097],["옮기다","移動、轉移、平移","move, transfer, translate",1098],["옷","連身裙，衣服","dress, clothes",1099],["옷가게","服飾店","clothing store",1100],["옷장","衣櫃","closet",1101],["와이셔츠","襯衫","shirt",1102],["왜","為什麼","why",1103],["왜냐하면","因為","because",1104],["외국","外國","foreign country",1105],["외국어","外語","foreign language",1106],["외국인","外國人","foreigner",1107],["외롭다","孤獨","lonely",1108],["외삼촌","舅舅","maternal uncle",1109],["외숙모","姨媽","maternal aunt",1110],["외출하다","出去","go out",1111],["외할머니","外祖母","maternal grandmother",1112],["외할아버지","外祖父","maternal grandfather",1113],["왼쪽","左","left",1114],["요금","費用","fee",1115],["요르단","約旦","Jordan",1116],["요리","烹飪、烹飪","cooking, cuisine",1117],["요일","星期幾","day of the week",1118],["요즘","如今，大約在這個時候，最近","nowadays, around this time, lately",1119],["우리","我們，我們","we, us",1120],["우리나라","我國、韓國","our country, South Korea",1121],["우산","雨傘","umbrella",1122],["우선","第一個","first",1123],["우유","牛奶","milk",1124],["우체국","郵局","post office",1125],["우표","郵票","stamp",1126],["운동","練習","exercise",1127],["운동복","運動服、健身服","sportswear, gym clothes",1128],["운동선수","運動員","athlete",1129],["운동장","操場、運動場","playground, athletic field",1130],["운동하다","練習","exercise",1131],["운동화","運動鞋","sports shoes",1132],["운전하다","驅動器","drive",1133],["울다","哭泣","cry",1134],["울리다","發出聲音、鳴響","make cry, chime",1135],["움직이다","移動","move",1136],["웃기다","有趣，讓某人發笑","funny, make someone laugh",1137],["웃다","笑","laugh",1138],["원","韓元；圓；院","won (currency units of Korea)",1139],["원피스","連身連身裙","one-piece dress",1140],["원하다","想要、願望、渴望","want, wish, desire",1141],["월","月份","month",1142],["월급","月薪","monthly salary",1143],["월드컵","世界杯","world cup",1144],["월세","月租金","monthly rent",1145],["월요일","星期一","Monday",1146],["웬일","出於某種原因，那是什麼？","for some reason, What was it?",1147],["위","頂部、向上","top, up",1148],["위치","地點、位置","location, position",1149],["위하다","為了、贊成、為了","for, in favor of, for the sake of",1150],["위험하다","危險","dangerous",1151],["유럽","歐洲","Europe",1152],["유리","玻璃","glass",1153],["유명하다","著名","famous",1154],["유월","六月","June",1155],["유학","出國留學","study abroad",1156],["유학생","外國學生、國際學生","foreign student, international student",1157],["유행","趨勢","trend",1158],["육","6","6",1159],["육십","60","60",1160],["은행","銀行","bank",1161],["은행원","銀行職員","bank clerk",1162],["음료수","飲料、軟性飲料","drink, soft drink",1163],["음반","記錄","record",1164],["음식","食物、烹飪","food, cooking",1165],["음악","音樂","music",1166],["음악가","音樂家","musician",1167],["응","是的（答案）","Yeah (answer)",1168],["의미","意義","meaning",1169],["의사","醫生","doctor",1170],["의자","椅子","chair",1171],["이","這個，齒，2","this, tooth, 2",1172],["이거","這個","this",1173],["이것","這個","this",1174],["이곳","這個地方，這裡","this place, here",1175],["이따가","稍後","later",1176],["이런","這個、這樣~","this, such ~",1177],["이렇게","這樣，所以，這樣","like this, so, in this way",1178],["이렇다","像這樣","like this",1179],["이름","姓名","name",1180],["이메일","電子郵件","e-mail",1181],["이모","姨媽","maternal aunt",1182],["이모부","舅舅","maternal uncle",1183],["이번","這次","this time",1184],["이분","此人","this person",1185],["이사","移動，移動","move, moving",1186],["이상","超過，奇怪","more than, strange",1187],["이상하다","奇怪的、有趣的、奇怪的","strange, funny, weird",1188],["이십","20","20",1189],["이야기","故事","story",1190],["이야기하다","談話","talk",1191],["이용","用法","usage",1192],["이용하다","使用","use",1193],["이월","二月","February",1194],["이유","原因","reason",1195],["이제","現在","now",1196],["이집트","埃及","Egypt",1197],["이쪽","這邊，這裡，這個人","this way, here, this person",1198],["이틀","兩天","two days",1199],["이해","理解","understanding",1200],["이해하다","了解","understand",1201],["인","標誌, ~ 人","sign, ~ person(s)",1202],["인구","人口","population",1203],["인기","受歡迎程度","popularity",1204],["인기스타","人氣明星","popular star",1205],["인도","印度","India",1206],["인사","問候","greetings",1207],["인사하다","問候","greet",1208],["인삼","人參","ginseng",1209],["인상","印象","impression",1210],["인천","仁川","Incheon",1211],["인터넷","互聯網","internet",1212],["인터뷰하다","面試","interview",1213],["인형","娃娃","doll",1214],["일","一；工作；事情","work, 1, day",1215],["일곱","7","7",1216],["일기","日記","diary",1217],["일기예보","天氣預報","weather forecast",1218],["일본","日本","Japan",1219],["일본드라마","日劇","Japanese drama",1220],["일본말","日語","Japanese language",1221],["일본사람","日本人","Japanese people",1222],["일본어","日語","Japanese language",1223],["일본요리","日本料理","Japanese food",1224],["일상생활","日常生活","everyday life",1225],["일식","日式、日本料理","Japanese style, Japanese food",1226],["일어나다","上升、站立、發生","rise, stand, occur",1227],["일어서다","站起來，站起來","get up, stand up",1228],["일요일","星期日","Sunday",1229],["일월","一月","January",1230],["일주일","一周","one week",1231],["일찍","早期","early",1232],["일하다","工作","work",1233],["일흔","70","70",1234],["읽기","讀數","reading",1235],["읽다","讀取","read",1236],["잃다","輸","lose",1237],["잃어버리다","輸","lose",1238],["입","嘴","mouth",1239],["입구","入口","entrance",1240],["입다","穿衣服","wear clothes",1241],["입원하다","住院","hospitalize",1242],["입학","入場","admission",1243],["있다","有，有","have, there",1244],["잊다","忘記","forget",1245],["잊어버리다","忘記","forget",1246],["자","角色，開始吧。","character, Here we go.",1247],["자기","我自己，擁有","myself, own",1248],["자다","睡眠","sleep",1249],["자동차","汽車、汽車","car, automobile",1250],["자동차회사","汽車公司","car company",1251],["자료","材料、文件","material, document",1252],["자르다","切割","cut",1253],["자리","座位、位置","seat, location",1254],["자신","我自己，自己的","myself, own",1255],["자연","自然","nature",1256],["자유","自由","freedom",1257],["자장면","炸醬麵","Jajangmyeon",1258],["자전거","自行車","bicycle",1259],["자주","經常","often",1260],["작년","去年","last year",1261],["작다","小","small",1262],["작은아버지","叔叔","uncle",1263],["작은어머니","阿姨","aunt",1264],["잔","玻璃，~ 杯子","glass, ~ cup(s)",1265],["잔치","聚會、盛宴","party, feast",1266],["잘","好","well",1267],["잘못","錯誤","mistake",1268],["잘생기다","帥","handsome",1269],["잘하다","做得好，擅長","do well, good at",1270],["잠","睡覺，睡覺","slumbers, sleep",1271],["잠깐","一會兒，一點點","for a while, a little",1272],["잠시","一會兒，一會兒，一點","for a bit, for a while, a little",1273],["잠자다","睡覺，上床睡覺","sleep, go to bed",1274],["잡다","抓住、抓住、抓住","catch, grab, hold",1275],["잡수시다","吃（敬語形式）","eat (honorific form)",1276],["잡지","雜誌","magazine",1277],["장","張；場","~ chapter(s), ~ sheet(s)",1278],["장갑","手套","gloves",1279],["장마","雨季","rainy season",1280],["장마철","雨季","rainy season",1281],["장미","玫瑰色","rose",1282],["장소","地點","place",1283],["장점","優勢","advantage",1284],["재료","材料","material",1285],["재미없다","不好笑，無趣","not funny, uninteresting",1286],["재미있다","有趣","interesting",1287],["재킷","夾克","jacket",1288],["저","那個","that",1289],["저거","那個","that",1290],["저것","那個","that",1291],["저곳","在那兒","over there",1292],["저기","那裡，那邊","there, over there",1293],["저녁","晚餐、晚上、晚上","dinner, evening, night",1294],["저녁식사","晚餐","dinner",1295],["저렇게","那樣，那樣","like that, in that way",1296],["저분","那個人","that person",1297],["저쪽","那裡，那邊","there, over there",1298],["저희","我們","we",1299],["적","敵人","enemy",1300],["적다","少，寫下來","be few, write down",1301],["전","所有，之前","all, before",1302],["전공","專業","major",1303],["전기자동차","電動車","electric car",1304],["전자사전","電子辭典","electronic dictionary",1305],["전하다","告訴","tell",1306],["전혀","完全沒有","not at all",1307],["전화","電話","telephone",1308],["전화기","電話","telephone",1309],["전화번호","電話號碼","phone number",1310],["절","~ 部分，寺廟","~ section(s), temple",1311],["절대","從不、絕對","never, absolutely",1312],["젊다","年輕","young",1313],["점","點","point",1314],["점수","分數、分數","score, point",1315],["점심","午餐","lunch",1316],["점심시간","午餐時間","lunchtime",1317],["점심식사","午餐","lunch",1318],["점원","職員","clerk",1319],["점퍼","夾克","jacket",1320],["젓가락","筷子","chopsticks",1321],["정거장","車站、車輛段","station, depot",1322],["정도","度數","degree",1323],["정류장","車站、公車站","station, bus stop",1324],["정리하다","理順，整理","straighten out, organize",1325],["정말","真的，真的","really, truly",1326],["정문","前門、正門","front door, main gate",1327],["정보","訊息","information",1328],["정하다","選擇、建立","choose, establish",1329],["제가","我","I",1330],["제목","標題","title",1331],["제일","大多數","most",1332],["제주도","濟州島","Jeju Island",1333],["조금","一點","a little",1334],["조사하다","調查","investigate",1335],["조선","韓國造船業","shipbuilding, Korea",1336],["조선말","韓語","Korean language",1337],["조선어","韓語","Korean language",1338],["조심하다","小心，警告","be careful, warn",1339],["조용하다","安靜、安靜","silent, quiet",1340],["조용히","安靜地","quietly",1341],["조카","姪子","nephew",1342],["졸업","畢業","graduation",1343],["졸업하다","畢業生","graduate",1344],["좀","一點","a little",1345],["좀더","再多一點","a little more",1346],["좁다","窄","narrow",1347],["종로","鐘路","Jong-ro",1348],["종류","種類、類型","kind, type",1349],["종업원","僱員","employee",1350],["종이","紙質","paper",1351],["종일","全天","all day",1352],["좋다","好","good",1353],["좋아하다","喜歡","like",1354],["죄송하다","抱歉","sorry",1355],["주","週","week",1356],["주다","給予","give",1357],["주로","主要","mainly",1358],["주말","週末","weekend",1359],["주머니","口袋、小袋","pocket, pouch",1360],["주무시다","睡眠、休息","sleep, rest",1361],["주문하다","訂單","order",1362],["주변","大約","around",1363],["주부","家庭主婦","housewife",1364],["주사","注射","injection",1365],["주소","地址","address",1366],["주스","果汁","juice",1367],["주위","大約","around",1368],["주인","所有者","owner",1369],["주차장","停車場","parking lot",1370],["주차하다","公園","park",1371],["주황색","橘色","orange color",1372],["죽","竹子、粥","bamboo, porridge",1373],["죽다","模具","die",1374],["준비","準備","preparation",1375],["준비하다","準備","prepare",1376],["줄","行、列、字串","line, column, string",1377],["줄다","收縮、減少","shrink, decrease",1378],["중","中等，期間","medium, during",1379],["중국","中國","China",1380],["중국어","中文","Chinese",1381],["중국집","中餐廳","Chinese restaurant",1382],["중식","中國菜","Chinese cuisine",1383],["중심","中心","center",1384],["중요","重要性","importance",1385],["중요하다","重要","important",1386],["중학교","國中、國中","middle school, Junior high school",1387],["중학생","中學生","middle school student",1388],["즐거워하다","玩得開心","have fun",1389],["즐겁다","有趣，愉快","fun, be pleasant",1390],["즐기다","享受，玩得開心","enjoy, have fun",1391],["증세","症狀、醫療狀況","symptom, medical condition",1392],["지각","遲到，遲到","tardy, being late",1393],["지갑","錢包","wallet",1394],["지금","現在","now",1395],["지나다","經過","pass by",1396],["지난달","上個月","last month",1397],["지난번","上次","last time",1398],["지난주","上週","last week",1399],["지내다","停留、消費、生活","stay, spend, live",1400],["지다","輸","lose",1401],["지도","地圖","map",1402],["지방","脂肪、區域","fat, region",1403],["지우개","橡皮擦","eraser",1404],["지키다","保護","protect",1405],["지하","地下","underground",1406],["지하도","地下通道","underpass",1407],["지하철","地鐵","subway",1408],["지하철역","地鐵站","subway station",1409],["직업","工作、職業","job, profession",1410],["직원","僱員、職員","employee, staff",1411],["직장","工作場所","workplace",1412],["직접","直接，直接","directly, direct",1413],["진달래","杜鵑花","azalea",1414],["질","質量","quality",1415],["질문","問題","question",1416],["질문하다","問一個問題","ask a question",1417],["짐","負載、行李","load, baggage",1418],["집","房屋、商店","house, shop",1419],["짓다","建置、創建","build, create",1420],["짜다","鹹，制定（計劃）","salty, make (the plan)",1421],["짜리","一個值（贏得的硬幣）","a value (won coin)",1422],["짧다","短","short",1423],["쪽","側面、頁面","side, page",1424],["쯤","大約、大約~","about, around ~",1425],["찌개","燉菜、湯","stew, soup",1426],["찍다","刺穿、拍攝（照片）、按下","pierce, take (a photo), press",1427],["차","茶；車；次","car, tea",1428],["차갑다","冷","cold",1429],["차다","滿；踢；冷","be full; kick; be cold",1430],["차리다","準備，安排","prepare, arrange",1431],["착하다","善良、友善","be good, friendly",1432],["참","真的，非常","really, very",1433],["창문","窗戶","window",1434],["찾다","尋找、訪問","find, visit",1435],["찾아가다","去參觀","go to visit",1436],["찾아오다","前來拜訪","come to visit",1437],["채소","蔬菜","vegetable",1438],["책","書","book",1439],["책방","書店","bookstore",1440],["책상","桌子","desk",1441],["책임","責任","responsibility",1442],["책장","書架","bookshelf",1443],["처음","第一次，第一次","first, for the first time",1444],["처음 뵙겠습니다","很高興認識你。","Nice to meet you.",1445],["천","1000","1000",1446],["천천히","慢慢地","slowly",1447],["철","鐵，季節","iron, season",1448],["첫","第一個","first",1449],["첫째","第一個","first",1450],["청바지","藍色牛仔褲","blue jeans",1451],["청소기","吸塵器","vacuum cleaner",1452],["청소하다","清掃、清潔","sweep, clean",1453],["초","~秒","~second(s)",1454],["초대하다","邀請","invite",1455],["초등학교","小學","elementary school",1456],["초등학생","小學生","elementary student",1457],["초록색","綠色","green color",1458],["초콜릿","巧克力","chocolate",1459],["촬영하다","拍照","take a picture",1460],["최고","最好的、最高的","best, the highest",1461],["추다","舞蹈","dance",1462],["추석","中秋節","Chusoku (Korean Thanksgiving Day)",1463],["추억","內存","memory",1464],["축구","足球，足球","football, soccer",1465],["축제","節日","festival",1466],["축하","慶祝","celebration",1467],["축하하다","慶祝","celebrate",1468],["축하합니다","恭喜","congratulations",1469],["출구","退出","exit",1470],["출근하다","去上班","go to work",1471],["출발","出發、出發","start, departure",1472],["출발하다","出發","depart",1473],["출장","商務旅行","business trip",1474],["춤","舞蹈","dance",1475],["춤추다","舞蹈","dance",1476],["춥다","冷","cold",1477],["취미","嗜好","hobby",1478],["취소하다","取消","cancel",1479],["취직하다","找工作","get a job",1480],["층","層，~ 地板","layer, ~ floor",1481],["치과","牙醫、牙科","dentist, dentistry",1482],["치료하다","治療","treat",1483],["치마","裙子","skirt",1484],["치약","牙膏","toothpaste",1485],["친구","朋友","friend",1486],["친절하다","友善","be kind",1487],["친척","相对","relative",1488],["친하다","親密、熟悉","close, familiar",1489],["칠","7","7",1490],["칠십","70","70",1491],["칠월","七月","July",1492],["칠판","黑板","blackboard",1493],["침대","床","bed",1494],["칫솔","牙刷","toothbrush",1495],["카드","卡","card",1496],["카레","咖哩","curry",1497],["카메라","相機","camera",1498],["카페","咖啡館、咖啡店","cafe, coffee shops",1499],["칼","刀、餐具、劍","knife, cutlery, swords",1500],["캐나다","加拿大","Canada",1501],["커피","咖啡","coffee",1502],["커피숍","咖啡廳","coffee shop",1503],["컴퓨터","電腦、個人電腦","computer, PC",1504],["컵","杯子","cup",1505],["케이크","蛋糕","cake",1506],["켜다","開啟（燈、電源等）","turn on (the light, the power, etc.)",1507],["코","鼻子","nose",1508],["코트","外套","coat",1509],["코피","流鼻血","nosebleed",1510],["콜라","可樂","Coke",1511],["콧노래","嗡嗡聲","humming",1512],["콧물","鼻涕、鼻涕","snot, nasal discharge",1513],["콩","豆類、大豆","bean, soy",1514],["크기","尺寸","size",1515],["크다","大，大","big, large",1516],["크리스마스","聖誕節","Christmas",1517],["큰아버지","叔叔","uncle",1518],["큰어머니","阿姨","aunt",1519],["키","鍵，高度","key, height",1520],["킬로그램","公斤","kilogram",1521],["킬로미터","公里","kilometer",1522],["타다","搭乘；燃燒","ride; burn",1523],["타월","毛巾","towel",1524],["탁구","乒乓球","table tennis",1525],["태국","泰國","Thailand",1526],["태권도","跆拳道","Taekwondo",1527],["태어나다","出生","be born",1528],["태풍","颱風","typhoon",1529],["택시","計程車","taxi",1530],["탤런트","藝人","entertainers",1531],["터미널","端子","terminal",1532],["테니스","網球","tennis",1533],["테이블","桌子","table",1534],["텔레비전","電視","TV",1535],["토마토","番茄","tomato",1536],["토요일","星期六","Saturday",1537],["통","桶，~ 包裝","barrel, ~ package(s)",1538],["통장","銀行存摺，（存款）存摺","bank book, (deposit) passbook",1539],["통하다","通過，領先","pass, lead",1540],["퇴근하다","離開辦公室","leave the office",1541],["특별히","特別是","especially",1542],["특징","特性、特徵","characteristic, feature",1543],["특히","特別是，特別是","especially, in particular",1544],["틀다","開啟；扭轉","turn on; twist",1545],["틀리다","錯誤","wrong",1546],["티셔츠","T 卹","t-shirt",1547],["팀","團隊","team",1548],["파","波浪，蔥","wave, green onion",1549],["파란색","藍色","blue color",1550],["파랗다","藍色","blue",1551],["파티","聚會","party",1552],["팔","8","8",1553],["팔다","賣出","sell",1554],["팔리다","出售，被出售","sell, be sold",1555],["팔십","80","80",1556],["팔월","八月","August",1557],["패션","時尚","fashion",1558],["퍼센트","百分比","percent",1559],["페이지","頁","page",1560],["펜","筆","pen",1561],["펴다","展開、拉伸","spread, stretch",1562],["편","篇；班次；一方","side, episode",1563],["편지","字母","letter",1564],["편하다","舒適、簡單、方便","comfortable, easy, convenient",1565],["평양","平壤","Pyongyang",1566],["평일","工作日","weekday",1567],["포도","葡萄","grape",1568],["포장","包裝","packing",1569],["표","桌子、票","table, ticket",1570],["표현","表達式","expression",1571],["푹","深深","deeply",1572],["풀","水池、草地","pool, grass",1573],["풀다","解開；解","untie; solve",1574],["프랑스","法國","France",1575],["프로그램","程序","program",1576],["프린트","列印","print",1577],["피","血液","blood",1578],["피곤하다","累了","tired",1579],["피다","開花；抽菸","bloom; smoke",1580],["피아노","鋼琴","piano",1581],["피우다","煙霧，綻放","smoke, bloom",1582],["피자","披薩","pizza",1583],["필름","膠片","film",1584],["필요","必要性","necessity",1585],["필요하다","需要","need",1586],["필통","鉛筆盒","pencil case",1587],["하나","1","1",1588],["하늘","天空","sky",1589],["하늘색","天藍色、淺藍色","sky blue, light blue",1590],["하다","做、說","do, say",1591],["하루","一天","one day",1592],["하숙","寄宿處、寄宿處","boarding house, lodging house",1593],["하숙집","寄宿處、寄宿處","boarding house, lodging house",1594],["하얀색","白色","white color",1595],["하얗다","白色","white",1596],["하지만","但是，但是","but, however",1597],["학","起重機","crane",1598],["학교","學校","school",1599],["학기","學期","semester",1600],["학년","年級、學年","grade, school year",1601],["학생","學生","student",1602],["학생증","學生證","student ID card",1603],["학원","學院、學校","academy, school",1604],["한","一、其中之一~","one, one of the ~",1605],["한강","漢江、漢江","Han River, Hangang",1606],["한국","韓國","Korea",1607],["한국드라마","韓劇","Korean drama",1608],["한국말","韓語","Korean language",1609],["한국사람","韓國人","Korean people",1610],["한국어","韓語","Korean language",1611],["한국요리","韓國料理","Korean cuisine",1612],["한글","韓文","Hangul",1613],["한번","一次","once",1614],["한복","韓服，韓國傳統服裝","Hanbok, Korean traditional clothes",1615],["한식","韓國料理","Korean cuisine",1616],["한자","漢字","Chinese character",1617],["할머니","祖母","grandmother",1618],["할아버지","祖父","grandfather",1619],["할인","促銷、折扣","sale, discount",1620],["함께","一起","together",1621],["합격","通過","pass",1622],["항상","始終","always",1623],["해","太陽；年；做","year, sun",1624],["해외","海外","overseas",1625],["해외여행","海外旅行","overseas trip",1626],["핸드폰","手機、行動電話","cell phone, mobile phone",1627],["햄버거","漢堡包","hamburger",1628],["햇빛","陽光，陽光","sunshine, sunlight",1629],["행복","幸福","happiness",1630],["행복하다","快樂","happy",1631],["행사","事件","event",1632],["허리","腰部、臀部","waist, hip",1633],["현금","現金","cash",1634],["현재","現在，當前","now, current",1635],["형","兄弟（從弟弟的角度來看）","brother (as seen from the younger brother)",1636],["형님","老大哥（尊稱形式）","big brother (honorific form)",1637],["형제","兄弟姊妹","sibling",1638],["호","號~","No. ~",1639],["호랑이","老虎","tiger",1640],["호주","澳大利亞","Australia",1641],["호텔","飯店","hotel",1642],["혼자","單獨","alone",1643],["홈페이지","首頁","home page",1644],["홍차","紅茶","black tea",1645],["화","憤怒","anger",1646],["화가","藝術家、畫家","artist, painter",1647],["화나다","生氣","angry",1648],["화내다","生氣","get angry",1649],["화요일","星期二","Tuesday",1650],["화장실","洗手間、衛浴、盥洗室","restroom, toilet, lavatory",1651],["화장품","化妝品","cosmetics",1652],["화장하다","化妝","makeup",1653],["확인하다","確認、檢查","confirm, check",1654],["환영하다","歡迎","welcome",1655],["환자","患者","patient",1656],["회사","公司","company",1657],["회사원","僱員","employee",1658],["회색","灰色","grey",1659],["회의","會議","conference",1660],["횡단보도","行人穿越道","crosswalk",1661],["후","之後","after",1662],["후배","初級","Junior",1663],["휴가","假期、假期","vacation, holiday",1664],["휴대전화","手機、行動電話","cell phone, mobile phone",1665],["휴일","假期","holiday",1666],["휴지","衛生紙","toilet paper",1667],["휴지통","垃圾桶","trash can",1668],["흐리다","陰天；模糊","cloudy; blur",1669],["흰색","白色","white color",1670],["힘","力量","power",1671]];
+  </script>
+  <script>
+  window.TOPIK_GRAMMAR_DATA=[["이/가","主格助詞","이름이 뭐예요?","名字是什麼？",1],["은/는","主題助詞","선생님은 지금 안 계세요.","老師現在不在。",2],["을/를","受格助詞","책을 읽어요.","我在看書。",3],["와/과","和（書面）","토미 씨와 친구예요.","我和 Tomi 是朋友。",4],["(이)랑","和（口語）","설렁탕이랑 김밥 주세요.","請給我首爾湯和海苔包飯。",5],["(이)랑","和⋯一起（口語）","친구랑 같이 왔어요.","我和朋友一起來的。",6],["하고","和（口語）","양념 치킨하고 맥주 주세요.","請給我養雞和啤酒。",7],["도","也","내일도 오늘도 비가 와요.","今天和明天也都會下雨。",8],["에","到／在（時間、目的地）","남대문 시장에 가고 싶어요.","我想去南大門市場。",9],["에서","從／在（動作地點）","공항에서 지하철 타고 왔어요.","我從機場搭地鐵過來。",10],["까지","到⋯為止","강남까지 가고 싶어요.","我想去江南。",11],["부터","從⋯開始","지하철은 아침 5시부터 운영해요.","地鐵從早上 5 點開始運行。",12],["(으)로","往／用／以","저는 학교로 가는 길이에요.","我正在去學校的路上。",13],["께","給（敬語）","부모님께 드리고 싶어요.","我想把它送給我的父母。",14],["께서","主格助詞（敬語）","할머니께서 부탁하셨어요.","奶奶拜託了我一件事。",15],["에게","給／對","우리 엄마에게 주고 싶어요.","我想把它送給我媽媽。",16],["에게서","從某人","호텔 직원에게서 받았어요.","我從飯店工作人員那裡得到的。",17],["한테","給／對（口語）","백화점 안내원한테 물어보세요.","請向百貨公司接待員詢問。",18],["한테서","從某人（口語）","이거는 친구한테서 선물로 받은 거예요.","這是我朋友送給我的禮物。",19],["(이)나","或者","버스나 지하철 타고 갈게요.","我會搭乘公車或地鐵。",20],["(이)나","姑且／就⋯吧","밥이나 먹으러 가고 싶어요.","我寧願去吃飯。",21],["(이)나","竟然／多達","쇼핑하는데 열 시간이나 걸렸어요.","購物花了十個小時。",22],["만","只有","지금 5000원만 있어요.","現在只有五千韓元。",23],["의","所有格","내 친구의 그림은 아주 멋져요.","我朋友的畫太棒了。",24],["마다","每次／每個","한국에 올 때마다 이 가게를 찾아요.","每次來韓國都會去這家店。",25],["밖에","只有（接否定）","시간이 한 시간밖에 없어요.","只剩一個小時。",26],["보다","比","이것보다 이게 더 어울려요.","這比這更好。",27],["처럼","像⋯一樣","배우처럼 생기셨네요.","你看起來像個演員。",28],["(으)ㄴ 것 같다","好像⋯（現在推測）","택시 비용이 좀 비싼 것 같아요.","我覺得計程車的價格有點貴。",29],["(으)ㄹ 것 같다","好像會⋯（未來推測）","이 화장품은 인기가 많을 것 같아요.","我猜這個化妝品會很受歡迎。",30],["(으)ㄴ 적이 있다","有過⋯的經驗","이 가게에 와 본 적이 있어요.","我去過這家店。",31],["(으)ㄴ 적이 없다","沒有⋯的經驗","저는 한국에 가본 적이 없어요.","我沒去過韓國。",32],["(으)ㄴ 지","做⋯之後多久","이 가게가 생긴 지 얼마나 됐어요?","這家店開業多久了？",33],["(으)ㄴ 지","自從⋯以來","한국에 온 지 3일이 지났습니다.","來韓國已經三天了。",34],["(으)ㄴ 후에","在⋯之後","쇼핑한 후에 밥 먹었습니다.","我購物後吃飯。",35],["(으)ㄴ데(요)","雖然／補充背景","역에서 좀 먼데요,","雖然離車站有點遠，",36],["(으)ㄴ데(요)","但是／委婉鋪墊","죄송한데요, 길 좀 알려줄 수 있어요?","打擾一下，你能告訴我怎麼走嗎？",37],["(으)니까","因為／既然","달러 밖에 없으니까 환전해야 돼요.","我需要兌換貨幣，因為我只有美元。",38],["(으)ㄹ 것이다","將會⋯","여기 식당은 맛있을 거예요.","這裡的餐廳會很美味。",39],["(으)ㄹ 때","當⋯的時候","내가 버스타고 있었을 때 잃어버렸어요.","我在公車上遺失的。",40],["(으)ㄹ 수 있다","能夠","저는 한국말 조금 할 수 있어요.","我會說一點韓文。",41],["(으)ㄹ 수 없다","不能夠","여기서는 사진을 찍을 수 없어요.","這裡不能拍照。",42],["(으)ㄹ게요","我會⋯","제가 할게요.","我來做。",43],["(으)ㄹ까 하다","正考慮⋯","명동에 갈까 해요.","我想去明洞。",44],["(으)ㄹ까 봐","擔心會⋯","여행가는데 현금이 모자랄까봐 걱정했어요.","我擔心沒有足夠的現金來旅行。",45],["(으)ㄹ까요?","一起⋯好嗎？","여기서 걸어갈까요?","我們從這裡走過去好嗎？",46],["(으)ㄹ래요","我想要⋯","저는 이걸로 할래요.","我會選這個。",47],["(으)ㄹ래요?","你想要⋯嗎？","이걸로 계산하실래요?","您想用這個付款嗎？",48],["(으)러 가다","去做⋯","한국에 관광하러 갈 거예요.","我要去韓國旅遊。",49],["(으)러 오다","來做⋯","여기에 예약하러 왔어요.","我來這裡是為了預訂。",50],["(으)려고","打算⋯","한국말을 공부하려고 해요.","我要學韓文。",51],["(으)려고요","是打算⋯","아이돌 콘서트에 가려고요.","我要去聽歌手的演唱會。",52],["(으)면","如果⋯","부산에 가면 뭘 볼 수 있을까요?","如果去釜山，可以看什麼？",53],["(으)면서","一邊⋯一邊","핸드폰을 보면서 걷지 마세요.","不要一邊看手機一邊走路。",54],["(으)ㅂ시다","一起⋯吧","순두부를 주문해 봅시다.","我們點Sundubu吧。",55],["(으)세요","請⋯","삼겹살 2인분 주세요.","請給我們兩份五花肉。",56],["(으)십시오","請⋯（正式）","또 놀러 오십시오.","請再次訪問我們。",57],["(이)지요?","對吧？／不是嗎？","카드로 계산 되지요?","我可以用信用卡支付，對吧？",58],["거나","或者⋯","시장에 가거나 카페에 가고 싶어요.","我想去市場或咖啡館。",59],["게","使⋯地","싸게 해 주세요.","請把價格便宜一點。",60],["게 되다","變成／結果開始","한국에 오게 됐어요.","我碰巧來韓國。",61],["고","⋯然後⋯","밥 먹고 자요.","我會吃飯和睡覺。",62],["고 싶다","想要⋯","약국에 가고 싶어요.","我想去藥局。",63],["고 있다","正在⋯","지금 무슨 말 할까 생각하고 있어요.","我正在想現在該說什麼。",64],["군요","原來如此／感嘆","병원에 가려면 여기 쭉 가면 되는군요.","我可以直接走這條路去醫院吧？",65],["기 때문에","因為⋯","너무 많이 걸었기 때문에 다리가 아파요.","我的腿因為走路太多而疼痛。",66],["기 전에","在⋯之前","결제하기 전에 확인하고 싶은 게 있는데요.","我想在付款前檢查一些內容。",67],["기로 하다","決定⋯","오늘은 쇼핑하기로 했어요.","我決定今天要去購物。",68],["네요","原來／感嘆","그럼 다 합쳐서 4000원이네요.","那麼總共是4000韓元吧？",69],["는 게 좋겠다","最好⋯","시간이 없으니까 빨리 가는 게 좋겠어요.","最好快點，因為我們沒有太多時間。",70],["는데","表背景／過程","입국심사하는데 별로 많이 안 기다렸어요.","我沒等多久就移民了。",71],["ㅂ/습니까?","正式疑問句尾","언제 한국에 갑니까?","你什麼時候去韓國？",72],["ㅂ/습니다","正式陳述句尾","내일 한국에 갑니다.","我明天去韓國。",73],["아/어/여 보다","試著⋯","이것도 시식해 보세요.","這個也請試吃看看。",74],["아/어/여 주다","為某人做⋯","알려줘서 고마워요.","謝謝你告訴我。",75],["아/어/여야 되다","必須⋯","한국어를 공부해야 돼요.","必須學韓文。",76],["아/어/여야 하다","必須⋯","차 타고 가야 해요.","我需要騎車。",77],["아/어요","日常敬語句尾","좋아요.","很好。",78],["았/었/였으면 좋겠다","希望⋯","빨리 배달 왔으면 좋겠어요.","我希望交貨快點到達。",79],["지 말다","不要⋯","담배 피우지 마세요.","請不要抽菸。",80],["지 못하다","無法⋯","도와주지 못 해서 죄송해요.","很抱歉我幫不了什麼忙。",81],["지 않다","不⋯","지하철 타지 않고 걸어갈게요.","我不會搭地鐵，而是步行。",82],["지만","但是⋯","오래 전에 주문했지만 요리가 아직 안 왔어요.","我們之前已經點了菜，但還沒到。",83],["이/가 아니다","不是⋯","제 물건이 아니에요.","那不是我的東西。",84]];
+  </script>
+  <script>
+  window.LIFE_PHRASES_DATA = [
+  ["됐다 / 됐어요", "搞定了／成功了", "됐어요"],
+  ["아, 진짜요?", "喔，真的嗎？", "아, 진짜요?"],
+  ["잠깐만요!", "等一下！", "잠깐만요!"],
+  ["다행이에요.", "太好了，幸好沒事。", "다행이에요."],
+  ["맞다. 깜빡했어요.", "對喔，我忘了。", "맞다. 깜빡했어요."],
+  ["어떻게 했어요?", "你怎麼做到的？", "어떻게 했어요?"],
+  ["깎아 주세요.", "請算便宜一點。", "깎아 주세요."],
+  ["제가 해 볼게요.", "讓我試試看。", "제가 해 볼게요."],
+  ["큰일 났어요.", "糟了／出大事了。", "큰일 났어요."],
+  ["말도 안 돼요.", "怎麼可能／太扯了。", "말도 안 돼요."],
+  ["오랜만이에요.", "好久不見。", "오랜만이에요."],
+  ["그게 그거죠.", "都一樣啊。", "그게 그거죠."],
+  ["어쩔 수 없죠.", "也沒辦法。", "어쩔 수 없죠."],
+  ["소름 돋았어요.", "我起雞皮疙瘩了。", "소름 돋았어요."],
+  ["재밌겠어요.", "聽起來很好玩。", "재밌겠어요."],
+  ["알겠어요.", "我知道了／懂了。", "알겠어요."],
+  ["깜짝이야!", "嚇我一跳！", "깜짝이야!"],
+  ["어이가 없네요.", "太荒唐了／讓人無言。", "어이가 없네요."],
+  ["왜 안 되지?", "怎麼不行呢？", "왜 안 되지?"],
+  ["당연하죠!", "當然！", "당연하죠!"],
+  ["집에 가고 싶어요.", "我想回家。", "집에 가고 싶어요."],
+  ["농담이에요.", "開玩笑的。", "농담이에요."],
+  ["에이, 설마요.", "不會吧。", "에이, 설마요."],
+  ["거 봐요.", "你看吧／我就說吧。", "거 봐요."],
+  ["어떻게든 되겠죠.", "總會有辦法的。", "어떻게든 되겠죠."],
+  ["원래 그래요.", "本來就是這樣。", "원래 그래요."],
+  ["나쁘지 않아요.", "還不錯。", "나쁘지 않아요."],
+  ["뭐 먹지?", "要吃什麼呢？", "뭐 먹지?"],
+  ["그럴 리가 없는데.", "不可能啊。", "그럴 리가 없는데."],
+  ["어쩐지.", "難怪。", "어쩐지."],
+  ["짜잔!", "登登！", "짜잔!"],
+  ["대박!", "太厲害了！", "대박!"],
+  ["이게 뭐예요?", "這是什麼？", "이게 뭐예요?"],
+  ["잘됐어요.", "太好了／那真不錯。", "잘됐어요."],
+  ["그러게요.", "對啊／就是說啊。", "그러게요."],
+  ["무슨 소리예요?", "你在說什麼？", "무슨 소리예요?"],
+  ["제발요.", "拜託。", "제발요."],
+  ["가 볼게요.", "那我先走了。", "가 볼게요."],
+  ["어떻게 됐어요?", "結果怎麼樣？", "어떻게 됐어요?"],
+  ["다음 날", "隔天／第二天", "다음 날"],
+  ["맛있겠어요.", "看起來很好吃。", "맛있겠어요."],
+  ["조심하세요.", "請小心。", "조심하세요."],
+  ["졸려요.", "我好睏。", "졸려요."],
+  ["누가 그래요?", "誰這麼說？", "누가 그래요?"],
+  ["얼마예요?", "多少錢？", "얼마예요?"],
+  ["괜찮아요?", "你還好嗎？", "괜찮아요?"],
+  ["빨리요!", "快點！", "빨리요!"],
+  ["드디어.", "終於。", "드디어."],
+  ["이거 봐 봐요.", "你看這個。", "이거 봐 봐요."],
+  ["그렇구나.", "原來如此。", "그렇구나."],
+  ["그럴 수 있죠.", "這也是有可能的／可以理解。", "그럴 수 있죠."],
+  ["굳이요?", "有必要嗎？", "굳이요?"],
+  ["화이팅!", "加油！", "화이팅!"],
+  ["미치겠네요.", "快瘋了。", "미치겠네요."],
+  ["맞아요.", "沒錯。", "맞아요."],
+  ["큰일 날 뻔했어요.", "差點出大事了。", "큰일 날 뻔했어요."],
+  ["제가 알아서 할게요.", "我會自己處理。", "제가 알아서 할게요."],
+  ["저도요.", "我也是。", "저도요."],
+  ["못 하겠어요.", "我做不到。", "못 하겠어요."],
+  ["뭐 드실래요?", "您想吃什麼？", "뭐 드실래요?"],
+  ["어떻게 알았어요?", "你怎麼知道？", "어떻게 알았어요?"],
+  ["박수!", "鼓掌！", "박수!"],
+  ["안녕하세요.", "你好。", "안녕하세요."],
+  ["왜요?", "為什麼？", "왜요?"],
+  ["죄송합니다.", "對不起。", "죄송합니다."],
+  ["감사합니다.", "謝謝。", "감사합니다."],
+  ["배고파요.", "我餓了。", "배고파요."],
+  ["배불러요.", "我飽了。", "배불러요."],
+  ["뭐라고요?", "你說什麼？", "뭐라고요?"],
+  ["미쳤어요?", "你瘋了嗎？", "미쳤어요?"],
+  ["여기요.", "這裡／給你。", "여기요."],
+  ["저도 알아요.", "我也知道。", "저도 알아요."],
+  ["저기요.", "不好意思／請問。", "저기요."],
+  ["또 봐요.", "再見／下次見。", "또 봐요."],
+  ["아마도요.", "也許吧。", "아마도요."],
+  ["글쎄요.", "這個嘛／讓我想想。", "글쎄요."],
+  ["아직이요.", "還沒。", "아직이요."],
+  ["벌써요?", "已經？", "벌써요?"],
+  ["뭐 해요?", "在做什麼？", "뭐 해요?"],
+  ["왜 그래요?", "怎麼了？", "왜 그래요?"],
+  ["진정하세요.", "請冷靜一點。", "진정하세요."],
+  ["끝!", "結束！", "끝!"],
+  ["축하해요.", "恭喜。", "축하해요."],
+  ["좋아요.", "好啊。", "좋아요."],
+  ["보고 싶어요.", "我想你。", "보고 싶어요."],
+  ["저도 몰라요.", "我也不知道。", "저도 몰라요."],
+  ["잘 지냈어요?", "最近過得好嗎？", "잘 지냈어요?"],
+  ["아파요.", "我痛／不舒服。", "아파요."],
+  ["피곤해요.", "我累了。", "피곤해요."],
+  ["잘 자요.", "晚安。", "잘 자요."],
+  ["확실해요?", "你確定嗎？", "확실해요?"],
+  ["말해 봐요.", "說說看。", "말해 봐요."],
+  ["기억 안 나요.", "我不記得。", "기억 안 나요."],
+  ["아무것도 아니에요.", "沒什麼。", "아무것도 아니에요."],
+  ["할 말이 있어요.", "我有話要說。", "할 말이 있어요."],
+  ["하지 마세요.", "不要這樣／請別做。", "하지 마세요."],
+  ["신경 쓰지 마세요.", "別放在心上。", "신경 쓰지 마세요."],
+  ["조용히 하세요.", "請安靜。", "조용히 하세요."],
+  ["들어오세요.", "請進。", "들어오세요."],
+  ["앉으세요.", "請坐。", "앉으세요."],
+  ["일어나세요.", "請起來。", "일어나세요."],
+  ["힘내세요.", "撐住／加油。", "힘내세요."]
+];
+  </script>
+  <script>
+    (() => {
+      "use strict";
+
+      const STORE_KEY = "hangeoreum-progress-v2";
+      const TODAY_GOAL = 10;
+
+      const SYLLABLES = [
+        { s: "가", r: "ga", parts: ["ㄱ", "ㅏ"], sound: "가" },
+        { s: "너", r: "neo", parts: ["ㄴ", "ㅓ"], sound: "너" },
+        { s: "도", r: "do", parts: ["ㄷ", "ㅗ"], sound: "도" },
+        { s: "무", r: "mu", parts: ["ㅁ", "ㅜ"], sound: "무" },
+        { s: "보", r: "bo", parts: ["ㅂ", "ㅗ"], sound: "보" },
+        { s: "서", r: "seo", parts: ["ㅅ", "ㅓ"], sound: "서" },
+        { s: "지", r: "ji", parts: ["ㅈ", "ㅣ"], sound: "지" },
+        { s: "추", r: "chu", parts: ["ㅊ", "ㅜ"], sound: "추" },
+        { s: "코", r: "ko", parts: ["ㅋ", "ㅗ"], sound: "코" },
+        { s: "해", r: "hae", parts: ["ㅎ", "ㅐ"], sound: "해" },
+        { s: "워", r: "wo", parts: ["ㅇ", "ㅝ"], sound: "워" },
+        { s: "귀", r: "gwi", parts: ["ㄱ", "ㅟ"], sound: "귀" },
+        { s: "한", r: "han", parts: ["ㅎ", "ㅏ", "ㄴ"], sound: "한" },
+        { s: "물", r: "mul", parts: ["ㅁ", "ㅜ", "ㄹ"], sound: "물" },
+        { s: "집", r: "jip", parts: ["ㅈ", "ㅣ", "ㅂ"], sound: "집" },
+        { s: "밥", r: "bap", parts: ["ㅂ", "ㅏ", "ㅂ"], sound: "밥" },
+        { s: "국", r: "guk", parts: ["ㄱ", "ㅜ", "ㄱ"], sound: "국" },
+        { s: "눈", r: "nun", parts: ["ㄴ", "ㅜ", "ㄴ"], sound: "눈" },
+        { s: "말", r: "mal", parts: ["ㅁ", "ㅏ", "ㄹ"], sound: "말" },
+        { s: "방", r: "bang", parts: ["ㅂ", "ㅏ", "ㅇ"], sound: "방" }
+      ];
+
+      const WORDS = [
+        { k: "안녕하세요", r: "annyeonghaseyo", z: "你好", c: "生存韓文" },
+        { k: "감사합니다", r: "gamsahamnida", z: "謝謝", c: "生存韓文" },
+        { k: "죄송합니다", r: "joesonghamnida", z: "對不起", c: "生存韓文" },
+        { k: "괜찮아요", r: "gwaenchanayo", z: "沒關係", c: "生存韓文" },
+        { k: "주세요", r: "juseyo", z: "請給我", c: "生存韓文" },
+        { k: "얼마예요?", r: "eolmayeyo", z: "多少錢？", c: "生存韓文" },
+        { k: "네", r: "ne", z: "是／好", c: "生存韓文" },
+        { k: "아니요", r: "aniyo", z: "不是／不用", c: "生存韓文" },
+        { k: "저", r: "jeo", z: "我（禮貌）", c: "人物" },
+        { k: "친구", r: "chingu", z: "朋友", c: "人物" },
+        { k: "선생님", r: "seonsaengnim", z: "老師", c: "人物" },
+        { k: "사람", r: "saram", z: "人", c: "人物" },
+        { k: "물", r: "mul", z: "水", c: "飲食" },
+        { k: "밥", r: "bap", z: "飯", c: "飲食" },
+        { k: "커피", r: "keopi", z: "咖啡", c: "飲食" },
+        { k: "김치", r: "gimchi", z: "泡菜", c: "飲食" },
+        { k: "빵", r: "ppang", z: "麵包", c: "飲食" },
+        { k: "맛있어요", r: "masisseoyo", z: "好吃", c: "飲食" },
+        { k: "집", r: "jip", z: "家", c: "場所" },
+        { k: "학교", r: "hakgyo", z: "學校", c: "場所" },
+        { k: "화장실", r: "hwajangsil", z: "洗手間", c: "場所" },
+        { k: "카페", r: "kape", z: "咖啡廳", c: "場所" },
+        { k: "가요", r: "gayo", z: "去", c: "動作" },
+        { k: "와요", r: "wayo", z: "來", c: "動作" },
+        { k: "먹어요", r: "meogeoyo", z: "吃", c: "動作" },
+        { k: "마셔요", r: "masyeoyo", z: "喝", c: "動作" },
+        { k: "좋아해요", r: "joahaeyo", z: "喜歡", c: "動作" },
+        { k: "공부해요", r: "gongbuhaeyo", z: "學習", c: "動作" },
+        { k: "오늘", r: "oneul", z: "今天", c: "時間" },
+        { k: "내일", r: "naeil", z: "明天", c: "時間" },
+        { k: "지금", r: "jigeum", z: "現在", c: "時間" },
+        { k: "주말", r: "jumal", z: "週末", c: "時間" }
+      ];
+
+      const ALPHABET_GROUPS = [
+        {
+          title: "先看方向",
+          note: "這四個最適合放在一起比較。",
+          items: [
+            ["ㅏ", "a · 아", "短線向右", "아"],
+            ["ㅓ", "eo · 어", "短線向左", "어"],
+            ["ㅗ", "o · 오", "短線在上", "오"],
+            ["ㅜ", "u · 우", "短線在下", "우"]
+          ]
+        },
+        {
+          title: "一條／兩條短線",
+          note: "兩條短線通常多一個 y 音。",
+          items: [
+            ["ㅑ", "ya · 야", "向右兩條", "야"],
+            ["ㅕ", "yeo · 여", "向左兩條", "여"],
+            ["ㅛ", "yo · 요", "上面兩條", "요"],
+            ["ㅠ", "yu · 유", "下面兩條", "유"]
+          ]
+        },
+        {
+          title: "基本骨架",
+          note: "從外形記：角、方框、山和圓。",
+          items: [
+            ["ㄱ", "g/k · 가", "像一個直角", "가"],
+            ["ㄴ", "n · 나", "反方向的角", "나"],
+            ["ㅁ", "m · 마", "完整方框", "마"],
+            ["ㅅ", "s · 사", "像一座山", "사"],
+            ["ㅇ", "無聲/ng · 아", "一個圓圈", "아"],
+            ["ㄹ", "r/l · 라", "像小階梯", "라"],
+            ["ㅂ", "b/p · 바", "方框中間兩線", "바"],
+            ["ㅎ", "h · 하", "上橫、圓、下橫", "하"]
+          ]
+        },
+        {
+          title: "多一筆＝多一口氣",
+          note: "把基本音和送氣音成對看。",
+          items: [
+            ["ㄱ / ㅋ", "g/k · k", "ㅋ 多一短線", "가 카"],
+            ["ㄷ / ㅌ", "d/t · t", "ㅌ 多一橫線", "다 타"],
+            ["ㅂ / ㅍ", "b/p · p", "ㅍ 像小梯子", "바 파"],
+            ["ㅈ / ㅊ", "j · ch", "ㅊ 上面多一筆", "자 차"]
+          ]
+        },
+        {
+          title: "剩下的母音",
+          note: "先會認形即可；讀音可在單字裡慢慢熟悉。",
+          items: [
+            ["ㅡ", "eu · 으", "一條橫線", "으"],
+            ["ㅣ", "i · 이", "一條直線", "이"],
+            ["ㅐ", "ae · 애", "從 ㅏ 延伸", "애"],
+            ["ㅔ", "e · 에", "從 ㅓ 延伸", "에"]
+          ]
+        }
+      ];
+
+      const defaultState = () => ({
+        date: localDateKey(),
+        today: 0,
+        correct: 0,
+        total: 0,
+        weak: {},
+        rate: .78
+      });
+
+      let state = loadState();
+      let currentMode = "syllable";
+      let currentQuestion = null;
+      let locked = false;
+      let currentCategory = "核心";
+      let wordPage = 1;
+      let topikTopic = "";
+      let grammarScope = "core";
+      let grammarCategory = "all";
+      let grammarPage = 1;
+      let koVoice = null;
+      const WORDS_PER_PAGE = 24;
+      const GRAMMAR_PER_PAGE = 10;
+      const TOPIK_TOPICS = [
+        ["all", "完整詞庫"],
+        ["basic", "基本表達"],
+        ["people", "人物・家庭"],
+        ["food", "飲食・購物"],
+        ["numbers", "數字 1–100"],
+        ["time", "時間・日期"],
+        ["place", "地點・交通"],
+        ["school", "學校・工作"],
+        ["leisure", "休閒・文化"],
+        ["health", "身體・健康"],
+        ["home", "居家・日常"],
+        ["nature", "自然・天氣"],
+        ["abstract", "情緒・想法"],
+        ["action", "動作・描述"],
+        ["other", "其他常用詞"]
+      ];
+      const NUMBER_VALUES = {
+        "영": "0（漢字數）", "공": "0（漢字數）",
+        "일": "1（漢字數）", "이": "2（漢字數）", "삼": "3（漢字數）",
+        "사": "4（漢字數）", "오": "5（漢字數）", "육": "6（漢字數）",
+        "칠": "7（漢字數）", "팔": "8（漢字數）", "구": "9（漢字數）",
+        "십": "10（漢字數）", "이십": "20（漢字數）", "삼십": "30（漢字數）",
+        "사십": "40（漢字數）", "오십": "50（漢字數）", "육십": "60（漢字數）",
+        "칠십": "70（漢字數）", "팔십": "80（漢字數）", "구십": "90（漢字數）",
+        "백": "100（漢字數）",
+        "하나": "1（固有數）", "둘": "2（固有數）", "셋": "3（固有數）",
+        "넷": "4（固有數）", "다섯": "5（固有數）", "여섯": "6（固有數）",
+        "일곱": "7（固有數）", "여덟": "8（固有數）", "아홉": "9（固有數）",
+        "열": "10（固有數）", "스물": "20（固有數）", "서른": "30（固有數）",
+        "마흔": "40（固有數）", "쉰": "50（固有數）", "예순": "60（固有數）",
+        "일흔": "70（固有數）", "여든": "80（固有數）", "아흔": "90（固有數）"
+      };
+      const SENTENCE_GLOSSES = {
+        "양념": "調味", "남대문": "南大門", "있어요": "有／在", "와": "來／和",
+        "지": "經過／以來", "수": "能夠／方法", "해요": "做", "아이돌": "偶像",
+        "삼겹살": "五花肉", "계산": "結帳／計算", "쭉": "一直", "게": "東西／事情",
+        "좋아요": "好", "못": "不能", "제": "我的（謙稱）",
+        "이름이": "名字＋主格", "뭐예요": "什麼＋是", "선생님은": "老師＋主題",
+        "계세요": "在（敬語）", "책을": "書＋受格", "읽어요": "讀",
+        "토미": "Tomi（人名）", "씨와": "先生／小姐＋和", "친구예요": "朋友＋是",
+        "설렁탕이랑": "雪濃湯＋和", "주세요": "請給我", "친구랑": "朋友＋和",
+        "왔어요": "來了", "치킨하고": "炸雞＋和", "내일도": "明天＋也",
+        "오늘도": "今天＋也", "비가": "雨＋主格", "와요": "來／下（雨）",
+        "시장에": "市場＋到", "가고": "去＋連接", "싶어요": "想要",
+        "공항에서": "機場＋從", "타고": "搭乘＋然後", "강남까지": "江南＋到",
+        "지하철은": "地鐵＋主題", "5시부터": "五點＋從", "운영해요": "營運",
+        "저는": "我＋主題", "학교로": "學校＋往", "가는": "去的",
+        "길이에요": "路上＋是", "부모님께": "父母＋給（敬語）", "드리고": "給（敬語）＋連接",
+        "할머니께서": "奶奶＋主格（敬語）", "부탁하셨어요": "拜託了（敬語）",
+        "엄마에게": "媽媽＋給", "주고": "給＋連接", "직원에게서": "員工＋從",
+        "받았어요": "收到了", "안내원한테": "服務人員＋向（口語）", "물어보세요": "請詢問",
+        "이거는": "這個＋主題", "친구한테서": "朋友＋從", "선물로": "禮物＋作為",
+        "받은": "收到的", "거예요": "是／會是", "버스나": "公車＋或",
+        "갈게요": "我會去", "밥이나": "飯＋就／或", "먹으러": "為了吃",
+        "쇼핑하는데": "購物時／不過", "시간이나": "時間＋竟然", "걸렸어요": "花了（時間）",
+        "5000원만": "只五千韓元", "친구의": "朋友＋的", "그림은": "圖畫＋主題",
+        "멋져요": "很棒／很帥", "한국에": "韓國＋到", "올": "要來的",
+        "때마다": "每當", "가게를": "商店＋受格", "찾아요": "尋找／造訪",
+        "시간이": "時間＋主格", "시간밖에": "只有時間", "없어요": "沒有",
+        "이것보다": "比這個", "이게": "這個＋主格", "어울려요": "適合",
+        "배우처럼": "像演員", "생기셨네요": "長得…（敬語感嘆）",
+        "비용이": "費用＋主格", "비싼": "貴的", "같아요": "好像",
+        "화장품은": "化妝品＋主題", "인기가": "人氣＋主格", "많을": "多的／可能多",
+        "본": "試過／看過", "적이": "經驗＋主格", "가본": "去過的",
+        "가게가": "商店＋主格", "생긴": "開設的／產生的", "얼마나": "多久／多麼",
+        "됐어요": "變成了／已經", "온": "來了的", "3일이": "三天＋主格",
+        "지났습니다": "過去了（正式）", "쇼핑한": "購物的／購物後", "후에": "之後",
+        "먹었습니다": "吃了（正式）", "역에서": "車站＋在／離", "먼데요": "很遠，不過…",
+        "죄송한데요": "不好意思，不過…", "알려줄": "告訴／指路", "없으니까": "因為沒有",
+        "환전해야": "必須換錢", "돼요": "得／可以", "식당은": "餐廳＋主題",
+        "맛있을": "會好吃的", "내가": "我＋主格", "버스타고": "搭公車",
+        "있었을": "曾在／當時在", "잃어버렸어요": "弄丟了", "할": "要做／能做",
+        "여기서는": "在這裡＋主題", "사진을": "照片＋受格", "찍을": "拍的／能拍",
+        "제가": "我＋主格（謙稱）", "할게요": "我來做", "명동에": "明洞＋到",
+        "갈까": "要不要去／考慮去", "여행가는데": "旅行時／不過",
+        "현금이": "現金＋主格", "모자랄까봐": "擔心不夠", "걱정했어요": "擔心了",
+        "여기서": "從這裡／在這裡", "걸어갈까요": "要走過去嗎", "이걸로": "用這個",
+        "할래요": "我想選／做", "계산하실래요": "要結帳嗎（敬語）",
+        "관광하러": "為了觀光", "갈": "要去的", "여기에": "到這裡",
+        "예약하러": "為了預約", "공부하려고": "打算學習", "콘서트에": "到演唱會",
+        "가려고요": "打算去", "부산에": "到釜山", "가면": "如果去",
+        "뭘": "什麼＋受格", "볼": "看／能看", "있을까요": "能夠嗎／會有嗎",
+        "핸드폰을": "手機＋受格", "보면서": "一邊看", "걷지": "走路＋否定",
+        "마세요": "請不要", "순두부를": "嫩豆腐＋受格", "주문해": "點餐／下單",
+        "봅시다": "一起試試", "2인분": "兩人份", "놀러": "為了玩",
+        "오십시오": "請來（正式）", "카드로": "用卡片", "되지요": "可以吧／會吧",
+        "가거나": "去或", "카페에": "到咖啡廳", "싸게": "便宜地",
+        "오게": "變得來／來", "먹고": "吃了再", "자요": "睡覺",
+        "약국에": "到藥局", "할까": "要做什麼呢", "생각하고": "正在想",
+        "병원에": "到醫院", "가려면": "如果要去", "되는군요": "原來可以",
+        "걸었기": "走路這件事", "때문에": "因為", "다리가": "腿＋主格",
+        "아파요": "痛", "결제하기": "付款這件事", "전에": "之前",
+        "확인하고": "確認並…", "싶은": "想要的", "있는데요": "有，不過…",
+        "오늘은": "今天＋主題", "쇼핑하기로": "決定購物", "했어요": "做了／決定了",
+        "합쳐서": "合起來", "4000원이네요": "原來是四千韓元",
+        "좋겠어요": "最好／會好", "입국심사하는데": "入境審查時",
+        "기다렸어요": "等了", "갑니까": "去嗎（正式）", "갑니다": "去（正式）",
+        "이것도": "這個＋也", "시식해": "試吃", "보세요": "請試試",
+        "알려줘서": "因為告訴我", "고마워요": "謝謝", "한국어를": "韓語＋受格",
+        "공부해야": "必須學習", "가야": "必須去", "왔으면": "如果來了／希望來",
+        "피우지": "抽菸＋否定", "도와주지": "幫忙＋無法", "해서": "因為做",
+        "죄송해요": "對不起", "타지": "搭乘＋不", "않고": "不做而…",
+        "걸어갈게요": "我會走去", "주문했지만": "雖然點了",
+        "요리가": "料理＋主格", "물건이": "物品＋主格", "아니에요": "不是"
+      };
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+      function localDateKey() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+
+      function loadState() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(STORE_KEY));
+          const merged = { ...defaultState(), ...(parsed || {}) };
+          if (merged.date !== localDateKey()) {
+            merged.date = localDateKey();
+            merged.today = 0;
+            merged.correct = 0;
+          }
+          return merged;
+        } catch {
+          return defaultState();
+        }
+      }
+
+      function saveState() {
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      }
+
+      function shuffle(items) {
+        const copy = [...items];
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      function sample(items) {
+        return items[Math.floor(Math.random() * items.length)];
+      }
+
+      function showView(name) {
+        $$(".view").forEach((view) => {
+          view.classList.toggle("active", view.dataset.view === name);
+        });
+        $$(".nav-btn").forEach((button) => {
+          const active = button.dataset.target === name;
+          button.classList.toggle("active", active);
+          if (active) button.setAttribute("aria-current", "page");
+          else button.removeAttribute("aria-current");
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function updateHome() {
+        const done = Math.min(state.today, TODAY_GOAL);
+        const percent = `${Math.round((done / TODAY_GOAL) * 100)}%`;
+        $("#home-ring").style.setProperty("--value", percent);
+        $("#home-ring").setAttribute("aria-label", `今日完成 ${done} / ${TODAY_GOAL} 題`);
+        $("#home-progress-number").textContent = `${done}/${TODAY_GOAL}`;
+        $("#start-daily").textContent = done >= TODAY_GOAL
+          ? "今天完成了，再練幾題　→"
+          : done > 0
+            ? "繼續今日練習　→"
+            : "開始今日 10 題　→";
+
+        if (done >= TODAY_GOAL) {
+          $("#home-progress-title").textContent = "今天完成了，很可以";
+          $("#home-progress-sub").textContent = `答對 ${state.correct} 題；明天會再複習還不熟的讀音。`;
+        } else if (done > 0) {
+          $("#home-progress-title").textContent = `還有 ${TODAY_GOAL - done} 題就完成`;
+          $("#home-progress-sub").textContent = `目前答對 ${state.correct} 題；答錯的字之後會再出現。`;
+        } else {
+          $("#home-progress-title").textContent = "今天還沒開始";
+          $("#home-progress-sub").textContent = "完成 10 題就好，答錯也算練習。";
+        }
+      }
+
+      function setMode(mode) {
+        currentMode = mode;
+        $$(".segmented button").forEach((button) => {
+          const active = button.dataset.mode === mode;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+        });
+        newQuestion();
+      }
+
+      function chooseSyllableQuestion() {
+        const weighted = SYLLABLES.flatMap((item) => {
+          const misses = state.weak[item.s] || 0;
+          return Array(Math.min(1 + misses, 4)).fill(item);
+        });
+        const target = sample(weighted);
+        const wrong = shuffle(
+          SYLLABLES
+            .filter((item) => item.s !== target.s && item.r !== target.r)
+            .map((item) => item.r)
+        ).slice(0, 3);
+        return {
+          mode: "syllable",
+          key: target.s,
+          answer: target.r,
+          choices: shuffle([target.r, ...wrong]),
+          label: "這一格怎麼讀？",
+          prompt: target.s,
+          tip: `${target.s} = ${target.parts.join(" + ")} → ${target.r}。`,
+          sound: target.sound
+        };
+      }
+
+      function chooseWordQuestion() {
+        const pool = WORDS.filter((item) => item.k.length <= 6 && item.r);
+        const target = sample(pool);
+        const wrong = shuffle(
+          pool
+            .filter((item) => item.k !== target.k && item.r !== target.r)
+            .map((item) => item.r)
+        ).slice(0, 3);
+        return {
+          mode: "word",
+          key: target.k,
+          answer: target.r,
+          choices: shuffle([target.r, ...wrong]),
+          label: "把每一格連起來讀",
+          prompt: target.k,
+          tip: `${target.k} → ${target.r} → ${target.z}。`,
+          sound: target.k
+        };
+      }
+
+      function chooseListenQuestion() {
+        const target = sample(SYLLABLES.slice(0, 8));
+        const distractors = shuffle(
+          SYLLABLES.filter((item) => item.s !== target.s).map((item) => item.s)
+        ).slice(0, 3);
+        return {
+          mode: "listen",
+          key: target.s,
+          answer: target.s,
+          choices: shuffle([target.s, ...distractors]),
+          label: "聽聲音找字",
+          prompt: "按一下播放，再選你聽到的字",
+          tip: `${target.s} = ${target.parts.join(" + ")}。`,
+          sound: target.sound
+        };
+      }
+
+      function newQuestion() {
+        locked = false;
+        $("#feedback").className = "feedback";
+        $("#feedback").innerHTML = "";
+        $("#next-question").hidden = true;
+
+        if (currentMode === "syllable") currentQuestion = chooseSyllableQuestion();
+        if (currentMode === "word") currentQuestion = chooseWordQuestion();
+        if (currentMode === "listen") currentQuestion = chooseListenQuestion();
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        const prompt = $("#quiz-prompt");
+        prompt.innerHTML = "";
+
+        const label = document.createElement("div");
+        label.className = "prompt-label";
+        label.textContent = currentQuestion.label;
+        prompt.appendChild(label);
+
+        if (currentQuestion.mode === "listen") {
+          const play = document.createElement("button");
+          play.className = "listen-btn";
+          play.type = "button";
+          play.setAttribute("aria-label", "播放韓文發音");
+          play.textContent = "▶";
+          play.addEventListener("click", () => speak(currentQuestion.sound));
+          prompt.appendChild(play);
+
+          const hint = document.createElement("div");
+          hint.style.marginTop = "11px";
+          hint.style.color = "var(--muted)";
+          hint.style.fontSize = "12px";
+          hint.textContent = currentQuestion.prompt;
+          prompt.appendChild(hint);
+        } else {
+          const main = document.createElement("div");
+          main.className = `prompt-main hangul ${
+            currentQuestion.mode === "syllable" ? "giant" : "word"
+          }`;
+          main.textContent = currentQuestion.prompt;
+          prompt.appendChild(main);
+        }
+
+        const choices = $("#quiz-choices");
+        choices.innerHTML = "";
+        currentQuestion.choices.forEach((value) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = currentQuestion.mode === "listen"
+            ? "choice hangul"
+            : "choice decompose";
+          button.textContent = value;
+          button.addEventListener("click", () => answerQuestion(value, button));
+          choices.appendChild(button);
+        });
+
+        const shown = Math.min(state.today + 1, TODAY_GOAL);
+        $("#question-count").textContent = state.today >= TODAY_GOAL
+          ? "自由練習"
+          : `今日第 ${shown} / ${TODAY_GOAL} 題`;
+        $("#quiz-score").textContent = `答對 ${state.correct} 題`;
+      }
+
+      function answerQuestion(value, button) {
+        if (locked) return;
+        locked = true;
+
+        const correct = value === currentQuestion.answer;
+        state.total += 1;
+        state.today += 1;
+        if (correct) {
+          state.correct += 1;
+          state.weak[currentQuestion.key] = Math.max(
+            0,
+            (state.weak[currentQuestion.key] || 0) - 1
+          );
+        } else {
+          state.weak[currentQuestion.key] = (state.weak[currentQuestion.key] || 0) + 1;
+        }
+        saveState();
+
+        $$(".choice", $("#quiz-choices")).forEach((choice) => {
+          choice.disabled = true;
+          if (choice.textContent === currentQuestion.answer) choice.classList.add("correct");
+        });
+        if (!correct) button.classList.add("wrong");
+
+        const feedback = $("#feedback");
+        feedback.className = `feedback show ${correct ? "good" : "try"}`;
+        feedback.innerHTML = `<strong>${correct ? "有看出來！" : "沒關係，現在比較一次。"}</strong>${currentQuestion.tip}`;
+        $("#next-question").hidden = false;
+        $("#next-question").textContent = state.today === TODAY_GOAL
+          ? "看今天的成果　→"
+          : "下一題　→";
+
+        $("#quiz-score").textContent = `答對 ${state.correct} 題`;
+        speak(currentQuestion.sound);
+        updateHome();
+      }
+
+      function nextQuestion() {
+        if (state.today === TODAY_GOAL) {
+          showView("home");
+          updateHome();
+          return;
+        }
+        newQuestion();
+      }
+
+      function romanizeHangul(text) {
+        const INITIAL = ["g", "kk", "n", "d", "tt", "r", "m", "b", "pp", "s", "ss", "", "j", "jj", "ch", "k", "t", "p", "h"];
+        const VOWEL = ["a", "ae", "ya", "yae", "eo", "e", "yeo", "ye", "o", "wa", "wae", "oe", "yo", "u", "wo", "we", "wi", "yu", "eu", "ui", "i"];
+        const FINAL = ["", "k", "k", "k", "n", "n", "n", "t", "l", "k", "m", "l", "l", "l", "p", "l", "m", "p", "p", "t", "t", "ng", "t", "t", "k", "t", "p", "t"];
+        const MOVE = ["", "g", "kk", "", "n", "", "", "d", "r", "", "", "", "", "", "", "", "m", "b", "", "s", "ss", "", "j", "ch", "k", "t", "p", ""];
+        const SPLIT = {
+          3: ["k", "s"], 5: ["n", "j"], 6: ["n", ""], 9: ["l", "g"],
+          10: ["l", "m"], 11: ["l", "b"], 12: ["l", "s"], 13: ["l", "t"],
+          14: ["l", "p"], 15: ["l", ""], 18: ["p", "s"]
+        };
+        const chars = [...text];
+        const parsed = chars.map((char) => {
+          const code = char.charCodeAt(0) - 0xac00;
+          if (code < 0 || code > 11171) return null;
+          return {
+            first: Math.floor(code / 588),
+            middle: Math.floor((code % 588) / 28),
+            last: code % 28
+          };
+        });
+        const initialOverride = {};
+        const finalOverride = {};
+
+        parsed.forEach((current, index) => {
+          if (!current || !current.last) return;
+          const next = parsed[index + 1];
+          if (!next) return;
+
+          if (next.first === 11 && current.last !== 21) {
+            if (SPLIT[current.last]) {
+              finalOverride[index] = SPLIT[current.last][0];
+              initialOverride[index + 1] = SPLIT[current.last][1];
+            } else {
+              finalOverride[index] = "";
+              initialOverride[index + 1] = MOVE[current.last];
+            }
+            return;
+          }
+
+          const nextInitial = next.first;
+          if (nextInitial === 2 || nextInitial === 6) {
+            if ([1, 2, 3, 9, 24].includes(current.last)) finalOverride[index] = "ng";
+            if ([7, 19, 20, 22, 23, 25, 27].includes(current.last)) finalOverride[index] = "n";
+            if ([17, 18, 26].includes(current.last)) finalOverride[index] = "m";
+          }
+          if (current.last === 4 && nextInitial === 5) {
+            finalOverride[index] = "l";
+            initialOverride[index + 1] = "l";
+          }
+          if (current.last === 8 && nextInitial === 2) {
+            initialOverride[index + 1] = "l";
+          }
+          if ([6, 15, 27].includes(current.last) && [0, 3, 12].includes(nextInitial)) {
+            finalOverride[index] = current.last === 6 ? "n" : current.last === 15 ? "l" : "";
+            initialOverride[index + 1] = { 0: "k", 3: "t", 12: "ch" }[nextInitial];
+          }
+        });
+
+        return chars.map((char, index) => {
+          const syllable = parsed[index];
+          if (!syllable) return char;
+          const first = initialOverride[index] ?? INITIAL[syllable.first];
+          const last = finalOverride[index] ?? FINAL[syllable.last];
+          return first + VOWEL[syllable.middle] + last;
+        }).join("").replace(/\s+/g, " ").trim();
+      }
+
+      let vocabularyGlossCache = null;
+
+      function glossKoreanWord(rawWord) {
+        const word = rawWord.replace(/[?.,!]/g, "");
+        if (SENTENCE_GLOSSES[word]) return SENTENCE_GLOSSES[word];
+        if (NUMBER_VALUES[word]) return NUMBER_VALUES[word];
+
+        if (!vocabularyGlossCache) {
+          vocabularyGlossCache = new Map(
+            (window.TOPIK_VOCAB_DATA || []).map(([korean, chinese]) => [korean, chinese])
+          );
+          WORDS.forEach((item) => vocabularyGlossCache.set(item.k, item.z));
+        }
+        if (vocabularyGlossCache.has(word)) return vocabularyGlossCache.get(word);
+
+        const particles = [
+          ["에게서", "從某人"], ["한테서", "從某人（口語）"], ["께서", "主格（敬語）"],
+          ["으로", "往／用"], ["에서", "在／從"], ["부터", "從"], ["까지", "到"],
+          ["에게", "給／對"], ["한테", "給／對（口語）"], ["처럼", "像"],
+          ["보다", "比"], ["밖에", "只有"], ["마다", "每"], ["이나", "或／竟然"],
+          ["이랑", "和"], ["하고", "和"], ["께", "給（敬語）"], ["은", "主題"],
+          ["는", "主題"], ["이", "主格"], ["가", "主格"], ["을", "受格"],
+          ["를", "受格"], ["에", "到／在"], ["도", "也"], ["의", "的"],
+          ["만", "只"], ["로", "往／用"], ["와", "和"], ["과", "和"], ["랑", "和"]
+        ];
+        for (const [suffix, meaning] of particles) {
+          if (!word.endsWith(suffix) || word.length <= suffix.length) continue;
+          const base = word.slice(0, -suffix.length);
+          const baseMeaning = SENTENCE_GLOSSES[base] || vocabularyGlossCache.get(base);
+          if (baseMeaning) return `${baseMeaning}＋${meaning}`;
+        }
+        return "配合整句理解";
+      }
+
+      let topikWordCache = null;
+      let lifePhraseCache = null;
+
+      function getWordLibrary() {
+        if (currentCategory === "核心") {
+          return WORDS.map((word) => ({ ...word, c: word.c, spoken: word.k }));
+        }
+        if (currentCategory === "生活用語") {
+          if (!lifePhraseCache) {
+            lifePhraseCache = (window.LIFE_PHRASES_DATA || []).map(([k, z, spoken], index) => ({
+              k,
+              z,
+              spoken,
+              r: romanizeHangul(spoken),
+              c: "生活用語",
+              rank: index + 1
+            }));
+          }
+          return lifePhraseCache;
+        }
+        if (!topikWordCache) {
+          topikWordCache = (window.TOPIK_VOCAB_DATA || []).map(([k, z, e, rank]) => ({
+            k,
+            z,
+            e,
+            rank,
+            r: romanizeHangul(k),
+            c: "TOPIK 1–2",
+            spoken: k
+          }));
+        }
+        return topikWordCache;
+      }
+
+      function topikTopicOf(word) {
+        const korean = word.k;
+        const english = (word.e || "").toLowerCase();
+        const isOneOf = (items) => items.includes(korean);
+
+        if (NUMBER_VALUES[korean]) return "numbers";
+
+        if (
+          isOneOf(["네", "아니요", "안녕하세요", "감사합니다", "고맙습니다", "미안합니다", "죄송합니다", "저", "나", "너", "우리", "이것", "그것", "저것", "뭐", "무엇", "누구", "어디", "언제", "왜", "어떻게"])
+          || /\b(hello|thank|sorry|please|yes|no|what|who|where|when|why|how|this|that|pronoun|question|answer|conversation|dialogue|word|language|also|but|however|because|and|or|together|again|almost|very|more|most|each|just)\b/.test(english)
+        ) return "basic";
+
+        if (
+          isOneOf(["오늘", "내일", "어제", "지금", "아침", "점심", "저녁", "주말", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"])
+          || /^\d/.test(english)
+          || /\b(time|day|week|month|year|hour|minute|morning|afternoon|evening|night|today|tomorrow|yesterday|calendar|date|o'clock|number|first|second|third|fourth|season|past|future|later|soon|always|during|between|meantime|holiday)\b/.test(english)
+        ) return "time";
+
+        if (
+          /\b(family|parent|mother|father|mom|dad|sister|brother|grandmother|grandfather|aunt|uncle|husband|wife|son|daughter|child|baby|friend|person|people|man|woman|boy|girl|couple|guest)\b/.test(english)
+        ) return "people";
+
+        if (
+          isOneOf(["밥", "물", "김치", "커피", "우유", "빵", "고기", "과일", "채소"])
+          || /\b(food|eat|drink|rice|meat|fish|fruit|vegetable|coffee|tea|milk|bread|restaurant|menu|meal|breakfast|lunch|dinner|cook|kitchen|dish|bottle|cup|bowl|taste|delicious|spicy|snack|sauce|soup|noodle|pepper|potato|egg|persimmon|orange|strawberry|pork|chicken|soybean|tofu|shop|shopping|store|market|price|buy|sell|pay|money|coin|dollar|won|cheap|expensive)\b/.test(english)
+        ) return "food";
+
+        if (
+          /\b(place|street|road|way|direction|left|right|front|back|inside|outside|other side|opposite side|nearby|neighborhood|town|city|country|domestic|abroad|north|south|east|west|bus|taxi|subway|train|airport|station|hotel|travel|trip|tour|ticket|traffic|arrival|departure|bridge|building|park|bank|post office|department store|church|embassy|stairs|alley|hometown)\b/.test(english)
+        ) return "place";
+
+        if (
+          /\b(school|class|grade|teacher|student|study|learn|lesson|lecture|exam|test|book|textbook|notebook|pencil|university|professor|classroom|science|office|company|work|job|employee|business|meeting|computer|document|public official|police|soldier|driver|engineer|reporter|ability|plan|decision)\b/.test(english)
+        ) return "school";
+
+        if (
+          /\b(game|sport|competition|tournament|stadium|golf|basketball|soccer|baseball|fishing|hiking|travel|performance|show|concert|song|music|movie|cinema|theater|drama|drawing|picture|reading|club|hobby|design|news|dance|photograph|camera)\b/.test(english)
+        ) return "leisure";
+
+        if (
+          /\b(body|chest|breast|head|face|eye|ear|nose|mouth|hand|foot|leg|arm|stomach|heart|hospital|doctor|nurse|medicine|sick|pain|hurt|health|healthy|disease|cold|cough|diet|exercise|tired|anxiety|concern)\b/.test(english)
+        ) return "health";
+
+        if (
+          /\b(home|house|room|bed|chair|table|desk|door|window|bathroom|toilet|clothes|clothing|shirt|pants|skirt|shoe|boots|necktie|wear|wash|clean|laundry|phone|bag|umbrella|furniture|mirror|scissors|refrigerator|pot|container|tableware)\b/.test(english)
+        ) return "home";
+
+        if (
+          /\b(weather|rain|snow|wind|sky|sea|ocean|mountain|river|landscape|flower|forsythia|tree|plant|branch|field|animal|dog|puppy|cat|bird|pig|cloud|air|sun|moon|temperature|hot weather|cold weather|spring|summer|autumn|winter)\b/.test(english)
+        ) return "nature";
+
+        if (
+          /\b(feeling|sensation|emotion|mood|love|interest|attention|relation|relationship|result|reason|idea|thought|opinion|meaning|content|experience|memory|dream|hope|worry|problem|help|advantage|disadvantage|difference|change|chance|choice|information|truth|lie|mistake|success|failure|kind|type|method|rule|habit)\b/.test(english)
+        ) return "abstract";
+
+        if (korean.endsWith("다")) return "action";
+        return "other";
+      }
+
+      function renderPager(rootId, current, total, onChange) {
+        const root = $(`#${rootId}`);
+        root.innerHTML = "";
+        if (total <= 1) return;
+
+        const addButton = (label, page, active = false, disabled = false, ariaLabel = "") => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `page-btn${active ? " active" : ""}`;
+          button.textContent = label;
+          button.disabled = disabled;
+          if (ariaLabel) button.setAttribute("aria-label", ariaLabel);
+          if (!disabled && !active) button.addEventListener("click", () => onChange(page));
+          root.appendChild(button);
+        };
+        const addGap = () => {
+          const gap = document.createElement("span");
+          gap.className = "page-gap";
+          gap.textContent = "…";
+          root.appendChild(gap);
+        };
+
+        addButton("‹", current - 1, false, current === 1, "上一頁");
+        const windowStart = Math.max(1, current - 1);
+        const windowEnd = Math.min(total, current + 1);
+        if (windowStart > 1) {
+          addButton("1", 1, current === 1);
+          if (windowStart > 2) addGap();
+        }
+        for (let page = windowStart; page <= windowEnd; page += 1) {
+          addButton(String(page), page, page === current);
+        }
+        if (windowEnd < total) {
+          if (windowEnd < total - 1) addGap();
+          addButton(String(total), total, current === total);
+        }
+        addButton("›", current + 1, false, current === total, "下一頁");
+      }
+
+      function renderTopikTopicArea() {
+        const root = $("#topik-topic-area");
+        root.hidden = currentCategory !== "TOPIK 1–2";
+        root.innerHTML = "";
+        if (root.hidden) return;
+
+        const library = getWordLibrary();
+        const counts = library.reduce((result, word) => {
+          const topic = topikTopicOf(word);
+          result[topic] = (result[topic] || 0) + 1;
+          return result;
+        }, {});
+        const labels = Object.fromEntries(TOPIK_TOPICS);
+
+        if (topikTopic) {
+          const count = topikTopic === "all" ? library.length : (counts[topikTopic] || 0);
+          root.innerHTML = `
+            <div class="topic-selected">
+              <div>
+                <strong>${labels[topikTopic]}</strong>
+                <span>${count} 個單字 · 從較短的字開始</span>
+              </div>
+              <button class="topic-back" type="button">← 所有主題</button>
+            </div>
+          `;
+          $(".topic-back", root).addEventListener("click", () => {
+            topikTopic = "";
+            wordPage = 1;
+            $("#word-search").value = "";
+            renderTopikTopicArea();
+            renderWords();
+          });
+          if (topikTopic === "numbers") {
+            root.insertAdjacentHTML("beforeend", `
+              <div class="number-guide">
+                <div class="number-guide-row">
+                  <strong>漢字數</strong>
+                  <span class="hangul">일 1 · 십 10 · 이십 20 · 백 100</span>
+                </div>
+                <div class="number-guide-row">
+                  <strong>固有數</strong>
+                  <span class="hangul">하나 1 · 열 10 · 스물 20 · 아흔 90</span>
+                </div>
+              </div>
+            `);
+          }
+          return;
+        }
+
+        const icons = {
+          all: "全部", basic: "안", people: "사람", food: "밥", numbers: "1–100", time: "오늘",
+          place: "길", school: "책", leisure: "노래", health: "몸", home: "방",
+          nature: "비", abstract: "마음", action: "가다", other: "더"
+        };
+        const grid = document.createElement("div");
+        grid.className = "topic-grid";
+        TOPIK_TOPICS.forEach(([id, topicLabel]) => {
+          const topicWords = id === "all"
+            ? library
+            : library.filter((word) => topikTopicOf(word) === id);
+          const examples = id === "all"
+            ? "가다 · 사람 · 오늘"
+            : [...topicWords]
+              .sort((a, b) => [...a.k].length - [...b.k].length || a.rank - b.rank)
+              .slice(0, 3)
+              .map((word) => word.k)
+              .join(" · ");
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `topic-card${id === "all" ? " all" : ""}`;
+          button.innerHTML = `
+            <span class="topic-icon hangul">${icons[id]}</span>
+            <span class="topic-copy">
+              <strong>${topicLabel}</strong>
+              <span class="topic-count">${topicWords.length} 個單字</span>
+            </span>
+            <span class="topic-examples hangul">${examples}</span>
+          `;
+          button.addEventListener("click", () => {
+            topikTopic = id;
+            wordPage = 1;
+            renderTopikTopicArea();
+            renderWords();
+          });
+          grid.appendChild(button);
+        });
+        root.appendChild(grid);
+      }
+
+      function renderCategories() {
+        const categories = [
+          ["核心", WORDS.length],
+          ["生活用語", (window.LIFE_PHRASES_DATA || []).length],
+          ["TOPIK 1–2", (window.TOPIK_VOCAB_DATA || []).length]
+        ];
+        const root = $("#word-categories");
+        root.innerHTML = "";
+        categories.forEach(([category, count]) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = `chip${category === currentCategory ? " active" : ""}`;
+          button.textContent = `${category} ${count}`;
+          button.addEventListener("click", () => {
+            currentCategory = category;
+            wordPage = 1;
+            topikTopic = "";
+            $("#word-search").value = "";
+            renderCategories();
+            renderTopikTopicArea();
+            renderWords();
+          });
+          root.appendChild(button);
+        });
+      }
+
+      function renderWords() {
+        const query = $("#word-search").value.trim().toLowerCase();
+        const library = getWordLibrary();
+        if (currentCategory === "TOPIK 1–2" && !topikTopic) {
+          $("#word-list").innerHTML = "";
+          $("#word-pagination").innerHTML = "";
+          $("#word-library-meta").hidden = true;
+          return;
+        }
+        $("#word-library-meta").hidden = false;
+        const filtered = library.filter((word) => {
+          const topicMatch = currentCategory !== "TOPIK 1–2"
+            || topikTopic === "all"
+            || topikTopicOf(word) === topikTopic;
+          const searchMatch = !query
+            || word.k.includes(query)
+            || word.z.toLowerCase().includes(query)
+            || word.r.toLowerCase().includes(query)
+            || (word.e || "").toLowerCase().includes(query);
+          return topicMatch && searchMatch;
+        });
+        const arranged = currentCategory === "TOPIK 1–2"
+          ? [...filtered].sort((a, b) => [...a.k].length - [...b.k].length || a.rank - b.rank)
+          : filtered;
+        const totalPages = Math.max(1, Math.ceil(arranged.length / WORDS_PER_PAGE));
+        wordPage = Math.min(wordPage, totalPages);
+        const start = (wordPage - 1) * WORDS_PER_PAGE;
+        const visible = arranged.slice(start, start + WORDS_PER_PAGE);
+
+        const list = $("#word-list");
+        list.innerHTML = "";
+        $("#word-library-count").textContent = filtered.length
+          ? `第 ${wordPage} / ${totalPages} 頁 · 共 ${filtered.length} 筆`
+          : "共 0 筆";
+
+        if (!filtered.length) {
+          list.innerHTML = `<div class="empty">找不到符合的單字，換個關鍵字試試看。</div>`;
+          $("#word-pagination").innerHTML = "";
+          return;
+        }
+
+        visible.forEach((word) => {
+          const card = document.createElement("article");
+          card.className = "word-card";
+          const displayMeaning = topikTopic === "numbers" && NUMBER_VALUES[word.k]
+            ? NUMBER_VALUES[word.k]
+            : word.z;
+
+          const main = document.createElement("div");
+          main.className = "word-main";
+          main.innerHTML = `
+            <button class="sound-btn" type="button" aria-label="播放 ${word.spoken || word.k}">▶</button>
+            <div>
+              <span class="word-korean hangul">${word.k}</span>
+              <span class="word-meaning">${displayMeaning}</span>
+            </div>
+            <span class="word-tag">${word.c}</span>
+          `;
+
+          const actions = document.createElement("div");
+          actions.className = "word-actions";
+          const romanButton = document.createElement("button");
+          romanButton.type = "button";
+          romanButton.className = "text-btn";
+          romanButton.textContent = "顯示拼音";
+          actions.appendChild(romanButton);
+
+          const romanization = document.createElement("div");
+          romanization.className = "word-romanization";
+          romanization.textContent = word.r;
+
+          $(".sound-btn", main).addEventListener("click", () => speak(word.spoken || word.k));
+          romanButton.addEventListener("click", () => {
+            const shown = romanization.classList.toggle("show");
+            romanButton.textContent = shown ? "隱藏拼音" : "顯示拼音";
+          });
+
+          card.append(main, actions, romanization);
+          list.appendChild(card);
+        });
+
+        renderPager("word-pagination", wordPage, totalPages, (page) => {
+          wordPage = page;
+          renderWords();
+          $("#words-view").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      function matchesGrammarCategory(number) {
+        if (grammarCategory === "all") return true;
+        if (grammarCategory === "particle") return number >= 1 && number <= 28;
+        if (grammarCategory === "experience") return number >= 29 && number <= 45;
+        if (grammarCategory === "intention") return number >= 46 && number <= 61;
+        if (grammarCategory === "ending") return number >= 62 && number <= 84;
+        return true;
+      }
+
+      function renderLessons() {
+        const coreNumbers = new Set([
+          1, 2, 3, 8, 9, 10, 11, 12, 13, 23, 26, 27,
+          28, 38, 40, 41, 42, 43, 46, 53, 56, 63, 64, 78
+        ]);
+        const query = $("#grammar-search").value.trim().toLowerCase();
+        const categoryLabels = {
+          all: "全部功能",
+          particle: "助詞與比較",
+          experience: "經驗與推測",
+          intention: "意志與條件",
+          ending: "連接與句尾"
+        };
+        $("#grammar-filter-summary").innerHTML = `目前顯示：<strong>${
+          grammarScope === "core" ? "核心必學" : "TOPIK 1–2 全部"
+        } · ${categoryLabels[grammarCategory]}</strong>`;
+        const grammar = (window.TOPIK_GRAMMAR_DATA || [])
+          .map(([form, label, korean, chinese, number]) => ({
+            form, label, korean, chinese, number
+          }))
+          .filter((lesson) => grammarScope === "all" || coreNumbers.has(lesson.number))
+          .filter((lesson) => matchesGrammarCategory(lesson.number))
+          .filter((lesson) => !query
+            || lesson.form.toLowerCase().includes(query)
+            || lesson.label.toLowerCase().includes(query)
+            || lesson.korean.toLowerCase().includes(query)
+            || lesson.chinese.toLowerCase().includes(query));
+        const totalPages = Math.max(1, Math.ceil(grammar.length / GRAMMAR_PER_PAGE));
+        grammarPage = Math.min(grammarPage, totalPages);
+        const start = (grammarPage - 1) * GRAMMAR_PER_PAGE;
+        const visibleGrammar = grammar.slice(start, start + GRAMMAR_PER_PAGE);
+
+        const list = $("#lesson-list");
+        list.innerHTML = "";
+        $("#grammar-library-count").textContent = grammar.length
+          ? `第 ${grammarPage} / ${totalPages} 頁 · 共 ${grammar.length} 個`
+          : "共 0 個";
+        if (!grammar.length) {
+          list.innerHTML = `<div class="empty">找不到符合的文法，換個關鍵字試試看。</div>`;
+          $("#grammar-pagination").innerHTML = "";
+          return;
+        }
+
+        visibleGrammar.forEach((lesson, index) => {
+          const details = document.createElement("details");
+          details.className = "lesson";
+          if (index === 0) details.open = true;
+
+          const summary = document.createElement("summary");
+          summary.innerHTML = `
+            <span class="lesson-num">${String(lesson.number).padStart(2, "0")}</span>
+            <span>
+              <strong class="hangul">${lesson.form.replaceAll("/", " / ")}</strong>
+              <span class="lesson-label">${lesson.label}</span>
+            </span>
+            <span class="chevron" aria-hidden="true">›</span>
+          `;
+
+          const body = document.createElement("div");
+          body.className = "lesson-body";
+
+          const pattern = document.createElement("div");
+          pattern.className = "pattern";
+          const readingWords = lesson.korean
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((word) => `
+              <span class="reading-word">
+                <b class="hangul">${word}</b>
+                <small>${romanizeHangul(word)}</small>
+                <em>${glossKoreanWord(word)}</em>
+              </span>
+            `)
+            .join("");
+          pattern.innerHTML = `
+            <div class="pattern-top">
+              <div>
+                <div class="kr hangul">${lesson.korean}</div>
+                <div class="zh">${lesson.chinese}</div>
+              </div>
+              <div class="pattern-actions">
+                <button class="reading-toggle" type="button">分解拼音</button>
+                <button class="tiny-sound" type="button" aria-label="播放例句">▶</button>
+              </div>
+            </div>
+            <div class="sentence-reading">${readingWords}</div>
+          `;
+          $(".tiny-sound", pattern).addEventListener("click", () => speak(lesson.korean));
+          $(".reading-toggle", pattern).addEventListener("click", (event) => {
+            const reading = $(".sentence-reading", pattern);
+            const shown = reading.classList.toggle("show");
+            event.currentTarget.textContent = shown ? "隱藏拼音" : "分解拼音";
+          });
+          body.appendChild(pattern);
+
+          details.append(summary, body);
+          list.appendChild(details);
+        });
+
+        renderPager("grammar-pagination", grammarPage, totalPages, (page) => {
+          grammarPage = page;
+          renderLessons();
+          $("#lessons-view").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+
+      function renderAlphabet() {
+        const root = $("#alphabet-groups");
+        root.innerHTML = "";
+        ALPHABET_GROUPS.forEach((group) => {
+          const section = document.createElement("section");
+          section.className = "alpha-group";
+          const heading = document.createElement("h3");
+          heading.textContent = group.title;
+          const note = document.createElement("p");
+          note.textContent = group.note;
+          const grid = document.createElement("div");
+          grid.className = "alpha-grid";
+
+          group.items.forEach(([char, name, tip, sound]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "alpha-card";
+            button.innerHTML = `
+              <span class="alpha-audio" aria-hidden="true">▶</span>
+              <span class="alpha-char hangul">${char}</span>
+              <span class="alpha-name">${name}</span>
+              <span class="alpha-tip">${tip}</span>
+            `;
+            button.setAttribute("aria-label", `${char}，${tip}，播放發音`);
+            button.addEventListener("click", () => speak(sound));
+            grid.appendChild(button);
+          });
+
+          section.append(heading, note, grid);
+          root.appendChild(section);
+        });
+      }
+
+      function pickVoice() {
+        if (!("speechSynthesis" in window)) {
+          $("#tts-warning").classList.add("show");
+          $("#voice-name").textContent = "此瀏覽器不支援語音";
+          return;
+        }
+
+        const voices = window.speechSynthesis.getVoices();
+        const koreanVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith("ko"));
+        koVoice =
+          koreanVoices.find((voice) => /yuna|sora|sunhi/i.test(voice.name))
+          || koreanVoices[0]
+          || null;
+        $("#voice-name").textContent = koVoice ? koVoice.name : "尚未找到韓文語音";
+        $("#tts-warning").classList.toggle("show", voices.length > 0 && !koVoice);
+      }
+
+      function speak(text) {
+        if (!("speechSynthesis" in window)) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "ko-KR";
+        utterance.rate = state.rate;
+        if (koVoice) utterance.voice = koVoice;
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function openSettings() {
+        $("#settings-modal").hidden = false;
+        $("#close-settings").focus();
+      }
+
+      function closeSettings() {
+        $("#settings-modal").hidden = true;
+        $("#open-settings").focus();
+      }
+
+      function updateSpeechRateUI() {
+        const value = `${state.rate.toFixed(2)}×`;
+        $("#speed-shortcut").textContent = `語速 ${value}`;
+        $("#speech-rate-value").textContent = `目前 ${value}`;
+      }
+
+      $$(".nav-btn").forEach((button) => {
+        button.addEventListener("click", () => showView(button.dataset.target));
+      });
+      $$(".segmented button").forEach((button) => {
+        button.addEventListener("click", () => setMode(button.dataset.mode));
+      });
+      $$("[data-reference]").forEach((button) => {
+        button.addEventListener("click", () => {
+          $$("[data-reference]").forEach((item) => {
+            const active = item === button;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-selected", String(active));
+          });
+          $$(".reference-panel").forEach((panel) => panel.classList.remove("active"));
+          $(`#reference-${button.dataset.reference}`).classList.add("active");
+        });
+      });
+      $$("[data-pronounce]").forEach((button) => {
+        button.addEventListener("click", () => speak(button.dataset.pronounce));
+      });
+
+      $("#start-daily").addEventListener("click", () => {
+        showView("practice");
+        setMode("syllable");
+      });
+      $("#next-question").addEventListener("click", nextQuestion);
+      $("#word-search").addEventListener("input", () => {
+        wordPage = 1;
+        if (currentCategory === "TOPIK 1–2" && !topikTopic && $("#word-search").value.trim()) {
+          topikTopic = "all";
+          renderTopikTopicArea();
+        }
+        renderWords();
+      });
+      $("#grammar-search").addEventListener("input", () => {
+        grammarPage = 1;
+        renderLessons();
+      });
+      $$("[data-grammar-scope]").forEach((button) => {
+        button.addEventListener("click", () => {
+          grammarScope = button.dataset.grammarScope;
+          grammarPage = 1;
+          $$("[data-grammar-scope]").forEach((item) => {
+            item.classList.toggle("active", item === button);
+          });
+          renderLessons();
+        });
+      });
+      $("#grammar-category-select").addEventListener("change", (event) => {
+        grammarCategory = event.target.value;
+        grammarPage = 1;
+        renderLessons();
+      });
+      $("#open-settings").addEventListener("click", openSettings);
+      $("#speed-shortcut").addEventListener("click", openSettings);
+      $("#close-settings").addEventListener("click", closeSettings);
+      $("#settings-modal").addEventListener("click", (event) => {
+        if (event.target === $("#settings-modal")) closeSettings();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !$("#settings-modal").hidden) closeSettings();
+      });
+
+      $("#speech-rate").value = state.rate;
+      updateSpeechRateUI();
+      $("#speech-rate").addEventListener("input", (event) => {
+        state.rate = Number(event.target.value);
+        saveState();
+        updateSpeechRateUI();
+      });
+      $("#test-speech").addEventListener("click", () => speak("안녕하세요"));
+      $("#reset-progress").addEventListener("click", () => {
+        const confirmed = window.confirm("要清除今天的題數與答題紀錄嗎？");
+        if (!confirmed) return;
+        state = { ...defaultState(), rate: state.rate };
+        saveState();
+        updateHome();
+        newQuestion();
+        closeSettings();
+      });
+
+      if ("speechSynthesis" in window) {
+        pickVoice();
+        window.speechSynthesis.onvoiceschanged = pickVoice;
+      } else {
+        pickVoice();
+      }
+
+      updateHome();
+      renderCategories();
+      renderTopikTopicArea();
+      renderWords();
+      renderLessons();
+      renderAlphabet();
+      newQuestion();
+    })();
+  </script>
+</body>
+</html>
