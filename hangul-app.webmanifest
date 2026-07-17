@@ -3,7 +3,7 @@
   "short_name": "한걸음",
   "description": "從韓文字母、單字到 TOPIK 2 級的韓文初學 App",
   "lang": "zh-Hant",
-  "start_url": "./hangul-app-optimized.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f7f6f1",
