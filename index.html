@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7f6f1">
   <title>한걸음 · 韓文一小步</title>
+  <link rel="icon" type="image/svg+xml" href="./hangul-app-icon.svg">
   <style>
     :root {
       --bg: #f7f6f1;
@@ -32,6 +33,10 @@
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
     html {
@@ -369,6 +374,73 @@
       gap: 11px;
     }
 
+    .daily-plan {
+      display: grid;
+      gap: 10px;
+    }
+
+    .daily-step {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(28, 32, 44, .035);
+    }
+
+    .daily-step:hover {
+      border-color: #bbb5ee;
+    }
+
+    .daily-step-number {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .daily-step:nth-child(2) .daily-step-number {
+      background: var(--sun-soft);
+      color: #845c12;
+    }
+
+    .daily-step:nth-child(3) .daily-step-number {
+      background: var(--mint);
+      color: var(--mint-strong);
+    }
+
+    .daily-step-copy strong,
+    .daily-step-copy span {
+      display: block;
+    }
+
+    .daily-step-copy strong {
+      margin-bottom: 3px;
+      font-size: 15px;
+    }
+
+    .daily-step-copy span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .daily-step-status {
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
     .focus-card {
       min-height: 142px;
       padding: 16px;
@@ -491,6 +563,41 @@
       background: var(--surface);
       color: var(--ink);
       box-shadow: 0 3px 12px rgba(30, 35, 49, .08);
+    }
+
+    .practice-modes {
+      gap: 8px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .practice-modes button {
+      min-height: 86px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      padding: 11px 8px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+    }
+
+    .practice-modes button.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      box-shadow: none;
+    }
+
+    .practice-modes strong {
+      font-size: 13px;
+    }
+
+    .practice-modes small {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
     }
 
     .quiz-card {
@@ -671,6 +778,169 @@
       display: flex;
       gap: 9px;
       margin-bottom: 13px;
+    }
+
+    .word-display-switch {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+
+    .word-display-switch button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .word-display-switch button.active {
+      background: var(--surface);
+      color: var(--primary-strong);
+      box-shadow: 0 3px 12px rgba(30, 35, 49, .08);
+    }
+
+    .flashcard-panel {
+      margin-top: 4px;
+    }
+
+    .flashcard-panel[hidden],
+    .flash-answer[hidden],
+    .flash-rating[hidden] {
+      display: none;
+    }
+
+    .flash-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .flashcard-shell {
+      position: relative;
+      min-height: 330px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 28px 22px;
+      border: 1px solid #cfcaf6;
+      border-radius: 25px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(255,255,255,.9) 0 8%, transparent 9%),
+        linear-gradient(150deg, #f4f1ff, #fff 62%);
+      text-align: center;
+      box-shadow: 0 16px 34px rgba(75, 65, 170, .10);
+    }
+
+    .flash-label {
+      margin-bottom: 14px;
+      color: var(--primary-strong);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .08em;
+    }
+
+    .flash-korean {
+      max-width: 100%;
+      font-size: clamp(42px, 12vw, 68px);
+      font-weight: 850;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .flash-sound {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 15px;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .flash-answer {
+      width: 100%;
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .flash-meaning {
+      display: block;
+      color: var(--ink);
+      font-size: 21px;
+      font-weight: 820;
+    }
+
+    .flash-roman {
+      display: block;
+      margin-top: 7px;
+      color: var(--primary-strong);
+      font-size: 14px;
+      font-weight: 720;
+    }
+
+    .flash-reveal {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 12px;
+      border: 1px solid var(--primary);
+      border-radius: 15px;
+      background: var(--surface);
+      color: var(--primary-strong);
+      cursor: pointer;
+      font-weight: 820;
+    }
+
+    .flash-rating {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .flash-rating button {
+      min-height: 52px;
+      border: 0;
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: 820;
+    }
+
+    .flash-again {
+      background: var(--rose);
+      color: #8a3d38;
+    }
+
+    .flash-known {
+      background: var(--mint);
+      color: #176047;
+    }
+
+    .flash-empty {
+      min-height: 240px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      color: var(--muted);
+      text-align: center;
     }
 
     .search-wrap {
@@ -1875,9 +2145,9 @@
       <div class="hero-card">
         <div class="hero-content">
           <span class="day-pill"><span aria-hidden="true">●</span> 今日約 8 分鐘</span>
-          <h1>今天從一個音節<br>讀到三個單字</h1>
-          <p>先確認每一格的羅馬音，再把兩三格連起來讀，最後用發音確認。</p>
-          <button class="hero-action" id="start-daily" type="button">開始今日 10 題　→</button>
+          <h1>先學 5 個單字<br>再做 5 題小測</h1>
+          <p>先用學習卡看字、聽聲音、確認中文；熟悉之後再答題，不用一開始就考自己。</p>
+          <button class="hero-action" id="start-daily" type="button">開始今天的學習卡　→</button>
         </div>
       </div>
 
@@ -1887,52 +2157,60 @@
         </div>
         <div class="progress-copy">
           <strong id="home-progress-title">今天還沒開始</strong>
-          <span id="home-progress-sub">完成 10 題就好，答錯也算練習。</span>
+          <span id="home-progress-sub">學習卡 0/5 · 小測 0/5</span>
         </div>
       </div>
 
       <div class="section-head">
-        <h3>今天怎麼練</h3>
-        <span>從一格，慢慢連到單字</span>
+        <h3>今天的學習順序</h3>
+        <span>先學，再測驗</span>
       </div>
 
-      <div class="focus-grid">
-        <article class="focus-card">
-          <div class="pair hangul"><span>가</span></div>
-          <strong>① 先讀一格</strong>
-          <small><span class="hangul">가</span> → ga</small>
-        </article>
-        <article class="focus-card">
-          <div class="pair hangul"><span>가</span><span>요</span></div>
-          <strong>② 再連成單字</strong>
-          <small><span class="hangul">가요</span> → gayo → 去</small>
-        </article>
-        <article class="focus-card wide">
-          <div class="mini-block" aria-hidden="true">▶</div>
-          <div>
-            <strong>③ 最後用耳朵確認</strong>
-            <small>看到 <span class="hangul">가요</span> 先自己讀，再按播放比對聲音。</small>
-          </div>
-        </article>
+      <div class="daily-plan">
+        <button class="daily-step" id="home-study-cards" type="button">
+          <span class="daily-step-number">01</span>
+          <span class="daily-step-copy">
+            <strong>用學習卡認識 5 個字</strong>
+            <span>先看韓文與聲音，再翻面看中文</span>
+          </span>
+          <span class="daily-step-status" id="home-card-status">0/5</span>
+        </button>
+        <button class="daily-step" id="home-start-quiz" type="button">
+          <span class="daily-step-number">02</span>
+          <span class="daily-step-copy">
+            <strong>做 5 題單字小測</strong>
+            <span>看到韓文，選出正確的中文意思</span>
+          </span>
+          <span class="daily-step-status" id="home-quiz-status">0/5</span>
+        </button>
+        <button class="daily-step" id="home-start-listen" type="button">
+          <span class="daily-step-number">＋</span>
+          <span class="daily-step-copy">
+            <strong>想多練：聽音辨字</strong>
+            <span>不計入今日目標，可以自由練習</span>
+          </span>
+          <span class="daily-step-status">開始</span>
+        </button>
       </div>
-
-      <aside class="rule-card">
-        <strong>今天的學習規則</strong>
-        <p>羅馬音先當過渡提示；目標是看到韓文能讀出來，再慢慢減少依賴。</p>
-      </aside>
     </section>
 
     <section class="view" id="practice-view" data-view="practice">
       <div class="page-head">
         <p class="eyebrow">Practice</p>
-        <h2>看到韓文，把整格讀出來</h2>
-        <p class="lead">先從單一音節開始，再讀完整單字；答題後會播放聲音讓你核對。</p>
+        <h2>每次只練一種能力</h2>
+        <p class="lead">音節拼讀、單字意思和聽音辨字分開練；答題後會播放聲音讓你核對。</p>
       </div>
 
-      <div class="segmented" role="tablist" aria-label="練習類型">
-        <button class="active" type="button" data-mode="syllable" role="tab" aria-selected="true">音節讀音</button>
-        <button type="button" data-mode="word" role="tab" aria-selected="false">單字讀音</button>
-        <button type="button" data-mode="listen" role="tab" aria-selected="false">聽音辨字</button>
+      <div class="segmented practice-modes" role="tablist" aria-label="練習類型">
+        <button class="active" type="button" data-mode="syllable" role="tab" aria-selected="true">
+          <strong>音節拼讀</strong><small>韓文 → 羅馬音</small>
+        </button>
+        <button type="button" data-mode="word" role="tab" aria-selected="false">
+          <strong>單字小測</strong><small>韓文 → 中文</small>
+        </button>
+        <button type="button" data-mode="listen" role="tab" aria-selected="false">
+          <strong>聽音辨字</strong><small>聲音 → 韓文</small>
+        </button>
       </div>
 
       <div class="quiz-card">
@@ -1950,24 +2228,51 @@
     <section class="view" id="words-view" data-view="words">
       <div class="page-head">
         <p class="eyebrow">Words</p>
-        <h2>從生活用語一路學到 TOPIK 2級</h2>
-        <p class="lead">先讀核心和生活句，再使用 1,671 個 TOPIK 1–2級詞庫搜尋與複習。</p>
+        <h2>用學習卡記住單字</h2>
+        <p class="lead">先看韓文、聽發音，再翻面確認中文；覺得不熟的字會保留在複習清單。</p>
       </div>
 
-      <div class="toolbar">
+      <div class="word-display-switch" role="tablist" aria-label="單字顯示方式">
+        <button class="active" type="button" data-word-display="cards" role="tab" aria-selected="true">學習卡</button>
+        <button type="button" data-word-display="list" role="tab" aria-selected="false">單字列表</button>
+      </div>
+      <div class="chip-row" id="word-categories" aria-label="單字分類"></div>
+      <div class="topic-area" id="topik-topic-area" aria-label="TOPIK 單字主題" hidden></div>
+      <div class="toolbar" id="word-toolbar" hidden>
         <label class="search-wrap">
           <span class="sr-only">搜尋單字</span>
           <input id="word-search" type="search" placeholder="搜尋韓文或中文" autocomplete="off">
         </label>
       </div>
-      <div class="chip-row" id="word-categories" aria-label="單字分類"></div>
-      <div class="topic-area" id="topik-topic-area" aria-label="TOPIK 單字主題" hidden></div>
-      <div class="library-meta" id="word-library-meta">
+      <section class="flashcard-panel" id="flashcard-panel" aria-label="單字學習卡">
+        <div class="flash-meta">
+          <span id="flash-progress">第 1 張</span>
+          <span id="flash-known-count">已認識 0 個</span>
+        </div>
+        <div id="flashcard-content">
+          <div class="flashcard-shell">
+            <span class="flash-label">先自己讀一次</span>
+            <strong class="flash-korean hangul" id="flash-korean"></strong>
+            <button class="flash-sound" id="flash-sound" type="button" aria-label="播放目前單字">▶</button>
+            <div class="flash-answer" id="flash-answer" hidden>
+              <span class="flash-meaning" id="flash-meaning"></span>
+              <span class="flash-roman" id="flash-roman"></span>
+            </div>
+          </div>
+          <button class="flash-reveal" id="flash-reveal" type="button">翻面看中文與拼音</button>
+          <div class="flash-rating" id="flash-rating" hidden>
+            <button class="flash-again" id="flash-again" type="button">還不熟，再複習</button>
+            <button class="flash-known" id="flash-known" type="button">認識了，下一張</button>
+          </div>
+        </div>
+        <div class="flash-empty" id="flash-empty" hidden>這個範圍目前沒有可用的學習卡。</div>
+      </section>
+      <div class="library-meta" id="word-library-meta" hidden>
         <span id="word-library-count">載入中</span>
         <span>每頁 24 個</span>
       </div>
-      <div class="word-list" id="word-list"></div>
-      <div class="pagination" id="word-pagination" aria-label="單字分頁"></div>
+      <div class="word-list" id="word-list" hidden></div>
+      <div class="pagination" id="word-pagination" aria-label="單字分頁" hidden></div>
     </section>
 
     <section class="view" id="lessons-view" data-view="lessons">
@@ -2361,7 +2666,9 @@
       "use strict";
 
       const STORE_KEY = "hangeoreum-progress-v2";
-      const TODAY_GOAL = 10;
+      const DAILY_CARD_GOAL = 5;
+      const DAILY_QUIZ_GOAL = 5;
+      const TODAY_GOAL = DAILY_CARD_GOAL + DAILY_QUIZ_GOAL;
 
       const SYLLABLES = [
         { s: "가", r: "ga", parts: ["ㄱ", "ㅏ"], sound: "가" },
@@ -2481,9 +2788,13 @@
       const defaultState = () => ({
         date: localDateKey(),
         today: 0,
+        cardsToday: 0,
+        cardsSeenToday: [],
         correct: 0,
         total: 0,
         weak: {},
+        cardKnown: [],
+        cardReview: [],
         rate: .78
       });
 
@@ -2492,8 +2803,12 @@
       let currentQuestion = null;
       let locked = false;
       let currentCategory = "核心";
+      let wordDisplayMode = "cards";
       let wordPage = 1;
       let topikTopic = "";
+      let flashDeck = [];
+      let flashIndex = 0;
+      let flashRevealed = false;
       let grammarScope = "core";
       let grammarCategory = "all";
       let grammarPage = 1;
@@ -2622,11 +2937,22 @@
         try {
           const parsed = JSON.parse(localStorage.getItem(STORE_KEY));
           const merged = { ...defaultState(), ...(parsed || {}) };
+          if (parsed && !Object.prototype.hasOwnProperty.call(parsed, "cardsToday")) {
+            merged.today = 0;
+            merged.correct = 0;
+            merged.cardsToday = 0;
+            merged.cardsSeenToday = [];
+          }
           if (merged.date !== localDateKey()) {
             merged.date = localDateKey();
             merged.today = 0;
+            merged.cardsToday = 0;
+            merged.cardsSeenToday = [];
             merged.correct = 0;
           }
+          if (!Array.isArray(merged.cardsSeenToday)) merged.cardsSeenToday = [];
+          if (!Array.isArray(merged.cardKnown)) merged.cardKnown = [];
+          if (!Array.isArray(merged.cardReview)) merged.cardReview = [];
           return merged;
         } catch {
           return defaultState();
@@ -2664,32 +2990,36 @@
       }
 
       function updateHome() {
-        const done = Math.min(state.today, TODAY_GOAL);
+        const cardsDone = Math.min(state.cardsToday || 0, DAILY_CARD_GOAL);
+        const quizDone = Math.min(state.today, DAILY_QUIZ_GOAL);
+        const done = cardsDone + quizDone;
         const percent = `${Math.round((done / TODAY_GOAL) * 100)}%`;
         $("#home-ring").style.setProperty("--value", percent);
-        $("#home-ring").setAttribute("aria-label", `今日完成 ${done} / ${TODAY_GOAL} 題`);
+        $("#home-ring").setAttribute("aria-label", `今日完成 ${done} / ${TODAY_GOAL} 個學習步驟`);
         $("#home-progress-number").textContent = `${done}/${TODAY_GOAL}`;
+        $("#home-card-status").textContent = `${cardsDone}/${DAILY_CARD_GOAL}`;
+        $("#home-quiz-status").textContent = `${quizDone}/${DAILY_QUIZ_GOAL}`;
         $("#start-daily").textContent = done >= TODAY_GOAL
-          ? "今天完成了，再練幾題　→"
-          : done > 0
-            ? "繼續今日練習　→"
-            : "開始今日 10 題　→";
+          ? "今天完成了，自由複習　→"
+          : cardsDone < DAILY_CARD_GOAL
+            ? "繼續今天的學習卡　→"
+            : "開始今天的 5 題小測　→";
 
         if (done >= TODAY_GOAL) {
           $("#home-progress-title").textContent = "今天完成了，很可以";
-          $("#home-progress-sub").textContent = `答對 ${state.correct} 題；明天會再複習還不熟的讀音。`;
+          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測答對 ${state.correct}/${quizDone}`;
         } else if (done > 0) {
-          $("#home-progress-title").textContent = `還有 ${TODAY_GOAL - done} 題就完成`;
-          $("#home-progress-sub").textContent = `目前答對 ${state.correct} 題；答錯的字之後會再出現。`;
+          $("#home-progress-title").textContent = `今天再完成 ${TODAY_GOAL - done} 個步驟`;
+          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測 ${quizDone}/5`;
         } else {
           $("#home-progress-title").textContent = "今天還沒開始";
-          $("#home-progress-sub").textContent = "完成 10 題就好，答錯也算練習。";
+          $("#home-progress-sub").textContent = "學習卡 0/5 · 小測 0/5";
         }
       }
 
       function setMode(mode) {
         currentMode = mode;
-        $$(".segmented button").forEach((button) => {
+        $$("[data-mode]").forEach((button) => {
           const active = button.dataset.mode === mode;
           button.classList.toggle("active", active);
           button.setAttribute("aria-selected", String(active));
@@ -2725,15 +3055,15 @@
         const target = sample(pool);
         const wrong = shuffle(
           pool
-            .filter((item) => item.k !== target.k && item.r !== target.r)
-            .map((item) => item.r)
+            .filter((item) => item.k !== target.k && item.z !== target.z)
+            .map((item) => item.z)
         ).slice(0, 3);
         return {
           mode: "word",
           key: target.k,
-          answer: target.r,
-          choices: shuffle([target.r, ...wrong]),
-          label: "把每一格連起來讀",
+          answer: target.z,
+          choices: shuffle([target.z, ...wrong]),
+          label: "這個單字是什麼意思？",
           prompt: target.k,
           tip: `${target.k} → ${target.r} → ${target.z}。`,
           sound: target.k
@@ -2762,6 +3092,7 @@
         $("#feedback").className = "feedback";
         $("#feedback").innerHTML = "";
         $("#next-question").hidden = true;
+        $("#next-question").dataset.finishDaily = "false";
 
         if (currentMode === "syllable") currentQuestion = chooseSyllableQuestion();
         if (currentMode === "word") currentQuestion = chooseWordQuestion();
@@ -2815,11 +3146,13 @@
           choices.appendChild(button);
         });
 
-        const shown = Math.min(state.today + 1, TODAY_GOAL);
-        $("#question-count").textContent = state.today >= TODAY_GOAL
+        const shown = Math.min(state.today + 1, DAILY_QUIZ_GOAL);
+        $("#question-count").textContent = currentQuestion.mode !== "word" || state.today >= DAILY_QUIZ_GOAL
           ? "自由練習"
-          : `今日第 ${shown} / ${TODAY_GOAL} 題`;
-        $("#quiz-score").textContent = `答對 ${state.correct} 題`;
+          : `今日小測第 ${shown} / ${DAILY_QUIZ_GOAL} 題`;
+        $("#quiz-score").textContent = currentQuestion.mode === "word"
+          ? `小測答對 ${state.correct} 題`
+          : "自由練習";
       }
 
       function answerQuestion(value, button) {
@@ -2827,10 +3160,11 @@
         locked = true;
 
         const correct = value === currentQuestion.answer;
+        const countsForDaily = currentQuestion.mode === "word" && state.today < DAILY_QUIZ_GOAL;
         state.total += 1;
-        state.today += 1;
+        if (countsForDaily) state.today += 1;
         if (correct) {
-          state.correct += 1;
+          if (countsForDaily) state.correct += 1;
           state.weak[currentQuestion.key] = Math.max(
             0,
             (state.weak[currentQuestion.key] || 0) - 1
@@ -2850,17 +3184,21 @@
         feedback.className = `feedback show ${correct ? "good" : "try"}`;
         feedback.innerHTML = `<strong>${correct ? "有看出來！" : "沒關係，現在比較一次。"}</strong>${currentQuestion.tip}`;
         $("#next-question").hidden = false;
-        $("#next-question").textContent = state.today === TODAY_GOAL
+        const finishedDaily = countsForDaily && state.today === DAILY_QUIZ_GOAL;
+        $("#next-question").dataset.finishDaily = String(finishedDaily);
+        $("#next-question").textContent = finishedDaily
           ? "看今天的成果　→"
           : "下一題　→";
 
-        $("#quiz-score").textContent = `答對 ${state.correct} 題`;
+        $("#quiz-score").textContent = currentQuestion.mode === "word"
+          ? `小測答對 ${state.correct} 題`
+          : "自由練習";
         speak(currentQuestion.sound);
         updateHome();
       }
 
       function nextQuestion() {
-        if (state.today === TODAY_GOAL) {
+        if ($("#next-question").dataset.finishDaily === "true") {
           showView("home");
           updateHome();
           return;
@@ -3003,6 +3341,111 @@
         return topikWordCache;
       }
 
+      function flashCardKey(word) {
+        return `${currentCategory}::${word.k}`;
+      }
+
+      function getStudyLibrary() {
+        const library = getWordLibrary();
+        if (currentCategory === "TOPIK 1–2" && !topikTopic) return [];
+        const filtered = currentCategory === "TOPIK 1–2" && topikTopic !== "all"
+          ? library.filter((word) => topikTopicOf(word) === topikTopic)
+          : library;
+        return currentCategory === "TOPIK 1–2"
+          ? [...filtered].sort((a, b) => [...a.k].length - [...b.k].length || a.rank - b.rank)
+          : filtered;
+      }
+
+      function setWordDisplay(mode) {
+        wordDisplayMode = mode;
+        $$("[data-word-display]").forEach((button) => {
+          const active = button.dataset.wordDisplay === mode;
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-selected", String(active));
+        });
+        const listMode = mode === "list";
+        $("#flashcard-panel").hidden = listMode;
+        $("#word-toolbar").hidden = !listMode;
+        $("#word-list").hidden = !listMode;
+        $("#word-pagination").hidden = !listMode;
+        $("#word-library-meta").hidden = !listMode;
+        if (listMode) renderWords();
+        else resetFlashDeck();
+      }
+
+      function resetFlashDeck() {
+        const reviewSet = new Set(state.cardReview);
+        const library = getStudyLibrary();
+        const due = shuffle(library.filter((word) => reviewSet.has(flashCardKey(word))));
+        const newCards = shuffle(library.filter((word) => !reviewSet.has(flashCardKey(word))));
+        flashDeck = [...due, ...newCards];
+        flashIndex = 0;
+        flashRevealed = false;
+        renderFlashcard();
+      }
+
+      function renderFlashcard() {
+        const empty = $("#flash-empty");
+        const content = $("#flashcard-content");
+        if (!flashDeck.length) {
+          content.hidden = true;
+          empty.hidden = false;
+          empty.textContent = currentCategory === "TOPIK 1–2" && !topikTopic
+            ? "請先從上方選一個 TOPIK 生活主題，再開始學習卡。"
+            : "這個範圍目前沒有可用的學習卡。";
+          $("#flash-progress").textContent = "尚未選擇";
+          $("#flash-known-count").textContent = `已認識 ${state.cardKnown.length} 個`;
+          return;
+        }
+
+        content.hidden = false;
+        empty.hidden = true;
+        const word = flashDeck[flashIndex];
+        const key = flashCardKey(word);
+        const displayMeaning = topikTopic === "numbers" && NUMBER_VALUES[word.k]
+          ? NUMBER_VALUES[word.k]
+          : word.z;
+        $("#flash-korean").textContent = word.k;
+        $("#flash-meaning").textContent = displayMeaning;
+        $("#flash-roman").textContent = word.r;
+        $("#flash-answer").hidden = !flashRevealed;
+        $("#flash-reveal").hidden = flashRevealed;
+        $("#flash-rating").hidden = !flashRevealed;
+        $("#flash-progress").textContent = `第 ${flashIndex + 1} / ${flashDeck.length} 張`;
+        const knownInDeck = flashDeck.filter((item) => state.cardKnown.includes(flashCardKey(item))).length;
+        $("#flash-known-count").textContent = `這組已認識 ${knownInDeck} 個`;
+        $("#flash-known").textContent = state.cardKnown.includes(key)
+          ? "還記得，下一張"
+          : "認識了，下一張";
+      }
+
+      function revealFlashcard() {
+        if (!flashDeck.length) return;
+        flashRevealed = true;
+        renderFlashcard();
+        speak(flashDeck[flashIndex].spoken || flashDeck[flashIndex].k);
+      }
+
+      function rateFlashcard(known) {
+        if (!flashDeck.length) return;
+        const word = flashDeck[flashIndex];
+        const key = flashCardKey(word);
+        state.cardKnown = state.cardKnown.filter((item) => item !== key);
+        state.cardReview = state.cardReview.filter((item) => item !== key);
+        if (known) state.cardKnown.push(key);
+        else state.cardReview.push(key);
+        if (!state.cardsSeenToday.includes(key)) {
+          state.cardsSeenToday.push(key);
+          state.cardsToday = Math.min(DAILY_CARD_GOAL, (state.cardsToday || 0) + 1);
+        }
+        saveState();
+        flashIndex = (flashIndex + 1) % flashDeck.length;
+        if (flashIndex === 0) flashDeck = shuffle(flashDeck);
+        flashRevealed = false;
+        renderFlashcard();
+        updateHome();
+      }
+
       function topikTopicOf(word) {
         const korean = word.k;
         const english = (word.e || "").toLowerCase();
@@ -3132,6 +3575,7 @@
             $("#word-search").value = "";
             renderTopikTopicArea();
             renderWords();
+            if (wordDisplayMode === "cards") resetFlashDeck();
           });
           if (topikTopic === "numbers") {
             root.insertAdjacentHTML("beforeend", `
@@ -3184,6 +3628,7 @@
             wordPage = 1;
             renderTopikTopicArea();
             renderWords();
+            if (wordDisplayMode === "cards") resetFlashDeck();
           });
           grid.appendChild(button);
         });
@@ -3211,6 +3656,7 @@
             renderCategories();
             renderTopikTopicArea();
             renderWords();
+            if (wordDisplayMode === "cards") resetFlashDeck();
           });
           root.appendChild(button);
         });
@@ -3225,7 +3671,7 @@
           $("#word-library-meta").hidden = true;
           return;
         }
-        $("#word-library-meta").hidden = false;
+        $("#word-library-meta").hidden = wordDisplayMode !== "list";
         const filtered = library.filter((word) => {
           const topicMatch = currentCategory !== "TOPIK 1–2"
             || topikTopic === "all"
@@ -3498,7 +3944,7 @@
       $$(".nav-btn").forEach((button) => {
         button.addEventListener("click", () => showView(button.dataset.target));
       });
-      $$(".segmented button").forEach((button) => {
+      $$("[data-mode]").forEach((button) => {
         button.addEventListener("click", () => setMode(button.dataset.mode));
       });
       $$("[data-reference]").forEach((button) => {
@@ -3517,10 +3963,45 @@
       });
 
       $("#start-daily").addEventListener("click", () => {
+        if ((state.cardsToday || 0) < DAILY_CARD_GOAL || state.today >= DAILY_QUIZ_GOAL) {
+          currentCategory = "核心";
+          topikTopic = "";
+          renderCategories();
+          renderTopikTopicArea();
+          showView("words");
+          setWordDisplay("cards");
+        } else {
+          showView("practice");
+          setMode("word");
+        }
+      });
+      $("#home-study-cards").addEventListener("click", () => {
+        currentCategory = "核心";
+        topikTopic = "";
+        renderCategories();
+        renderTopikTopicArea();
+        showView("words");
+        setWordDisplay("cards");
+      });
+      $("#home-start-quiz").addEventListener("click", () => {
         showView("practice");
-        setMode("syllable");
+        setMode("word");
+      });
+      $("#home-start-listen").addEventListener("click", () => {
+        showView("practice");
+        setMode("listen");
       });
       $("#next-question").addEventListener("click", nextQuestion);
+      $$("[data-word-display]").forEach((button) => {
+        button.addEventListener("click", () => setWordDisplay(button.dataset.wordDisplay));
+      });
+      $("#flash-reveal").addEventListener("click", revealFlashcard);
+      $("#flash-sound").addEventListener("click", () => {
+        if (!flashDeck.length) return;
+        speak(flashDeck[flashIndex].spoken || flashDeck[flashIndex].k);
+      });
+      $("#flash-again").addEventListener("click", () => rateFlashcard(false));
+      $("#flash-known").addEventListener("click", () => rateFlashcard(true));
       $("#word-search").addEventListener("input", () => {
         wordPage = 1;
         if (currentCategory === "TOPIK 1–2" && !topikTopic && $("#word-search").value.trim()) {
@@ -3587,6 +4068,7 @@
       renderCategories();
       renderTopikTopicArea();
       renderWords();
+      setWordDisplay("cards");
       renderLessons();
       renderAlphabet();
       newQuestion();
