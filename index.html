@@ -1505,6 +1505,14 @@
       line-height: 1.35;
     }
 
+    .lesson summary .lesson-note {
+      max-width: 560px;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
     .chevron {
       color: var(--muted);
       font-size: 17px;
@@ -1587,10 +1595,32 @@
     .sentence-reading {
       display: none;
       flex-wrap: wrap;
+      align-items: stretch;
       gap: 7px;
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px solid var(--line);
+    }
+
+    .reading-title {
+      width: 100%;
+      margin-bottom: 1px;
+    }
+
+    .reading-title strong,
+    .reading-title span {
+      display: block;
+    }
+
+    .reading-title strong {
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .reading-title span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
     }
 
     .sentence-reading.show {
@@ -1598,10 +1628,14 @@
     }
 
     .reading-word {
+      min-width: 82px;
+      max-width: 132px;
       display: inline-grid;
+      grid-template-rows: minmax(24px, auto) 18px minmax(30px, auto);
+      align-items: start;
       justify-items: center;
       gap: 2px;
-      padding: 5px 8px;
+      padding: 7px 9px;
       border-radius: 10px;
       background: var(--surface);
     }
@@ -1617,11 +1651,11 @@
       font-weight: 750;
     }
 
-    .reading-word em {
-      max-width: 110px;
-      color: var(--muted);
-      font-size: 10px;
-      font-style: normal;
+    .reading-word .reading-meaning {
+      max-width: 112px;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 750;
       line-height: 1.35;
       text-align: center;
     }
@@ -2150,7 +2184,7 @@
       <div class="hero-card">
         <div class="hero-content">
           <span class="day-pill"><span aria-hidden="true">●</span> 今日約 8 分鐘</span>
-          <h1>先學 5 個單字<br>再做 5 題小測</h1>
+          <h1>先學 5 個單字<br>再做 5 題小測驗</h1>
           <p>先用學習卡看字、聽聲音、確認中文；熟悉之後再答題，不用一開始就考自己。</p>
           <button class="hero-action" id="start-daily" type="button">開始今天的學習卡　→</button>
         </div>
@@ -2162,7 +2196,7 @@
         </div>
         <div class="progress-copy">
           <strong id="home-progress-title">今天還沒開始</strong>
-          <span id="home-progress-sub">學習卡 0/5 · 小測 0/5</span>
+          <span id="home-progress-sub">學習卡 0/5 · 小測驗 0/5</span>
         </div>
       </div>
 
@@ -2183,7 +2217,7 @@
         <button class="daily-step" id="home-start-quiz" type="button">
           <span class="daily-step-number">02</span>
           <span class="daily-step-copy">
-            <strong>做 5 題單字小測</strong>
+            <strong>做 5 題單字小測驗</strong>
             <span>看到韓文，選出正確的中文意思</span>
           </span>
           <span class="daily-step-status" id="home-quiz-status">0/5</span>
@@ -2211,7 +2245,7 @@
           <strong>音節拼讀</strong><small>韓文 → 羅馬音</small>
         </button>
         <button type="button" data-mode="word" role="tab" aria-selected="false">
-          <strong>單字小測</strong><small>韓文 → 中文</small>
+          <strong>單字小測驗</strong><small>韓文 → 中文</small>
         </button>
         <button type="button" data-mode="listen" role="tab" aria-selected="false">
           <strong>聽音辨字</strong><small>聲音 → 韓文</small>
@@ -2927,6 +2961,93 @@
         "요리가": "料理＋主格", "물건이": "物品＋主格", "아니에요": "不是"
       };
 
+      const GRAMMAR_NOTES = {
+        1: "標示句子的主語或新出現的資訊。有尾音用 이，沒有尾音用 가。",
+        2: "把名詞設為談話主題，也可用來比較或對比。有尾音用 은，沒有尾音用 는。",
+        3: "標示動作直接作用的對象。有尾音用 을，沒有尾音用 를。",
+        4: "較正式的「和」。前字沒有尾音用 와，有尾音用 과。",
+        5: "口語的「和／跟」，用來連接名詞；有尾音時加 이랑。",
+        6: "接在人後面表示「和某人一起」，是日常口語常用形式。",
+        7: "口語的「和」，可以連接名詞，形式不隨尾音改變。",
+        8: "表示「也／同樣」，會取代原本的 이/가、은/는 或 을/를。",
+        9: "表示目的地、時間或事物存在的位置，不用於正在發生動作的地點。",
+        10: "表示動作發生的地點，或表示「從某個地方」。",
+        11: "表示範圍的終點，相當於「到……為止」。",
+        12: "表示時間或範圍的起點，相當於「從……開始」。",
+        13: "表示方向、方法或工具。母音或 ㄹ 後用 로，其他尾音後用 으로。",
+        14: "敬語的「給／向」，用於需要尊敬的對象。",
+        15: "이/가 的敬語形式，用來標示需要尊敬的人是主語。",
+        16: "表示動作的接受者，相當於「給／對某人」。",
+        17: "表示事物或消息來自某人，相當於「從某人那裡」。",
+        18: "에게 的口語形式，表示「給／對某人」。",
+        19: "에게서 的口語形式，表示「從某人那裡」。",
+        20: "提出兩個以上的選項，相當於「或者」。",
+        21: "表示退而求其次或隨意選一個，相當於「就……吧」。",
+        22: "強調數量超乎預期，相當於「竟然／多達」。",
+        23: "限定範圍，相當於「只有／只」。",
+        24: "表示所屬關係，相當於中文的「的」；口語中常省略。",
+        25: "表示每一次或每一個，相當於「每逢／每個」。",
+        26: "表示「只有」，後面必須搭配否定形式。",
+        27: "放在比較基準後面，相當於「比……」。",
+        28: "表示兩者相似，相當於「像……一樣」。",
+        29: "根據目前狀態做推測，相當於「好像／似乎」。",
+        30: "對未來或尚未確定的事情做推測，相當於「好像會……」。",
+        31: "表示曾經做過某件事或有某種經驗。",
+        32: "表示從來沒有做過某件事或沒有某種經驗。",
+        33: "表示做完某事之後經過了多久。",
+        34: "表示「自從……以來」，常和時間長度一起使用。",
+        35: "表示先完成前面的動作，再做後面的事。",
+        36: "先補充背景或狀況，再接後面的內容；也可帶有轉折。",
+        37: "用來委婉開場、提出請求或問題，語氣比直接說更柔和。",
+        38: "說明理由，也有「既然……就……」的語氣。",
+        39: "表示未來計畫、預測或說話者的判斷。",
+        40: "表示某個動作或狀態發生的時候。",
+        41: "表示有能力或有可能做某件事。",
+        42: "表示沒有能力，或因條件限制而不能做某件事。",
+        43: "表示說話者當下的意志、承諾或主動提出幫忙。",
+        44: "表示正在考慮做某件事，尚未完全決定。",
+        45: "表示擔心某件事可能發生，相當於「怕會……」。",
+        46: "用來徵求意見或提議一起做某件事。",
+        47: "表示說話者自己的意願或選擇，語氣較口語。",
+        48: "詢問對方的意願或偏好，相當於「你想……嗎？」",
+        49: "表示去某地的目的，相當於「去做……」。",
+        50: "表示來到某地的目的，相當於「來做……」。",
+        51: "表示計畫或意圖，相當於「打算……」。",
+        52: "用較口語、柔和的方式補充說明自己的打算。",
+        53: "表示條件或假設，相當於「如果／只要……」。",
+        54: "表示兩個動作同時進行，相當於「一邊……一邊……」。",
+        55: "正式的提議形式，相當於「我們一起……吧」。",
+        56: "日常敬語的請求或命令形式，相當於「請……」。",
+        57: "比 -(으)세요 更正式的請求或命令，常見於公告與服務場合。",
+        58: "向對方確認自己認為正確的事情，相當於「對吧？」",
+        59: "連接兩個以上的動作選項，相當於「做……或做……」。",
+        60: "把形容詞變成修飾動作的方式，相當於中文的「……地」。",
+        61: "表示狀態改變，或事情最後自然發展成某個結果。",
+        62: "連接動作或並列內容，可表示「然後／而且」。",
+        63: "表示說話者想做某件事；主語通常是自己。",
+        64: "表示動作正在進行，或某種狀態持續存在。",
+        65: "表示剛發現或理解某件事，帶有「原來如此」的語氣。",
+        66: "明確說明原因，相當於「因為……」。",
+        67: "表示在做某件事之前，先做另一件事。",
+        68: "表示經過考慮後決定做某件事。",
+        69: "看到新情況後產生感嘆或確認，相當於「原來……啊」。",
+        70: "委婉提出建議，相當於「最好……」。",
+        71: "先交代背景、情況或對比，再接續下一句。",
+        72: "正式場合使用的疑問句尾。",
+        73: "正式場合使用的陳述句尾。",
+        74: "表示親自嘗試做某件事，相當於「試著……看看」。",
+        75: "表示替別人做某件事，或請別人為自己做。",
+        76: "表示必須做某件事，日常口語常用 돼요。",
+        77: "表示義務或必要性，意思和 -아/어야 되다 接近。",
+        78: "最常用的日常敬語句尾，適合一般對話。",
+        79: "表達希望某件事能實現，相當於「希望……就好了」。",
+        80: "接在動詞後面表示禁止，相當於「不要……」。",
+        81: "表示想做但因能力或情況限制而無法做到。",
+        82: "一般否定形式，表示「不做／不是某種狀態」。",
+        83: "連接前後相反或不同的內容，相當於「雖然／但是」。",
+        84: "接在名詞後面表示否定，相當於「不是……」。"
+      };
+
       const $ = (selector, root = document) => root.querySelector(selector);
       const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -3008,17 +3129,17 @@
           ? "今天完成了，自由複習　→"
           : cardsDone < DAILY_CARD_GOAL
             ? "繼續今天的學習卡　→"
-            : "開始今天的 5 題小測　→";
+            : "開始今天的 5 題小測驗　→";
 
         if (done >= TODAY_GOAL) {
           $("#home-progress-title").textContent = "今天完成了，很可以";
-          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測答對 ${state.correct}/${quizDone}`;
+          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測驗答對 ${state.correct}/${quizDone}`;
         } else if (done > 0) {
           $("#home-progress-title").textContent = `今天再完成 ${TODAY_GOAL - done} 個步驟`;
-          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測 ${quizDone}/5`;
+          $("#home-progress-sub").textContent = `學習卡 ${cardsDone}/5 · 小測驗 ${quizDone}/5`;
         } else {
           $("#home-progress-title").textContent = "今天還沒開始";
-          $("#home-progress-sub").textContent = "學習卡 0/5 · 小測 0/5";
+          $("#home-progress-sub").textContent = "學習卡 0/5 · 小測驗 0/5";
         }
       }
 
@@ -3154,9 +3275,9 @@
         const shown = Math.min(state.today + 1, DAILY_QUIZ_GOAL);
         $("#question-count").textContent = currentQuestion.mode !== "word" || state.today >= DAILY_QUIZ_GOAL
           ? "自由練習"
-          : `今日小測第 ${shown} / ${DAILY_QUIZ_GOAL} 題`;
+          : `今日小測驗第 ${shown} / ${DAILY_QUIZ_GOAL} 題`;
         $("#quiz-score").textContent = currentQuestion.mode === "word"
-          ? `小測答對 ${state.correct} 題`
+          ? `小測驗答對 ${state.correct} 題`
           : "自由練習";
       }
 
@@ -3187,7 +3308,8 @@
 
         const feedback = $("#feedback");
         feedback.className = `feedback show ${correct ? "good" : "try"}`;
-        feedback.innerHTML = `<strong>${correct ? "有看出來！" : "沒關係，現在比較一次。"}</strong>${currentQuestion.tip}`;
+        const successMessage = currentQuestion.mode === "listen" ? "有聽出來！" : "有看出來！";
+        feedback.innerHTML = `<strong>${correct ? successMessage : "沒關係，現在比較一次。"}</strong>${currentQuestion.tip}`;
         $("#next-question").hidden = false;
         const finishedDaily = countsForDaily && state.today === DAILY_QUIZ_GOAL;
         $("#next-question").dataset.finishDaily = String(finishedDaily);
@@ -3196,7 +3318,7 @@
           : "下一題　→";
 
         $("#quiz-score").textContent = currentQuestion.mode === "word"
-          ? `小測答對 ${state.correct} 題`
+          ? `小測驗答對 ${state.correct} 題`
           : "自由練習";
         speak(currentQuestion.sound);
         updateHome();
@@ -3310,6 +3432,18 @@
           if (baseMeaning) return `${baseMeaning}＋${meaning}`;
         }
         return "配合整句理解";
+      }
+
+      function analyzeKoreanWord(rawWord) {
+        const gloss = glossKoreanWord(rawWord);
+        const parts = gloss.split("＋").map((part) => part.trim()).filter(Boolean);
+        if (gloss === "配合整句理解") {
+          return { meaning: "句型的一部分", role: "搭配整句理解" };
+        }
+        return {
+          meaning: parts[0] || gloss,
+          role: parts.slice(1).join("／")
+        };
       }
 
       let topikWordCache = null;
@@ -3818,6 +3952,7 @@
             <span>
               <strong class="hangul">${lesson.form.replaceAll("/", " / ")}</strong>
               <span class="lesson-label">${lesson.label}</span>
+              <span class="lesson-note">${GRAMMAR_NOTES[lesson.number] || lesson.label}</span>
             </span>
             <span class="chevron" aria-hidden="true">›</span>
           `;
@@ -3827,17 +3962,22 @@
 
           const pattern = document.createElement("div");
           pattern.className = "pattern";
-          const readingWords = lesson.korean
+          const analyzedWords = lesson.korean
             .split(/\s+/)
             .filter(Boolean)
-            .map((word) => `
+            .map((word) => ({ word, ...analyzeKoreanWord(word) }));
+          const readingWords = analyzedWords
+            .map(({ word, meaning }) => `
               <span class="reading-word">
                 <b class="hangul">${word}</b>
                 <small>${romanizeHangul(word)}</small>
-                <em>${glossKoreanWord(word)}</em>
+                <span class="reading-meaning">${meaning}</span>
               </span>
             `)
             .join("");
+          const koreanOrderChinese = analyzedWords
+            .map(({ meaning }) => meaning)
+            .join(" → ");
           pattern.innerHTML = `
             <div class="pattern-top">
               <div>
@@ -3845,17 +3985,23 @@
                 <div class="zh">${lesson.chinese}</div>
               </div>
               <div class="pattern-actions">
-                <button class="reading-toggle" type="button">分解拼音</button>
+                <button class="reading-toggle" type="button">拼音＋中文</button>
                 <button class="tiny-sound" type="button" aria-label="播放例句">▶</button>
               </div>
             </div>
-            <div class="sentence-reading">${readingWords}</div>
+            <div class="sentence-reading">
+              <div class="reading-title">
+                <strong>照韓文順序拆解</strong>
+                <span>${koreanOrderChinese}</span>
+              </div>
+              ${readingWords}
+            </div>
           `;
           $(".tiny-sound", pattern).addEventListener("click", () => speak(lesson.korean));
           $(".reading-toggle", pattern).addEventListener("click", (event) => {
             const reading = $(".sentence-reading", pattern);
             const shown = reading.classList.toggle("show");
-            event.currentTarget.textContent = shown ? "隱藏拼音" : "分解拼音";
+            event.currentTarget.textContent = shown ? "收起分解" : "拼音＋中文";
           });
           body.appendChild(pattern);
 
