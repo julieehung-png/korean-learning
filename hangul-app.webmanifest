@@ -1,0 +1,25 @@
+{
+  "name": "한걸음 · 韓文一小步",
+  "short_name": "한걸음",
+  "description": "從韓文字母、單字到 TOPIK 2 級的韓文初學 App",
+  "lang": "zh-Hant",
+  "start_url": "./hangul-app-optimized.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f6f1",
+  "theme_color": "#6256d8",
+  "icons": [
+    {
+      "src": "./hangul-app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./hangul-app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
