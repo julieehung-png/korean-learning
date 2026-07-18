@@ -2795,7 +2795,7 @@
         <div class="hero-content">
           <span class="day-pill"><span aria-hidden="true">●</span> 今日約 8 分鐘</span>
           <h1>先學 5 個單字<br>再做 5 題小測驗</h1>
-          <p>先用學習卡看字、聽聲音、確認中文；熟悉之後再答題，不用一開始就考自己。</p>
+          <p>每天從核心與 TOPIK 完整詞庫抽出 5 個字；同一天固定不變，隔天自動換一組。</p>
           <button class="hero-action" id="start-daily" type="button">開始今天的學習卡　→</button>
         </div>
       </div>
@@ -2820,7 +2820,7 @@
           <span class="daily-step-number">01</span>
           <span class="daily-step-copy">
             <strong>用學習卡認識 5 個字</strong>
-            <span>先看韓文與聲音，再翻面看中文</span>
+            <span>優先加入待複習與還沒學過的字</span>
           </span>
           <span class="daily-step-status" id="home-card-status">0/5</span>
         </button>
@@ -3322,6 +3322,7 @@
       const DAILY_CARD_GOAL = 5;
       const DAILY_QUIZ_GOAL = 5;
       const TODAY_GOAL = DAILY_CARD_GOAL + DAILY_QUIZ_GOAL;
+      const DAILY_CATEGORY = "今日單字";
 
       const SYLLABLES = [
         { s: "가", r: "ga", parts: ["ㄱ", "ㅏ"], sound: "가" },
@@ -3443,6 +3444,9 @@
         today: 0,
         cardsToday: 0,
         cardsSeenToday: [],
+        dailyCardKeys: [],
+        dailyCardHistory: [],
+        dailyQuizAsked: [],
         correct: 0,
         total: 0,
         weak: {},
@@ -3803,15 +3807,30 @@
             merged.correct = 0;
             merged.cardsToday = 0;
             merged.cardsSeenToday = [];
+            merged.dailyCardKeys = [];
+            merged.dailyQuizAsked = [];
+          }
+          if (parsed && !Object.prototype.hasOwnProperty.call(parsed, "dailyCardKeys")) {
+            merged.today = 0;
+            merged.correct = 0;
+            merged.cardsToday = 0;
+            merged.cardsSeenToday = [];
+            merged.dailyCardKeys = [];
+            merged.dailyQuizAsked = [];
           }
           if (merged.date !== localDateKey()) {
             merged.date = localDateKey();
             merged.today = 0;
             merged.cardsToday = 0;
             merged.cardsSeenToday = [];
+            merged.dailyCardKeys = [];
+            merged.dailyQuizAsked = [];
             merged.correct = 0;
           }
           if (!Array.isArray(merged.cardsSeenToday)) merged.cardsSeenToday = [];
+          if (!Array.isArray(merged.dailyCardKeys)) merged.dailyCardKeys = [];
+          if (!Array.isArray(merged.dailyCardHistory)) merged.dailyCardHistory = [];
+          if (!Array.isArray(merged.dailyQuizAsked)) merged.dailyQuizAsked = [];
           if (!Array.isArray(merged.cardKnown)) merged.cardKnown = [];
           if (!Array.isArray(merged.cardReview)) merged.cardReview = [];
           return merged;
@@ -3851,6 +3870,7 @@
       }
 
       function updateHome() {
+        ensureDailyCards();
         const cardsDone = Math.min(state.cardsToday || 0, DAILY_CARD_GOAL);
         const quizDone = Math.min(state.today, DAILY_QUIZ_GOAL);
         const done = cardsDone + quizDone;
@@ -3912,16 +3932,22 @@
       }
 
       function chooseWordQuestion() {
-        const pool = WORDS.filter((item) => item.k.length <= 6 && item.r);
-        const target = sample(pool);
-        const wrong = shuffle(
-          pool
+        const dailyWords = getDailyWordLibrary();
+        const remaining = dailyWords.filter((item) => !state.dailyQuizAsked.includes(item.cardKey));
+        const targetPool = remaining.length ? remaining : dailyWords;
+        const target = sample(targetPool);
+        const distractorPool = getDailyWordPool();
+        const wrong = shuffle([
+          ...new Set(
+          distractorPool
             .filter((item) => item.k !== target.k && item.z !== target.z)
             .map((item) => item.z)
-        ).slice(0, 3);
+          )
+        ]).slice(0, 3);
         return {
           mode: "word",
-          key: target.k,
+          key: target.cardKey,
+          cardKey: target.cardKey,
           answer: target.z,
           choices: shuffle([target.z, ...wrong]),
           label: "這個單字是什麼意思？",
@@ -4023,7 +4049,12 @@
         const correct = value === currentQuestion.answer;
         const countsForDaily = currentQuestion.mode === "word" && state.today < DAILY_QUIZ_GOAL;
         state.total += 1;
-        if (countsForDaily) state.today += 1;
+        if (countsForDaily) {
+          state.today += 1;
+          if (currentQuestion.cardKey && !state.dailyQuizAsked.includes(currentQuestion.cardKey)) {
+            state.dailyQuizAsked.push(currentQuestion.cardKey);
+          }
+        }
         if (correct) {
           if (countsForDaily) state.correct += 1;
           state.weak[currentQuestion.key] = Math.max(
@@ -4183,8 +4214,129 @@
 
       let topikWordCache = null;
       let lifePhraseCache = null;
+      let dailyWordPoolCache = null;
+
+      function getDailyWordPool() {
+        if (dailyWordPoolCache) return dailyWordPoolCache;
+        const unique = new Map();
+
+        WORDS.forEach((word, index) => {
+          const cardKey = `核心::${word.k}`;
+          if (!unique.has(word.k)) {
+            unique.set(word.k, {
+              ...word,
+              rank: index + 1,
+              spoken: word.k,
+              c: "核心",
+              cardKey
+            });
+          }
+        });
+
+        (window.TOPIK_VOCAB_DATA || []).forEach(([k, z, e, rank]) => {
+          if (unique.has(k)) return;
+          unique.set(k, {
+            k,
+            z,
+            e,
+            rank,
+            r: romanizeHangul(k),
+            spoken: k,
+            c: "TOPIK 1–2",
+            cardKey: `TOPIK 1–2::${k}`
+          });
+        });
+
+        dailyWordPoolCache = [...unique.values()];
+        return dailyWordPoolCache;
+      }
+
+      function seededShuffle(items, seedText) {
+        let seed = 2166136261;
+        for (const char of seedText) {
+          seed ^= char.charCodeAt(0);
+          seed = Math.imul(seed, 16777619);
+        }
+        const random = () => {
+          seed += 0x6d2b79f5;
+          let value = seed;
+          value = Math.imul(value ^ (value >>> 15), value | 1);
+          value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+          return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+        };
+        const copy = [...items];
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const target = Math.floor(random() * (index + 1));
+          [copy[index], copy[target]] = [copy[target], copy[index]];
+        }
+        return copy;
+      }
+
+      function ensureDailyCards() {
+        const todayKey = localDateKey();
+        if (state.date !== todayKey) {
+          state.date = todayKey;
+          state.today = 0;
+          state.cardsToday = 0;
+          state.cardsSeenToday = [];
+          state.dailyCardKeys = [];
+          state.dailyQuizAsked = [];
+          state.correct = 0;
+        }
+        const pool = getDailyWordPool();
+        const byKey = new Map(pool.map((word) => [word.cardKey, word]));
+        const validCurrent = state.dailyCardKeys.filter((key) => byKey.has(key));
+        if (validCurrent.length === DAILY_CARD_GOAL) {
+          state.dailyCardKeys = validCurrent;
+          return;
+        }
+
+        const recent = new Set(state.dailyCardHistory.slice(-60));
+        const known = new Set(state.cardKnown);
+        const review = new Set(state.cardReview);
+        const selected = [];
+        const selectedKeys = new Set();
+        const addCards = (items, limit = DAILY_CARD_GOAL) => {
+          for (const word of items) {
+            if (selected.length >= DAILY_CARD_GOAL || limit <= 0) break;
+            if (selectedKeys.has(word.cardKey)) continue;
+            selected.push(word);
+            selectedKeys.add(word.cardKey);
+            limit -= 1;
+          }
+        };
+        const fresh = pool.filter((word) => !recent.has(word.cardKey));
+        const reviewCards = seededShuffle(
+          fresh.filter((word) => review.has(word.cardKey)),
+          `${state.date}-review`
+        );
+        const newCards = seededShuffle(
+          fresh.filter((word) => !known.has(word.cardKey) && !review.has(word.cardKey)),
+          `${state.date}-new`
+        );
+        const remainingFresh = seededShuffle(fresh, `${state.date}-fresh`);
+        const fallback = seededShuffle(pool, `${state.date}-all`);
+
+        addCards(reviewCards, 2);
+        addCards(newCards);
+        addCards(remainingFresh);
+        addCards(fallback);
+
+        state.dailyCardKeys = selected.map((word) => word.cardKey);
+        state.dailyCardHistory = [...state.dailyCardHistory, ...state.dailyCardKeys].slice(-120);
+        saveState();
+      }
+
+      function getDailyWordLibrary() {
+        ensureDailyCards();
+        const byKey = new Map(getDailyWordPool().map((word) => [word.cardKey, word]));
+        return state.dailyCardKeys.map((key) => byKey.get(key)).filter(Boolean);
+      }
 
       function getWordLibrary() {
+        if (currentCategory === DAILY_CATEGORY) {
+          return getDailyWordLibrary();
+        }
         if (currentCategory === "核心") {
           return WORDS.map((word) => ({ ...word, c: word.c, spoken: word.k }));
         }
@@ -4216,7 +4368,7 @@
       }
 
       function flashCardKey(word) {
-        return `${currentCategory}::${word.k}`;
+        return word.cardKey || `${currentCategory}::${word.k}`;
       }
 
       function arrangeTopicWords(words, topic = topikTopic) {
@@ -4263,7 +4415,18 @@
       function resetFlashDeck() {
         const reviewSet = new Set(state.cardReview);
         const library = getStudyLibrary();
-        const orderedTopic = currentCategory === "TOPIK 1–2" && Boolean(TOPIC_WORD_SEQUENCES[topikTopic]);
+        const orderedTopic = currentCategory === DAILY_CATEGORY
+          || (currentCategory === "TOPIK 1–2" && Boolean(TOPIC_WORD_SEQUENCES[topikTopic]));
+        if (currentCategory === DAILY_CATEGORY) {
+          flashDeck = [...library];
+          const firstUnseen = flashDeck.findIndex(
+            (word) => !state.cardsSeenToday.includes(flashCardKey(word))
+          );
+          flashIndex = firstUnseen >= 0 ? firstUnseen : 0;
+          flashRevealed = false;
+          renderFlashcard();
+          return;
+        }
         const dueWords = library.filter((word) => reviewSet.has(flashCardKey(word)));
         const newWords = library.filter((word) => !reviewSet.has(flashCardKey(word)));
         const due = orderedTopic ? dueWords : shuffle(dueWords);
@@ -4301,9 +4464,13 @@
         $("#flash-answer").hidden = !flashRevealed;
         $("#flash-reveal").hidden = flashRevealed;
         $("#flash-rating").hidden = !flashRevealed;
-        $("#flash-progress").textContent = `第 ${flashIndex + 1} / ${flashDeck.length} 張`;
+        $("#flash-progress").textContent = currentCategory === DAILY_CATEGORY
+          ? `今天第 ${flashIndex + 1} / ${flashDeck.length} 張`
+          : `第 ${flashIndex + 1} / ${flashDeck.length} 張`;
         const knownInDeck = flashDeck.filter((item) => state.cardKnown.includes(flashCardKey(item))).length;
-        $("#flash-known-count").textContent = `這組已認識 ${knownInDeck} 個`;
+        $("#flash-known-count").textContent = currentCategory === DAILY_CATEGORY
+          ? `今日已完成 ${Math.min(state.cardsToday || 0, DAILY_CARD_GOAL)} / ${DAILY_CARD_GOAL}`
+          : `這組已認識 ${knownInDeck} 個`;
         $("#flash-known").textContent = state.cardKnown.includes(key)
           ? "還記得，下一張"
           : "認識了，下一張";
@@ -4324,13 +4491,14 @@
         state.cardReview = state.cardReview.filter((item) => item !== key);
         if (known) state.cardKnown.push(key);
         else state.cardReview.push(key);
-        if (!state.cardsSeenToday.includes(key)) {
+        if (currentCategory === DAILY_CATEGORY && !state.cardsSeenToday.includes(key)) {
           state.cardsSeenToday.push(key);
           state.cardsToday = Math.min(DAILY_CARD_GOAL, (state.cardsToday || 0) + 1);
         }
         saveState();
         flashIndex = (flashIndex + 1) % flashDeck.length;
-        const orderedTopic = currentCategory === "TOPIK 1–2" && Boolean(TOPIC_WORD_SEQUENCES[topikTopic]);
+        const orderedTopic = currentCategory === DAILY_CATEGORY
+          || (currentCategory === "TOPIK 1–2" && Boolean(TOPIC_WORD_SEQUENCES[topikTopic]));
         if (flashIndex === 0 && !orderedTopic) flashDeck = shuffle(flashDeck);
         flashRevealed = false;
         renderFlashcard();
@@ -4903,7 +5071,9 @@
       }
 
       function renderCategories() {
+        ensureDailyCards();
         const categories = [
+          [DAILY_CATEGORY, state.dailyCardKeys.length],
           ["核心", WORDS.length],
           ["生活用語", (window.LIFE_PHRASES_DATA || []).length],
           ["TOPIK 1–2", (window.TOPIK_VOCAB_DATA || []).length]
@@ -5251,7 +5421,7 @@
 
       $("#start-daily").addEventListener("click", () => {
         if ((state.cardsToday || 0) < DAILY_CARD_GOAL || state.today >= DAILY_QUIZ_GOAL) {
-          currentCategory = "核心";
+          currentCategory = DAILY_CATEGORY;
           topikTopic = "";
           renderCategories();
           renderTopikTopicArea();
@@ -5263,7 +5433,7 @@
         }
       });
       $("#home-study-cards").addEventListener("click", () => {
-        currentCategory = "核心";
+        currentCategory = DAILY_CATEGORY;
         topikTopic = "";
         renderCategories();
         renderTopikTopicArea();
@@ -5338,8 +5508,11 @@
         const confirmed = window.confirm("要清除今天的題數與答題紀錄嗎？");
         if (!confirmed) return;
         state = { ...defaultState(), rate: state.rate };
+        ensureDailyCards();
         saveState();
         updateHome();
+        renderCategories();
+        if (currentCategory === DAILY_CATEGORY && wordDisplayMode === "cards") resetFlashDeck();
         newQuestion();
         closeSettings();
       });
@@ -5351,6 +5524,7 @@
         pickVoice();
       }
 
+      ensureDailyCards();
       updateHome();
       renderCategories();
       renderTopikTopicArea();
